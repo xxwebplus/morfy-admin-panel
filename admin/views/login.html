@@ -10,8 +10,8 @@
         </div>
         <form class="form" method="POST" action="">
           <input type="hidden" name="csrf" value="<?php echo Token::generate(); ?>">
-          <input type="email" name="email" placeholder="email@site.com" required>
-          <input type="password" name="pass" required>
+          <input type="email" name="email" placeholder="email@site.com" required autocomplete="off">
+          <input type="password" name="pass" required autocomplete="off">
           <input type="submit" name="login" value="Enter">
         </form>
       </div>

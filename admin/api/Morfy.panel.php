@@ -48,11 +48,14 @@ class Panel {
   public static $lang;
 
 
+
+
+
   /**
    * Load Config
    */
   protected function loadConfig(){
-      if (file_exists($site_config_path  = ROOTBASE.DS.'config'.DS. 'site.yml')) {
+      if (file_exists($site_config_path  = SITE)) {
           static::$site  = Spyc::YAMLLoad(file_get_contents($site_config_path));
       } else {
           die("Oops.. Where is config files ?!");
@@ -70,6 +73,29 @@ class Panel {
       }
   }
 
+
+  /*
+  *   Get  pretty url like hello-world
+  */
+  public function SeoLink($str){
+      //Lower case everything
+      $str = strtolower($str);
+      //Make alphanumeric (removes all other characters)
+      $str = preg_replace("/[^a-z0-9_\s-]/", "", $str);
+      //Clean up multiple dashes or whitespaces
+      $str = preg_replace("/[\s-]+/", " ", $str);
+      //Convert whitespaces and underscore to dash
+      $str = preg_replace("/[\s_]/", "-", $str);
+      return $str;
+  }
+
+  /**
+   * Debug
+   * @return  string 
+   */
+  public function Debug($var){
+    return print_r("<pre>$var</pre>");
+  }
 
 
   /**
@@ -173,21 +199,21 @@ class Panel {
   public function lauch() {
 
       // Use the Force...
-      include ROOTBASE.DS.'libraries'.DS. '/Force/ClassLoader/ClassLoader.php';
+      include LIBRARIES.'/Force/ClassLoader/ClassLoader.php';
 
       // Map Classes
       ClassLoader::mapClasses(array(
           // Yaml Parser/Dumper
-          'Spyc'     => ROOTBASE.DS.'libraries'.DS. '/Spyc/Spyc.php',
+          'Spyc'     => LIBRARIES.'/Spyc/Spyc.php',
           // Force Components
-          'Arr'      => ROOTBASE.DS.'libraries'.DS. '/Force/Arr/Arr.php',
-          'Session'  => ROOTBASE.DS.'libraries'.DS. '/Force/Session/Session.php',
-          'Token'    => ROOTBASE.DS.'libraries'.DS. '/Force/Token/Token.php',
-          'Request'  => ROOTBASE.DS.'libraries'.DS. '/Force/Http/Request.php',
-          'Response' => ROOTBASE.DS.'libraries'.DS. '/Force/Http/Response.php',
-          'Url'      => ROOTBASE.DS.'libraries'.DS. '/Force/Url/Url.php',
-          'File'     => ROOTBASE.DS.'libraries'.DS. '/Force/FileSystem/File.php',
-          'Dir'      => ROOTBASE.DS.'libraries'.DS. '/Force/FileSystem/Dir.php'
+          'Arr'      => LIBRARIES.'/Force/Arr/Arr.php',
+          'Session'  => LIBRARIES.'/Force/Session/Session.php',
+          'Token'    => LIBRARIES.'/Force/Token/Token.php',
+          'Request'  => LIBRARIES.'/Force/Http/Request.php',
+          'Response' => LIBRARIES.'/Force/Http/Response.php',
+          'Url'      => LIBRARIES.'/Force/Url/Url.php',
+          'File'     => LIBRARIES.'/Force/FileSystem/File.php',
+          'Dir'      => LIBRARIES.'/Force/FileSystem/Dir.php'
       ));
 
       // Register the ClassLoader to the SPL autoload stack.
@@ -235,6 +261,4 @@ class Panel {
           }
       }
   }
-
-
 }

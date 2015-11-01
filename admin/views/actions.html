@@ -6,22 +6,12 @@
     <!-- content -->
     <section id="content">
       <div class="container">
-        <!-- Main  page -->
-        <?php 
-          if(Session::exists('user')){
-            if($type == 'New Folder'){ 
-              echo 'Get new folder function';
-            }else if($type == 'Rename'){
-              echo 'Get rename function';
-            }else if($type == 'Remove File'){
-              echo 'Get remove file function';
-            }else if($type == 'Remove Folder'){
-              echo 'Get remove folder function';
-            }else{
-              echo 'Access Deny';
-            };
-          }; 
-        ?>
+        <div class="row">
+          <div class="box-1 col">
+            <!-- Main  page -->
+            <?php  if(Session::exists('user')) echo $html; ?>
+          </div>
+        </div>
       </div>
     </section>
 </main>

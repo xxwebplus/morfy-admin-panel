@@ -1,3 +1,5 @@
+<?php $slug = Url::getUriSegment(0); ?>
+
 <!-- menu -->
 <nav id="menu">
     <header>
@@ -7,37 +9,29 @@
         <ul class="navigation">
             <?php if(session::exists('user')) { ?>
             <!-- Pages-->
-            <li class="has-dropdown">
+            <li <?php if($slug == 'pages'){?> class="active"<?php };?>>
                 <a href="<?php echo $this->url();?>/pages"><?php echo Panel::$lang['Pages'];?></a>
             </li>
 
             <!-- Blocks-->
-            <li class="has-dropdown">
-                <a href="<?php echo $this->url();?>/blocks"><?php echo Panel::$lang['Blocks'];?></a>
+            <li <?php if($slug == 'blocks'){?> class="active"<?php };?>>
+                <a href="<?php echo $this->url();?>/blocks">
+                    <?php echo Panel::$lang['Blocks'];?>
+                </a>
             </li>      
 
-
-            <!-- Images-->
-            <li class="has-dropdown">
-                <a class="dropdown-link" href="#"> 
-                    <?php echo Panel::$lang['Images'];?>
-                    <span class="arrow"><i class="ti-angle-right"></i></span>
+            <!-- Uploads-->
+            <li <?php if($slug == 'uploads'){?> class="active"<?php };?>>
+                <a href="<?php echo $this->url();?>/uploads"> 
+                    <?php echo Panel::$lang['Uploads'];?>
                 </a>
-                <ul class="dropdown">
-                    <li><a href="?g=images">View all Images</a></li>
-                    <li><a href="?g=upload_image">Upload New File</a></li>
-                </ul>
             </li>
 
-            <!-- Uploads-->
-            <li class="has-dropdown">
-                <a class="dropdown-link" href="#"> 
-                    <?php echo Panel::$lang['Uploads'];?>
-                    <span class="arrow"><i class="ti-angle-right"></i></span>
+            <!-- Media-->
+            <li <?php if($slug == 'media'){?> class="active"<?php };?>>
+                <a href="<?php echo $this->url();?>/media"> 
+                    <?php echo Panel::$lang['Media'];?>
                 </a>
-                <ul class="dropdown">
-                    <li><a href="?g=uploads">View Files</a></li>
-                </ul>
             </li>
 
             <!-- Theme-->

@@ -1,3 +1,4 @@
+<img id="loader" src="<?php echo $this->url();?>/assets/img/loader.gif"/>
 <!-- header -->
 <header id="header">
   <?php if (Session::exists('user')){ ?>
@@ -9,12 +10,12 @@
    <!-- App name -->
   <h2>
     <a href="<?php echo $this->url();?>" class="header-title">
-      <?php echo Panel::$site['title'].' | '.$title;?> 
+      <?php echo Panel::$site['title'].'<span class="header-breadcrumb">'.$title.'</span>';?> 
     </a>
   </h2>
   <!-- right menu -->
    <div class="right">
-      <a target="_blank" href="<?php echo $this->url();?>/action/preview" title="View">
+      <a target="_blank" href="<?php echo $this::$site['url'];?>" title="View">
           <i class="ti-eye"></i>
       </a>
       <?php if (Session::exists('user')){ ?>

@@ -8,62 +8,97 @@
       <div class="container">
         <!-- Main  page -->
         <?php if(Session::exists('user')){ ?>
-          <!-- pages -->
-          <table class="responsive">
-            <tbody>
-              <tr>
-                <th><?php echo Panel::$lang['Directory'];?></th>
-                <th><?php echo Panel::$lang['Name'];?></th>
-                <th><?php echo Panel::$lang['Extension'];?></th>
-                <th><?php echo Panel::$lang['Options'];?></th>
-              </tr>
-
-          <?php 
-            // generate token
-            $token = Token::generate();
-
-            foreach ($content as $item) {
-              // onloy show pages dir
-              $file = str_replace(ROOTBASE.DS.'content'.DS, '', $item);
-              // get extension
-              $extension = File::ext($file);
-              // get name
-              $name = File::name($file);
-              // directory
-              $directory = str_replace(DS.$name.'.'.$extension, '', $file);
-              // show
-              echo '
+        <div class="row">
+          <div class="box-2 col">
+            <?php echo $prev; ?>
+            <span class="btn disable"><?php echo $offset;?></span>
+            <?php echo $next; ?>
+          </div>
+          <div class="box-2 col">
+            <div class="search-form">
+              <span class="icon"><i class="ti-search"></i></span>
+              <input type="search" id="search" data-search="pages" placeholder="Search..." required/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="box-1 col">
+            <!-- pages -->
+            <table class="responsive">
+              <tbody>
                 <tr>
-                  <td>'.$directory.'</td>
-                  <td>'.$name.'</td>
-                  <td>'.$extension.'</td>
-                  <td>
-                     <span class="custom-dropdown">
-                        <select class="selectOption">   
-                          <option>'.Panel::$lang['Select_Option'].' : </option>
-                          <option value="action/preview">
-                          '.Panel::$lang['Preview'].'</option>
-                          <option value="action/edit/'.$token.'/'.base64_encode($item).'">
-                          '.Panel::$lang['Edit_File'].'</option>
-                          <option value="action/newfile/'.$token.'/'.base64_encode($directory).'">
-                          '.Panel::$lang['New_File'].'</option>
-                          <option value="action/newfolder/'.$token.'/'.base64_encode($directory).'">
-                          '.Panel::$lang['New_Folder'].'</option>
-                          <option value="action/rename/'.$token.'/'.base64_encode($item).'">
-                          '.Panel::$lang['Rename_File'].'</option>
-                          <option value="action/removefile/'.$token.'/'.base64_encode($item).'">
-                          '.Panel::$lang['Remove_File'].'</option>
-                          <option value="action/removefolder/'.$token.'/'.base64_encode($directory).'">
-                          '.Panel::$lang['Remove_Folder'].'</option>
-                        </select>
-                     </span>       
-                  </td>
+                  <th><?php echo Panel::$lang['Directory'];?></th>
+                  <th><?php echo Panel::$lang['Name'];?></th>
+                  <th><?php echo Panel::$lang['Extension'];?></th>
+                  <th><?php echo Panel::$lang['Options'];?></th>
                 </tr>
-              ';
-            }
-          ?>
-            </tbody>
-          </table>
+
+            <?php 
+              // generate token
+              $token = Token::generate();
+
+              foreach ($content as $item) {
+                // onloy show pages dir
+                $file = str_replace(STORAGE.DS, '', $item);
+                // get extension
+                $extension = File::ext($file);
+                // get name
+                $name = File::name($file);
+                // directory
+                $directory = str_replace(DS.$name.'.'.$extension, '', $file);
+                $ex = str_replace('pages','', $directory);
+                $showDirOptions = '';
+                if($ex){
+                  $showDirOptions = 
+                        '<option value="
+                        '.$this->Url().'/action/newfile/'.$token.'/'.base64_encode($directory).'">
+                        '.Panel::$lang['New_File'].'</option>
+                        <option value="'.$this->Url().'/action/newfolder/'.$token.'/'.base64_encode($directory).'">
+                        '.Panel::$lang['New_Folder'].'</option>';
+                }
+                // show
+                echo '
+                  <tr>
+                    <td>'.$directory.'</td>
+                    <td>'.$name.'</td>
+                    <td>'.$extension.'</td>
+                    <td>
+                       <span class="custom-dropdown">
+                          <select class="selectOption">   
+                            <option>'.Panel::$lang['Actions'].':</option>
+                            <option value="
+                            '.$this->Url().'/action/preview/'.base64_encode($item).'">
+                            '.Panel::$lang['Preview'].'</option>
+                            <option value="
+                            '.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'">
+                            '.Panel::$lang['Edit_File'].'</option>
+                            '.$showDirOptions.'
+                            <option value="
+                            '.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'">
+                            '.Panel::$lang['Rename_File'].'</option>
+                            <option value="
+                            '.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'">
+                            '.Panel::$lang['Remove_File'].'</option>
+                            <option value="
+                            '.$this->Url().'/action/removefolder/'.$token.'/'.base64_encode($directory).'">
+                            '.Panel::$lang['Remove_Folder'].'</option>
+                          </select>
+                       </span>       
+                    </td>
+                  </tr>
+                ';
+              }
+            ?>
+              </tbody>
+            </table>
+            <a class="btn" href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode($directory)?>">
+              <?php echo Panel::$lang['New_File'];?>
+            </a>
+            <a class="btn" href="<?php echo $this->Url().'/action/newfolder/'.$token.'/'.base64_encode($directory)?>">
+              <?php echo Panel::$lang['New_Folder'];?>
+            </a>
+          </div>
+        </div>
         <?php }; ?>
       </div>
     </section>

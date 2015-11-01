@@ -4,7 +4,7 @@ Password_Error: 'Password Error'
 # sections
 Dashboard:    'Dashboard'
 Pages:        'Pages'
-Images:       'Images'
+Media:        'Media'
 Uploads:      'Uploads'
 Blocks:       'Blocks'
 Themes:       'Themes'
@@ -18,7 +18,7 @@ Directory:      'Directory'
 Name:           'Name'
 Extension:      'Extension'
 Options:        'Options'
-Select_Option:  'Select Option'
+Actions:  		'Actions'
 Preview:        'Preview'
 Edit_File:      'Edit File'
 Rename_File:    'Rename File'
@@ -26,7 +26,42 @@ New_File:       'New File'
 New_Folder:     'New Folder'
 Remove_File:    'Remove File'
 Remove_Folder:  'Remove Folder'
+Search:  		'Search'
+back: 			'Back'
 
+# info index for rename and delete
+exencial_file: 'Precaution!,This is a exencial file'
 
 # edit file
-Edit_File:      'Edit File'
+Update:  'Update'
+
+# new file
+Save_file:  'Save file'
+
+# new folder
+Folder_Already_Exists: 	'Folder Already exists!'
+Folder_Name_Required: 	'Folder name is required!'
+
+
+# rename
+File_Name_Exists: 		'File Name Already exists !'
+File_Name_Required: 	'File Name is Required'
+
+# delete
+Are_you_sure_to_delete: 		'Are you sure to delete'
+Are_you_sure_to_delete_folder: 	'Are you sure to delete folder'
+Remove: 						'Remove'
+Cancel: 						'Cancel'
+
+
+#uploads
+back_to_uploads: 			'Back to Uploads'
+no_preview_for_this_file: 	'No preview for this file'
+Upload_file: 				'Upload file'
+Upload: 					'Upload'
+
+
+
+
+# 404 not found
+Error_page: 'The request page not found in Morfy Panel'

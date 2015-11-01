@@ -5,6 +5,26 @@ var panel = (function() {
  
     return {
 
+        // each array
+        Each: function(el, callback) {
+            var allDivs = document.querySelectorAll(el),
+                alltoArr = Array.prototype.slice.call(allDivs);
+            Array.prototype.forEach.call(alltoArr, function(selector, index) {
+                if (callback) return callback(selector);
+            });
+        },
+        // Animate single items
+        Animate: function(item,cls) {
+            return (function show(counter) {
+                setTimeout(function() {
+                    var element = document.querySelectorAll(item)[counter];
+                    if (typeof element != 'undefined') element.classList.add(cls);
+                    counter++;
+                    if (counter < document.querySelectorAll(item).length) show(counter);
+                }, 50);
+            })(0);
+        },
+
         /**
          * Ajax GET request
          *

@@ -25,28 +25,55 @@ var app = (function() {
         init: function() {
             // load navigation
             this.navigation();
-            // Start loader
-            this.loader();
             // table dropdown
             this.tableDropdown();
+            // search
+            this.searchForm();
+            // animate col
+            panel.Animate('.col','view');
+            // remove loader
+            panel.fadeOut($('#loader'),500);
+            // remplace input submit value on submit form
+            if($('form')) {
+                $('form').addEventListener('submit',function(){
+                    $('input[type="submit"]').value = 'saving...'
+                });
+            }
         },
 
-
-
-
-        /*
-         *    Description:
-         *    preload on init
-         *
-         *    Syntax:
-         *    panel.loader && this.loader();
-         */
-        loader: function() {
-            panel.fadeIn($('#content'), 500, function() {
-                $('#content').style.display = 'block';
-            });
+        /**
+        *
+        *   Search pages ,blocks and uploads
+        *
+        */
+        searchForm: function(){
+            // search pages on enter
+            if($('#search')){
+                $('#search').addEventListener('keyup',function(event){
+                    if(event.keyCode == 13){
+                       location.href= [
+                           root, // site url
+                           '/action/search/', // action
+                           this.getAttribute('data-search'), // get data-search
+                           '/',
+                           this.value // value
+                       ].join('');
+                    }
+                });
+            }
+            if($('#search-files')){
+                // search files on enter
+                $('#search-files').addEventListener('keyup',function(event){
+                    if(event.keyCode == 13){
+                       location.href= [
+                           root, // site url
+                           '/action/searchfiles/',
+                           this.value // value
+                       ].join('');
+                    }
+                });
+            }
         },
-
 
         /**
          *    Description:
@@ -125,4 +152,5 @@ var app = (function() {
 ---------------------*/
 window.addEventListener('load', function(){
     app.init();
+
 });

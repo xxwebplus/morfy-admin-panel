@@ -29,7 +29,7 @@
                 <tr>
                   <th><?php echo Panel::$lang['Directory'];?></th>
                   <th><?php echo Panel::$lang['Name'];?></th>
-                  <th><?php echo Panel::$lang['Extension'];?></th>
+                  <th class="hide-for-mobile"><?php echo Panel::$lang['Extension'];?></th>
                   <th><?php echo Panel::$lang['Options'];?></th>
                 </tr>
 
@@ -39,34 +39,39 @@
 
               foreach ($content as $item) {
                 // only show pages dir
-                $file = str_replace(STORAGE.DS, '', $item);
+                $file = str_replace(STORAGE.'/', '', $item);
                 // get extension
                 $extension = File::ext($file);
                 // get name
                 $name = File::name($file);
                 // directory
-                $directory = str_replace(DS.$name.'.'.$extension, '', $file);
+                $directory = str_replace($name.'.'.$extension, '', $file);
                 // show
                 echo '
                   <tr>
                     <td>'.$directory.'</td>
                     <td>'.$name.'</td>
-                    <td>'.$extension.'</td>
+                    <td class="hide-for-mobile">'.$extension.'</td>
                     <td>
-                       <span class="custom-dropdown">
-                          <select class="selectOption">   
-                            <option>'.Panel::$lang['Actions'].':</option>
-                            <option value="'.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'">
-                            '.Panel::$lang['Edit_File'].'</option>
-                            <option value="'.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'">
-                            '.Panel::$lang['Rename_File'].'</option>
-                            <option value="'.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'">
-                            '.Panel::$lang['Remove_File'].'</option>
-                          </select>
-                       </span>       
+                      <div class="btn-group">   
+                        <a  class="btn editfile"
+                            href="'.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'" 
+                            title="'.Panel::$lang['Edit_File'].'">
+                              <i class="ti-pencil-alt"></i>
+                        </a>
+                        <a  class="btn renamefile"
+                            href="'.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'" 
+                            title="'.Panel::$lang['Rename_File'].'">
+                              <i class="ti-write"></i>
+                        </a>
+                        <a  class="btn removefile"
+                            href="'.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'" 
+                            title="'.Panel::$lang['Remove_File'].'">
+                              <i class="ti-trash"></i>
+                        </a>
+                      </div>      
                     </td>
-                  </tr>
-                ';
+                  </tr>';
               }
             ?>
               </tbody>

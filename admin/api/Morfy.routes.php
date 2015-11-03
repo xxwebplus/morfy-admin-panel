@@ -27,16 +27,16 @@ $p->route('/diag', function() use($p){
 */
 $p->route('/', function() use($p){
   if(Session::exists('user')){
-
+    
     // show dashboard
     $p->view('index',[
       'title' => $p::$lang['Dashboard'],
       'pages' => count(File::scan(PAGES, 'md')),
-      'media' => count(File::scan(MEDIA.DS.'album_thumbs')),
+      'media' => count(File::scan(MEDIA.'/album_thumbs')),
       'uploads' => count(File::scan(UPLOADS)),
       'blocks' => count(File::scan(BLOCKS, 'md')),
-      'themes' => count(Dir::scan(THEMES)),
-      'plugins' => count(Dir::scan(PLUGINS))
+      'themes' => count(Dir::scan(ROOTBASE.'/themes')),
+      'plugins' => count(Dir::scan(ROOTBASE.'/plugins'))
     ]);
 
   }else{
@@ -270,7 +270,7 @@ $p->route('/action/logout', function() use($p){
 */
 $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p) {
     // get file url
-    $directory = STORAGE.DS.$dir;
+    $directory = STORAGE.'/'.$dir;
     // scan to obtain files
     $scan = File::scan($directory);
     // start template
@@ -279,7 +279,7 @@ $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p
     $count = 0;
     foreach ($scan as $item) {
       // remove storage\$dir
-      $item = str_replace(STORAGE.DS.$dir, '', $item);
+      $item = str_replace(STORAGE.'/'.$dir, '', $item);
       // search query with preg_match
       if(preg_match('/'.urldecode($query).'/i', $item)){
         // count +1
@@ -392,6 +392,7 @@ $p->route('/action/edit/(:any)/(:any)', function($token,$file) use($p){
 
       // directory
       $path = base64_decode($file);
+
       // search pages or blocks in url
       $url = '';
       if(preg_match('/pages/i',$path)){
@@ -446,6 +447,7 @@ $p->route('/action/newfile/(:any)/(:any)', function($token,$file) use($p){
     if (Token::check($token)) {
       // directory
       $path = base64_decode($file);
+
       // search pages or blocks in url
       $url = '';
       $textContent = '';
@@ -464,8 +466,8 @@ template: index
       }
 
       // get directory without base url
-      $directory = str_replace(STORAGE.DS, '', $path); 
-      $directory = str_replace(STORAGE.DS.File::name($path).'.'.File::ext($path), '', $path); 
+      $directory = str_replace(STORAGE.'/', '', $path); 
+      $directory = str_replace(STORAGE.'/'.File::name($path).'.'.File::ext($path), '', $path); 
 
       $error = '';
 
@@ -474,10 +476,10 @@ template: index
         if(Request::post('token')){
           $filename = $p->SeoLink(Request::post('filename'));
           $content = Request::post('newfile');
-          if(File::exists(STORAGE.DS.$path.DS.$filename.'.md')){
+          if(File::exists(STORAGE.'/'.$path.'/'.$filename.'.md')){
             $error = '<span class="error">'.Panel::$lang['File_Name_Exists'].'</span>';
           }else{
-            File::setContent(STORAGE.DS.$path.DS.$filename.'.md',$content);
+            File::setContent(STORAGE.'/'.$path.'/'.$filename.'.md',$content);
             Request::redirect($p->Url().'/'.$url);
           }
         }else{
@@ -529,7 +531,7 @@ $p->route('/action/newfolder/(:any)/(:any)', function($token,$file) use($p){
       // directory
       $dir = base64_decode($file);
       // redirect to edit index
-      $url = str_replace(STORAGE.DS, '', $dir);
+      $url = str_replace(STORAGE.'/', '', $dir);
       if($url !== 'pages'){
         $url = 'pages';
       }
@@ -542,7 +544,7 @@ $p->route('/action/newfolder/(:any)/(:any)', function($token,$file) use($p){
           // if empty
           if(Request::post('new_folder_name') !== ''){
             // name of folder
-            $foldername = STORAGE.DS.$dir.DS.$p->SeoLink(Request::post('new_folder_name'));
+            $foldername = STORAGE.'/'.$dir.'/'.$p->SeoLink(Request::post('new_folder_name'));
             // if exists
             if(!Dir::exists($foldername)){
                 // create folder
@@ -604,11 +606,11 @@ $p->route('/action/rename/(:any)/(:any)', function($token,$file) use($p){
     if (Token::check($token)) {
       // directory
       $filename = base64_decode($file);
-      // redirect to edit index
-      $url = str_replace(STORAGE.DS, '', $filename);
-      $url = str_replace(DS.File::name($url).'.'.File::ext($url),'',$url);
-      // check url 
-      if($url == 'blocks') $url = 'blocks'; else $url = 'pages';
+
+      // function to redirect
+      $url = '';
+      if(preg_match('/pages/', $filename)) $url = 'pages'; else $url = 'blocks';
+    
       // error
       $error = ''; 
       // check if is index
@@ -625,7 +627,7 @@ $p->route('/action/rename/(:any)/(:any)', function($token,$file) use($p){
             // if exists
             if(!File::exists($to.Request::post('rename_file_name').'.md')){
                 // rename file
-                File::rename($filename,$to.DS.$p->SeoLink(Request::post('rename_file_name')).'.md');
+                File::rename($filename,$to.'/'.$p->SeoLink(Request::post('rename_file_name')).'.md');
                 // redirect to edit index
                 request::redirect($p->url().'/'.$url); 
             }else{
@@ -681,8 +683,8 @@ $p->route('/action/removefile/(:any)/(:any)', function($token,$file) use($p){
     if (Token::check($token)) {
       $filename = base64_decode($file);
       // redirect to edit index
-      $url = str_replace(STORAGE.DS, '', $filename);
-      $url = str_replace(DS.File::name($url).'.'.File::ext($url),'',$url);
+      $url = str_replace(STORAGE.'/', '', $filename);
+      $url = str_replace('/'.File::name($url).'.'.File::ext($url),'',$url);
       // check url 
       if($url == 'blocks') $url = 'blocks'; else $url = 'pages';
       $error = '';
@@ -740,8 +742,8 @@ $p->route('/action/removefolder/(:any)/(:any)', function($token,$file) use($p){
       // decode file
       $filename = base64_decode($file);
       // redirect to edit index
-      $url = str_replace(STORAGE.DS, '', $filename);
-      $url = str_replace(DS.File::name($url).'.'.File::ext($url),'',$url);
+      $url = str_replace(STORAGE.'/', '', $filename);
+      $url = str_replace('/'.File::name($url).'.'.File::ext($url),'',$url);
       // check url 
       if($url == 'blocks') $url = 'blocks'; else $url = 'pages';
       // error file
@@ -750,7 +752,7 @@ $p->route('/action/removefolder/(:any)/(:any)', function($token,$file) use($p){
       if(Request::post('remove')){
         // check token
         if(Token::check(Request::post('token'))){
-            Dir::delete(STORAGE.DS.$filename);
+            Dir::delete(STORAGE.'/'.$filename);
             // redirect to edit index
             request::redirect($p->url().'/'.$url);             
         }else{
@@ -797,6 +799,16 @@ $p->route('/action/removefolder/(:any)/(:any)', function($token,$file) use($p){
 
 
 
+
+
+
+
+
+
+
+
+
+
 /*  UPLOADS SECTION GOES HERE
 ------------------------------------------------*/
 
@@ -807,11 +819,14 @@ $p->route('/action/removefolder/(:any)/(:any)', function($token,$file) use($p){
 */
 $p->route('/action/uploads/preview/(:any)', function($file) use($p){
     // remove dir
-    $link = str_replace(UPLOADS.DS, '', base64_decode($file));
+    $link = str_replace(UPLOADS, '', base64_decode($file));
+    $link = str_replace('\\', '/', $link);
+    $link = str_replace('//', '/', $link);
     // check mime types
     $template = '';
     // decode file
     $path = base64_decode($file);
+    $link = Url::sanitizeURL($link);
     // check mime types
     if(File::mime($path)){
       if(File::ext($path) == 'jpg'  || File::ext($path) == 'JPG'  ||
@@ -845,7 +860,7 @@ $p->route('/action/uploads/preview/(:any)', function($file) use($p){
             <div class="file-preview">
               <span class="information">
                   '.Panel::$lang['no_preview_for_this_file'].'
-                  <a download href="'.$p::$site['url'].'/public/uploads/'.$link.'">'.$link.'</a>
+                  <a download href="'.$p::$site['url'].'/public/uploads/'.$link.'">'.File::name($path)   .'</a>
               </span>   
             </div>
             <div class="file-info">
@@ -890,19 +905,23 @@ $p->route('/action/uploads/newfile/(:any)/(:any)', function($token,$file) use($p
     if (Token::check($token)) {
 
       $path = base64_decode($file);
-      $error = '';
+      $error = ''; 
+      $AllowedExtensions = ['gif','jpeg','jpg','png','md','txt','zip','pdf','mp4','webm','html','css','js','mp3','vaw','doc'];
       if(Request::post('uploadFile')){
           if(Request::post('token')){
               $files = $_FILES['file']['name'];
+              $path = str_replace('\\','/',$path);
               // change blank spaces for -
-              $fileUploaded = PUBLICFOLDER.DS.$path.DS.$p->SeoLink(File::name($_FILES['file']['name'])).'.'.File::ext($_FILES['file']['name']);
+              $fileUploaded = PUBLICFOLDER.'/'.$path.'/'.$p->SeoLink(File::name($_FILES['file']['name'])).'.'.File::ext($_FILES['file']['name']);
               if(File::exists($fileUploaded)){
                 $error = '<span class="error">'.Panel::$lang['File_Name_Exists'].'</span>';
               }else{
+                if(!in_array(File::ext($_FILES['file']['name']), $AllowedExtensions)) { 
+                  die('Extension not allowed');
+                }
                 if(move_uploaded_file($_FILES['file']['tmp_name'], $fileUploaded)) {
-                    $directory =  PUBLICFOLDER.DS.$path.$p->SeoLink(File::name($_FILES['file']['name'])).'.'.File::ext($_FILES['file']['name']);
-                    Request::redirect($p->Url().'/action/uploads/preview/'.base64_encode($directory));
-                }                
+                    Request::redirect($p->Url().'/action/uploads/preview/'.base64_encode($fileUploaded));
+                }
               }
           }else{
             die('crsf Detect !');
@@ -946,15 +965,19 @@ $p->route('/action/uploads/newfolder/(:any)/(:any)', function($token,$file) use(
       // submit function
       if(Request::post('create_new_folder')){
         // check token
-        if(Token::check(Request::post('token'))){
+        if(Token::check(Request::post('token'))){  
           // if empty
           if(Request::post('new_folder_name') !== ''){
+            $dir = str_replace('\\','/',$dir);
             // name of folder
-            $foldername = PUBLICFOLDER.DS.$dir.DS.$p->SeoLink(Request::post('new_folder_name'));
+            $foldername = PUBLICFOLDER.'/'.$dir.'/'.$p->SeoLink(Request::post('new_folder_name'));
+            $foldername = str_replace('//','/',$foldername);
             // if exists
             if(!Dir::exists($foldername)){
                 // create folder
                 Dir::create($foldername);
+                // init folder with one file
+                File::setContent($foldername.'/upload_here.txt',$foldername);
                 // redirect to edit index
                 Request::redirect($p->url().'/uploads');       
             }else{
@@ -1013,7 +1036,7 @@ $p->route('/action/uploads/rename/(:any)/(:any)', function($token,$file) use($p)
             // if exists
             if(!File::exists($to.Request::post('rename_file_name').'.'.File::ext($filename))){
                 // rename file
-                File::rename($filename,$to.DS.$p->SeoLink(Request::post('rename_file_name')).'.'.File::ext($filename));
+                File::rename($filename,$to.'/'.$p->SeoLink(Request::post('rename_file_name')).'.'.File::ext($filename));
                 // redirect to edit index
                 request::redirect($p->url().'/uploads'); 
             }else{
@@ -1098,7 +1121,7 @@ $p->route('/action/uploads/removefile/(:any)/(:any)', function($token,$file) use
 * @name   Uploads rename
 * @desc   New folder ( :any use base64_encode remenber decode file)
 */
-$p->route('/action/uploads/removeFolder/(:any)/(:any)', function($token,$file) use($p){
+$p->route('/action/uploads/removefolder/(:any)/(:any)', function($token,$file) use($p){
   if(Session::exists('user')){
     if (Token::check($token)) {
       // decode file
@@ -1107,7 +1130,7 @@ $p->route('/action/uploads/removeFolder/(:any)/(:any)', function($token,$file) u
       if(Request::post('remove')){
         // check token
         if(Token::check(Request::post('token'))){
-            Dir::delete(STORAGE.DS.$path);
+            Dir::delete(PUBLICFOLDER.'/'.$path);
             // redirect to edit index
             request::redirect($p->url().'/uploads');             
         }else{
@@ -1117,13 +1140,13 @@ $p->route('/action/uploads/removeFolder/(:any)/(:any)', function($token,$file) u
       // template
       $p->view('actions',[
         'title' => Panel::$lang['Remove_Folder'],
-        'content' => $filename,
+        'content' => $path,
         'html' => '<div class="info">
                     <form method="post">
                       <input type="hidden" name="token" value="'.Token::generate().'">
                       <label>'.Panel::$lang['Are_you_sure_to_delete_folder'].' : <code>'.File::name(base64_decode($file)).'</code></label>
                       <input type="submit" name="remove" value="'.Panel::$lang['Remove'].'">
-                      <a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
+                      <a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
                     </form>
                   </div>'
       ]);

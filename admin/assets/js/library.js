@@ -5,6 +5,26 @@ var panel = (function() {
  
     return {
 
+         progress: function(selector,callback) {
+            var span = document.createElement("span"),a = 0;
+            span.className = "bar", 
+            span.style.position = "absolute", 
+            span.style.bottom = "0", 
+            span.style.left = "0", 
+            span.style.height = "4px", 
+            span.style.display = "block", 
+            span.style.background = "#313131", 
+            span.style.width = "0%", 
+            span.style.zIndex = "999", 
+            selector.appendChild(span);
+            var wait = setInterval(function() {
+                if (/loaded|complete/.test(document.readyState)) {
+                    var num = 10 * a++;
+                    return span.style.width = num + "%", callback ? callback(num, span, wait) : void 0
+                }
+            }, 10);
+        },
+
         // each array
         Each: function(el, callback) {
             var allDivs = document.querySelectorAll(el),

@@ -31,8 +31,17 @@ var app = (function() {
             this.searchForm();
             // animate col
             panel.Animate('.col','view');
-            // remove loader
-            panel.fadeOut($('#loader'),500);
+            // progress functions
+            panel.progress($('.preloader'),function(num, span, wait){
+                // remove loader
+                if(num > 100){
+                    $('.preloader').removeChild(span);
+                    panel.fadeOut($('#loader'),1000);
+                    clearTimeout(wait);
+                }
+            });
+
+
             // remplace input submit value on submit form
             if($('form')) {
                 $('form').addEventListener('submit',function(){

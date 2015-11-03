@@ -1,4 +1,13 @@
-<img id="loader" src="<?php echo $this->url();?>/assets/img/loader.gif"/>
+<div id="loader">
+  <img src="<?php echo $this->Assets('morfy-logo.png','img');?>">
+  <div class="preloader"></div>
+</div>
+
+
+
+
+
+
 <!-- header -->
 <header id="header">
   <?php if (Session::exists('user')){ ?>
@@ -19,7 +28,7 @@
           <i class="ti-eye"></i>
       </a>
       <?php if (Session::exists('user')){ ?>
-        <a href="<?php echo $this->url();?>/action/settings" title="Settings">
+        <a class="hide-for-mobile" href="<?php echo $this->url();?>/action/settings" title="Settings">
             <i class="ti-settings"></i>
         </a>
         <a href="<?php echo $this->url();?>/action/logout" title="Logout">

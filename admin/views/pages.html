@@ -29,66 +29,80 @@
                 <tr>
                   <th><?php echo Panel::$lang['Directory'];?></th>
                   <th><?php echo Panel::$lang['Name'];?></th>
-                  <th><?php echo Panel::$lang['Extension'];?></th>
+                  <th class="hide-for-mobile"><?php echo Panel::$lang['Extension'];?></th>
                   <th><?php echo Panel::$lang['Options'];?></th>
                 </tr>
-
             <?php 
               // generate token
               $token = Token::generate();
 
               foreach ($content as $item) {
                 // onloy show pages dir
-                $file = str_replace(STORAGE.DS, '', $item);
+                $file = str_replace(STORAGE.'/', '', $item);
                 // get extension
                 $extension = File::ext($file);
                 // get name
                 $name = File::name($file);
                 // directory
-                $directory = str_replace(DS.$name.'.'.$extension, '', $file);
-                $ex = str_replace('pages','', $directory);
+                $directory = str_replace($name.'.'.$extension, '', $file);
                 $showDirOptions = '';
-                if($ex){
+
+                $frontslash = explode('/',$directory);
+                $backslash = explode('\\',$directory);
+                if(count($frontslash) > 2 || count($backslash) > 2 ){
                   $showDirOptions = 
-                        '<option value="
-                        '.$this->Url().'/action/newfile/'.$token.'/'.base64_encode($directory).'">
-                        '.Panel::$lang['New_File'].'</option>
-                        <option value="'.$this->Url().'/action/newfolder/'.$token.'/'.base64_encode($directory).'">
-                        '.Panel::$lang['New_Folder'].'</option>';
+                    '<a  class="btn newfile"
+                          href="'.$this->Url().'/action/newfile/'.$token.'/'.base64_encode($directory).'" 
+                          title="'.Panel::$lang['New_File'].'">
+                            <i class="ti-file"></i>
+                      </a>
+                      <a  class="btn newfolder"
+                          href="'.$this->Url().'/action/newfolder/'.$token.'/'.base64_encode($directory).'" 
+                          title="'.Panel::$lang['New_Folder'].'">
+                            <i class="ti-folder"></i>
+                      </a>
+                       <a  class="btn removefolder"
+                          href="'.$this->Url().'/action/removefolder/'.$token.'/'.base64_encode($directory).'" 
+                          title="'.Panel::$lang['Remove_Folder'].'">
+                            <i class="ti-folder"></i>
+                      </a>';
                 }
                 // show
                 echo '
                   <tr>
                     <td>'.$directory.'</td>
                     <td>'.$name.'</td>
-                    <td>'.$extension.'</td>
+                    <td class="hide-for-mobile">'.$extension.'</td>
                     <td>
-                       <span class="custom-dropdown">
-                          <select class="selectOption">   
-                            <option>'.Panel::$lang['Actions'].':</option>
-                            <option value="
-                            '.$this->Url().'/action/preview/'.base64_encode($item).'">
-                            '.Panel::$lang['Preview'].'</option>
-                            <option value="
-                            '.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'">
-                            '.Panel::$lang['Edit_File'].'</option>
-                            '.$showDirOptions.'
-                            <option value="
-                            '.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'">
-                            '.Panel::$lang['Rename_File'].'</option>
-                            <option value="
-                            '.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'">
-                            '.Panel::$lang['Remove_File'].'</option>
-                            <option value="
-                            '.$this->Url().'/action/removefolder/'.$token.'/'.base64_encode($directory).'">
-                            '.Panel::$lang['Remove_Folder'].'</option>
-                          </select>
-                       </span>       
+                      <div class="btn-group">   
+                        <a  class="btn previewfile"
+                            target="_blank"
+                            href="'.$this->Url().'/action/preview/'.base64_encode($item).'" 
+                            title="'.Panel::$lang['Preview'].'">
+                              <i class="ti-eye"></i>
+                        </a>
+                        <a  class="btn editfile"
+                            href="'.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'" 
+                            title="'.Panel::$lang['Edit_File'].'">
+                              <i class="ti-pencil-alt"></i>
+                        </a>
+                        <a  class="btn renamefile"
+                            href="'.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'" 
+                            title="'.Panel::$lang['Rename_File'].'">
+                              <i class="ti-write"></i>
+                        </a>
+                        '.$showDirOptions.'
+                        <a  class="btn removefile"
+                            href="'.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'" 
+                            title="'.Panel::$lang['Remove_File'].'">
+                              <i class="ti-trash"></i>
+                        </a>
+                      </div>      
                     </td>
                   </tr>
                 ';
-              }
-            ?>
+              };
+              ?>
               </tbody>
             </table>
             <a class="btn" href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode($directory)?>">

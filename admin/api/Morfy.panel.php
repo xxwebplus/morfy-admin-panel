@@ -66,7 +66,7 @@ class Panel {
    * Load Language
    */
   protected function loadLanguage(){
-      if (file_exists($language  = ROOT.DS.'lang'.DS.static::$site['backend_language'].'.yml')) {
+      if (file_exists($language  = ROOT.'/'.'lang'.'/'.static::$site['backend_language'].'.yml')) {
           static::$lang = Spyc::YAMLLoad(file_get_contents($language));
       } else {
           die("Oops.. Where is language file ?!");
@@ -125,7 +125,7 @@ class Panel {
   */
   public function partial($path, $vars = []) {
       if($vars) extract($vars);
-      include_once PARTIALS.DS. trim($path, '/') . '.html';
+      include_once PARTIALS.'/'. trim($path, '/') . '.html';
   }
 
   /**
@@ -141,7 +141,7 @@ class Panel {
   */
   public  function view($path, $vars = []) {
       if($vars) extract($vars);
-      require VIEWS.DS. trim($path, '/') . '.html';
+      require VIEWS.'/'. trim($path, '/') . '.html';
   }
 
 

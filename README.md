@@ -7,7 +7,7 @@ Backend for Morfy CMS
 
 
 
-**install: **
+**install:**
 
 1 - Copy admin folder in root folder.
 2 - Add new fields in site.yml
@@ -17,6 +17,7 @@ Backend for Morfy CMS
 	backend_password: 'demo'
 	backend_language: 'en'
 
-3 - if you need rename admin folder you need change on backend_folder and in admin/index.php line 5 
-	
+3 - if you need rename admin folder you need change on backend_folder and **in:** 
+
+	// admin/index.php line 5 
 	$backend = 'your new folder name same to backend_folder'

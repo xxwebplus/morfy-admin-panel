@@ -37,6 +37,10 @@ var app = (function() {
                 if(num > 100){
                     $('.preloader').removeChild(span);
                     panel.fadeOut($('#loader'),1000);
+                    var timeout = setTimeout(function(){
+                        $('#loader').style.display='none';
+                        clearTimeout(timeout);
+                    },1100);
                     clearTimeout(wait);
                 }
             });
@@ -48,6 +52,13 @@ var app = (function() {
                     $('input[type="submit"]').value = 'saving...'
                 });
             }
+
+
+            // image preview
+            panel.media();
+
+            // modal
+            panel.modal('.open-modal','.modal','modal-open');
         },
 
         /**
@@ -77,6 +88,19 @@ var app = (function() {
                        location.href= [
                            root, // site url
                            '/action/searchfiles/',
+                           this.value // value
+                       ].join('');
+                    }
+                });
+            }
+
+            if($('#search-media')){
+                // search files on enter
+                $('#search-media').addEventListener('keyup',function(event){
+                    if(event.keyCode == 13){
+                       location.href= [
+                           root, // site url
+                           '/action/searchmedia/',
                            this.value // value
                        ].join('');
                     }

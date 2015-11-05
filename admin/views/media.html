@@ -1,0 +1,31 @@
+<?php $this->partial('head',[]); ?>
+<?php $this->partial('navigation',[]); ?>
+<!-- wrapper -->
+<main id="wrapper">
+    <?php $this->partial('header',['title'=>$title]); ?>
+    <!-- content -->
+    <section id="content">
+      <div class="container">
+        <!-- Main  page -->
+        <?php if(Session::exists('user')){ ?>
+        <div class="row">
+          <div class="box-2 col">
+            <?php echo $prev; ?>
+            <span class="btn disable"><?php echo $offset;?></span>
+            <?php echo $next; ?>
+          </div>
+          <div class="box-2 col">
+            <div class="search-form">
+              <span class="icon"><i class="ti-search"></i></span>
+              <input type="search" id="search-media" placeholder="Search..." required/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <?php echo $content ?>
+        </div>
+        <?php }; ?>
+      </div>
+    </section>
+</main>
+<?php $this->partial('footer',[]); ?>

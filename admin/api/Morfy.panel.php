@@ -75,6 +75,21 @@ class Panel {
 
 
   /*
+  *   Short text  TextCut('lorem ipsum dolor',$chars='25')
+  */
+  public function TextCut($text,$chars='25') { 
+      // length of text
+      $length = strlen($text); 
+      // strip tags
+      $text = strip_tags($text);  
+      // reducce
+      $text = substr($text,0,$chars); 
+      // in end put ..
+      if($length > $chars) { $text = $text."..."; } 
+      return $text; 
+  } 
+
+  /*
   *   Get  pretty url like hello-world
   */
   public function SeoLink($str){
@@ -96,6 +111,52 @@ class Panel {
   public function Debug($var){
     return print_r("<pre>$var</pre>");
   }
+
+  /**
+   * Image resize
+   * @param int $width
+   * @param int $height
+   */
+  public function resize($name,$path,$width = 1024,$height = 768,$upload = true){
+
+    if($upload) $file = $name['tmp_name'];
+    else  $file = $name;
+
+    // Get original image x y
+    list($w, $h,$type) = getimagesize($file);
+    // calculate new image size with ratio
+    $ratio = max($width/$w, $height/$h);
+    $h = ceil($height / $ratio);
+    $x = ($w - $width / $ratio) / 2;
+    $w = ceil($width / $ratio);
+    // read binary data from image file 
+    $imgString = file_get_contents($file);
+    // create image from string 
+    $image = imagecreatefromstring($imgString);
+    $tmp = imagecreatetruecolor($width, $height);
+    imagecopyresampled($tmp, $image,0, 0,$x, 0,$width, $height,$w, $h);
+    // Save image 
+    switch (strtolower(image_type_to_mime_type($type))) {
+      case 'image/jpeg':
+        imagejpeg($tmp, $path, 100);
+        break;
+      case 'image/png':
+        imagepng($tmp, $path, 0);
+        break;
+      case 'image/gif':
+        imagegif($tmp, $path);
+        break;
+      default:
+        exit;
+        break;
+    }
+    return $path;
+    // cleanup memory 
+    imagedestroy($image);
+    imagedestroy($tmp);
+  }
+
+
 
 
   /**
@@ -157,7 +218,7 @@ class Panel {
   * @return echo
   */
   public  function Assets($file,$type){
-      echo $this->url().'/assets/'.$type.'/'.trim($file, '/');
+      return  $this->url().'/assets/'.$type.'/'.trim($file, '/');
   }
 
 
@@ -202,19 +263,21 @@ class Panel {
       include LIBRARIES.'/Force/ClassLoader/ClassLoader.php';
 
       // Map Classes
-      ClassLoader::mapClasses(array(
+      ClassLoader::mapClasses(
+        array(
           // Yaml Parser/Dumper
-          'Spyc'     => LIBRARIES.'/Spyc/Spyc.php',
+          'Spyc'        => LIBRARIES.'/Spyc/Spyc.php',
           // Force Components
-          'Arr'      => LIBRARIES.'/Force/Arr/Arr.php',
-          'Session'  => LIBRARIES.'/Force/Session/Session.php',
-          'Token'    => LIBRARIES.'/Force/Token/Token.php',
-          'Request'  => LIBRARIES.'/Force/Http/Request.php',
-          'Response' => LIBRARIES.'/Force/Http/Response.php',
-          'Url'      => LIBRARIES.'/Force/Url/Url.php',
-          'File'     => LIBRARIES.'/Force/FileSystem/File.php',
-          'Dir'      => LIBRARIES.'/Force/FileSystem/Dir.php'
-      ));
+          'Arr'         => LIBRARIES.'/Force/Arr/Arr.php',
+          'Session'     => LIBRARIES.'/Force/Session/Session.php',
+          'Token'       => LIBRARIES.'/Force/Token/Token.php',
+          'Request'     => LIBRARIES.'/Force/Http/Request.php',
+          'Response'    => LIBRARIES.'/Force/Http/Response.php',
+          'Url'         => LIBRARIES.'/Force/Url/Url.php',
+          'File'        => LIBRARIES.'/Force/FileSystem/File.php',
+          'Dir'         => LIBRARIES.'/Force/FileSystem/Dir.php'
+        )
+      );
 
       // Register the ClassLoader to the SPL autoload stack.
       ClassLoader::register();

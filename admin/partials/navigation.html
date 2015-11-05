@@ -27,12 +27,20 @@
                 </a>
             </li>
 
+
             <!-- Media-->
-            <li <?php if($slug == 'media'){?> class="active"<?php };?>>
-                <a href="#" style="color:red!important;"> 
-                    <?php echo Panel::$lang['Media'];?>
+            <li class="has-dropdown">
+                <a  href="#" <?php if($slug == 'media'){ ?> class="dropdown-link active" <?php }else{ ?> class="dropdown-link" <?php }; ?>> 
+                    <?php echo Panel::$lang['Media'];?> 
+
+                    <span class="arrow"><i class="ti-angle-right"></i></span>
                 </a>
+                <ul class="dropdown">
+                    <li><a href="<?php echo $this->url();?>/media"><?php echo $this::$lang['All_media'];?> </a></li>
+                    <li><a href="<?php echo $this->url();?>/media/create"><?php echo $this::$lang['Create_media'];?> </a></li>
+                </ul>
             </li>
+
 
             <!-- Theme-->
             <li class="has-dropdown">

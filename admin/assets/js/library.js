@@ -5,6 +5,69 @@ var panel = (function() {
  
     return {
 
+        /*
+        *
+        *   open modal lik accordion
+        *   panel.modal(btn,dest,class)
+        */
+        modal: function(btn,dest,cls){
+            var buttom = document.querySelector(btn),
+                modal = document.querySelector(dest);
+            if(btn){
+                buttom.addEventListener('click',function(e){
+                    e.preventDefault(e);
+                    panel.toggleCls(modal,cls);
+                });
+            }
+        },
+
+        // get image preview
+        media: function() {
+        // demo img
+        var imageDisplay = document.querySelector('#image-display');
+            if(imageDisplay){
+            var demo = imageDisplay.getAttribute('src'),
+                database = window.localStorage;
+                // clear first
+              database.setItem( "image-base64",'');
+              if(!database.getItem( "image-base64" )){
+                var t = setTimeout(function(){
+                    database.setItem( "image-base64", demo );
+                  clearTimeout(t);
+                },100);
+              }
+              
+              /** @type {Node} */
+              var imgInput = document.querySelector( "#image-input" ),
+                  /** @type {Node} */
+                  imgContainer = document.querySelector( "#image-display" ),
+                  /** Restore image src from local storage */
+                  updateUi = function() {
+                      var t2 = setTimeout(function(){
+                      imgContainer.src = database.getItem( "image-base64" );
+                         clearTimeout(t2);
+                      },200);
+                  },
+                  /** Register event listeners */
+                  bindUi = function(){
+                    imgInput.addEventListener( "change", function(){
+                      if ( this.files.length ) {
+                        var reader = new FileReader();
+                        reader.onload = function( e ){
+                          database.setItem( "image-base64", e.target.result );
+                          updateUi();
+                        };
+                        reader.readAsDataURL( this.files[ 0 ] );
+                      }
+                    }, false );
+                  };
+              updateUi();
+              bindUi();
+          }
+        },
+
+
+
          progress: function(selector,callback) {
             var span = document.createElement("span"),a = 0;
             span.className = "bar", 
@@ -13,7 +76,7 @@ var panel = (function() {
             span.style.left = "0", 
             span.style.height = "4px", 
             span.style.display = "block", 
-            span.style.background = "#313131", 
+            span.style.background = "#f06565", 
             span.style.width = "0%", 
             span.style.zIndex = "999", 
             selector.appendChild(span);

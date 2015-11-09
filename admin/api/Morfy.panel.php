@@ -62,6 +62,9 @@ class Panel {
       }
   }
 
+
+
+
   /**
    * Load Language
    */
@@ -74,23 +77,134 @@ class Panel {
   }
 
 
+
+
+  public function getMsg(){
+    //Top of file
+    if(Session::get('msg')){
+        $message = Session::get('msg');
+        Session::delete('msg');
+    }
+    if(isset($message)){
+        echo '<div class="notification">
+                  <img src="'.$this->Assets('morfy-icon.png','img').'" />
+                  <span>'.$message.'</span>
+              </div>
+              <script type="text/javascript">
+                var notif = document.querySelector(".notification"),
+                m = setTimeout(function(){
+                  notif.classList.add("notif-hide");
+                  var d = setTimeout(function(){notif.remove();clearTimeout(d);},1000);
+                  clearTimeout(m);
+                },3000);
+              </script>';
+    }
+  }
+  public function setMsg($msg){
+      Session::set('msg',$msg);
+  }
+
+
+
+
+
+
+
+  /*
+  * Get size of folder
+  * $p->folderSize(path);
+  *
+  * @param string $dir
+  * @return string
+  */
+  public function folderSize($dir){
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
+    $totalSize = 0;
+    foreach ($iterator as $file) $totalSize += $file->getSize();
+    return  round($totalSize/1024,2).' KB';
+  }
+
+
+
+
+
+
+  /**
+  * Get size of file
+  * $p->fileSize(file);
+  *
+  * @param string $file
+  * @return string
+  */
+  public function fileSize($file) {
+    $a = array("B", "KB", "MB", "GB", "TB", "PB");
+    $pos = 0;
+    $size = filesize($file);
+    while ($size >= 1024) {$size /= 1024;$pos++;}
+    return round($size,2)." ".$a[$pos];
+  }
+
+
+
+
+
+
   /*
   *   Short text  TextCut('lorem ipsum dolor',$chars='25')
   */
-  public function TextCut($text,$chars='25') { 
+  public function TextCut($text,$chars='25') {
       // length of text
-      $length = strlen($text); 
+      $length = strlen($text);
       // strip tags
-      $text = strip_tags($text);  
+      $text = strip_tags($text);
       // reducce
-      $text = substr($text,0,$chars); 
+      $text = substr($text,0,$chars);
       // in end put ..
-      if($length > $chars) { $text = $text."..."; } 
-      return $text; 
-  } 
+      if($length > $chars) { $text = $text."..."; }
+      return $text;
+  }
 
-  /*
+
+
+
+
+    /**
+    * Convert html to plain text
+    *  https://github.com/monstra-cms/monstra/blob/dev/libraries/Gelato/Html/Html.php
+    *  $p->toText('test');
+    *
+    * @param  string $str String
+    * @return string
+    */
+    public function toText($str){
+        return htmlspecialchars($str, ENT_QUOTES, 'utf-8');
+    }
+
+
+
+
+
+    /**
+     * Convert plain text to html
+     * https://github.com/monstra-cms/monstra/blob/dev/libraries/Gelato/Text/Text.php
+     * $p->toHtml('test');
+     *
+     * @param  string $str
+     * @return string
+     */
+    public function toHtml($str){
+        // Redefine vars
+        $str = (string) $str;
+        return html_entity_decode($str, ENT_QUOTES, 'utf-8');
+    }
+
+
+  /**
   *   Get  pretty url like hello-world
+  *
+  *
+  * @param string $dir
+  * @return string
   */
   public function SeoLink($str){
       //Lower case everything
@@ -105,18 +219,110 @@ class Panel {
   }
 
   /**
-   * Debug
-   * @return  string 
-   */
+  * Debug
+  * $p->Debug($var);
+  * @param string $var
+  * @return string
+  */
   public function Debug($var){
-    return print_r("<pre>$var</pre>");
+    return print_r('<pre class="debuger">$var</pre>');
   }
 
+
+
+
+
   /**
-   * Image resize
-   * @param int $width
-   * @param int $height
-   */
+  * Compress a folder to a zip archive
+  * $p->compress('public','backups/name.zip');
+  *
+  * @param string $source,$dest
+  * @return string
+  */
+  public function Zip($source, $dest){
+    // Get real path for our folder
+    $rootPath = realpath($source);
+    // Initialize archive object
+    $zip = new ZipArchive();
+    $zip->open($dest, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+    $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($rootPath),
+        RecursiveIteratorIterator::LEAVES_ONLY
+    );
+    foreach ($files as $name => $file){
+        // Skip directories (they would be added automatically)
+        if (!$file->isDir()){
+            // Get real and relative path for current file
+            $filePath = $file->getRealPath();
+            $relativePath = substr($filePath, strlen($rootPath) + 1);
+            // Add current file to archive
+            $zip->addFile($filePath, $relativePath);
+        }
+    }
+    // Zip archive will be created only after closing object
+    return $zip->close();
+  }
+
+
+
+  /**
+  * Uncompress files
+  * $p->unZip('file.zip');
+  * @param string $file
+  * @return bolean
+  */
+  public function unZip($file){
+    // get the absolute path to $file
+    $path = pathinfo(realpath($file), PATHINFO_DIRNAME);
+    $zip = new ZipArchive;
+    $res = $zip->open($file);
+    if ($res === TRUE) {
+      // extract it to the path we determined above
+      $zip->extractTo($path);
+      $zip->close();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+  /**
+  *   Get either a Gravatar URL or complete image tag for a specified email address.
+  *
+  * @param string $email The email address
+  * @param string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
+  * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
+  * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
+  * @param boole $img True to return a complete IMG tag False for just the URL
+  * @param array $atts Optional, additional key/value attributes to include in the IMG tag
+  * @return String containing either just a URL or a complete image tag
+  * @source http://gravatar.com/site/implement/images/php/
+  */
+  public function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+      $url = 'http://www.gravatar.com/avatar/';
+      $url .= md5( strtolower( trim( $email ) ) );
+      $url .= "?s=$s&d=$d&r=$r";
+      if ( $img ) {
+          $url = '<img src="' . $url . '"';
+          foreach ( $atts as $key => $val )
+              $url .= ' ' . $key . '="' . $val . '"';
+          $url .= ' />';
+      }
+      return $url;
+  }
+
+
+
+
+
+
+
+  /**
+  * Image resize
+  * @param int $width
+  * @param int $height
+  */
   public function resize($name,$path,$width = 1024,$height = 768,$upload = true){
 
     if($upload) $file = $name['tmp_name'];
@@ -129,13 +335,13 @@ class Panel {
     $h = ceil($height / $ratio);
     $x = ($w - $width / $ratio) / 2;
     $w = ceil($width / $ratio);
-    // read binary data from image file 
+    // read binary data from image file
     $imgString = file_get_contents($file);
-    // create image from string 
+    // create image from string
     $image = imagecreatefromstring($imgString);
     $tmp = imagecreatetruecolor($width, $height);
     imagecopyresampled($tmp, $image,0, 0,$x, 0,$width, $height,$w, $h);
-    // Save image 
+    // Save image
     switch (strtolower(image_type_to_mime_type($type))) {
       case 'image/jpeg':
         imagejpeg($tmp, $path, 100);
@@ -151,7 +357,7 @@ class Panel {
         break;
     }
     return $path;
-    // cleanup memory 
+    // cleanup memory
     imagedestroy($image);
     imagedestroy($tmp);
   }
@@ -173,6 +379,12 @@ class Panel {
       return static::$site['url'].'/'.static::$site['backend_folder'];
   }
 
+
+
+
+
+
+
   /**
   * Get Views
   *
@@ -188,6 +400,13 @@ class Panel {
       if($vars) extract($vars);
       include_once PARTIALS.'/'. trim($path, '/') . '.html';
   }
+
+
+
+
+
+
+
 
   /**
   * Get Views
@@ -206,6 +425,11 @@ class Panel {
   }
 
 
+
+
+
+
+
   /**
   * Get Assets file
   *
@@ -220,6 +444,13 @@ class Panel {
   public  function Assets($file,$type){
       return  $this->url().'/assets/'.$type.'/'.trim($file, '/');
   }
+
+
+
+
+
+
+
 
 
   /**
@@ -245,6 +476,11 @@ class Panel {
           $this->routes['#^' . $pattern . '$#'] = $callback;
       }
   }
+
+
+
+
+
 
 
 

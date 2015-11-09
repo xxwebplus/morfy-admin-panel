@@ -6,20 +6,23 @@ $p = new Panel();
 
 /*  PAGES AND BLOCKS SECTION GOES HERE
 ------------------------------------------------*/
-include 'inc/pages.php';
+include_once 'inc/pages.php';
 
 
 
 /*  ACTIONS GOES HERE
 ------------------------------------------------*/
-include 'inc/search.php';
-include 'inc/preview.php';
-include 'inc/edit.php';
-include 'inc/newfile.php';
-include 'inc/newfolder.php';
-include 'inc/rename.php';
-include 'inc/removefile.php';
-include 'inc/removefolder.php';
+$inc = [
+	'search','preview','edit',
+	'newfile','newfolder','rename',
+	'removefile','removefolder'
+];
+foreach ($inc as $inc_file) {
+	include_once "inc/$inc_file.php";
+}
+
+
+
 
 /*
 * @name   Logout

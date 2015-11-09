@@ -3,10 +3,7 @@
   <div class="preloader"></div>
 </div>
 
-
-
-
-
+<?php $this->getMsg(); // get notifications ?>
 
 <!-- header -->
 <header id="header">
@@ -19,7 +16,7 @@
    <!-- App name -->
   <h2>
     <a href="<?php echo $this->url();?>" class="header-title">
-      <?php echo Panel::$site['title'].'<span class="header-breadcrumb">'.$title.'</span>';?> 
+      <?php echo Panel::$site['title'].'<span class="header-breadcrumb">'.$title.'</span>';?>
     </a>
   </h2>
   <!-- right menu -->
@@ -28,9 +25,6 @@
           <i class="ti-eye"></i>
       </a>
       <?php if (Session::exists('user')){ ?>
-        <a class="hide-for-mobile" href="<?php echo $this->url();?>/action/settings" title="Settings">
-            <i class="ti-settings"></i>
-        </a>
         <a href="<?php echo $this->url();?>/action/logout" title="Logout">
             <i class="ti-unlock"></i>
         </a>

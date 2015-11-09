@@ -23,7 +23,7 @@ $p->route('/action/newfolder/(:any)/(:any)', function($token,$file) use($p){
         $url = 'pages';
       }
       // error
-      $error = '';      
+      $error = '';
       // submit function
       if(Request::post('create_new_folder')){
         // check token
@@ -38,15 +38,17 @@ $p->route('/action/newfolder/(:any)/(:any)', function($token,$file) use($p){
                 Dir::create($foldername);
                 // create index file with folder name
                 File::setContent($foldername.'/index.md',"---\ntitle: Holas\n---");
+                // set notification
+                $p->setMsg($p::$lang['Success_save']);
                 // redirect to edit index
-                Request::redirect($p->url().'/action/edit/'.Token::generate().'/'.base64_encode($foldername.'/index.md'));       
+                Request::redirect($p->url().'/action/edit/'.Token::generate().'/'.base64_encode($foldername.'/index.md'));
             }else{
               // if exists
-              $error = '<span class="error">'.Panel::$lang['Folder_Already_Exists'].'</span>';
-            }             
+              $error = '<span class="well red">'.Panel::$lang['Folder_Already_Exists'].'</span>';
+            }
           }else{
             // if empty input value
-            $error = '<span class="error">'.Panel::$lang['Folder_Name_Required'].'</span>';
+            $error = '<span class="well red">'.Panel::$lang['Folder_Name_Required'].'</span>';
           }
         }else{
           die('crsf detect');
@@ -61,8 +63,8 @@ $p->route('/action/newfolder/(:any)/(:any)', function($token,$file) use($p){
                       <input type="hidden" name="token" value="'.Token::generate().'">
                       <label>'.Panel::$lang['New_Folder'].' : <code>'.base64_decode($file).'</code></label>
                       <input type="text" name="new_folder_name">
-                      <input type="submit" name="create_new_folder" value="'.Panel::$lang['New_Folder'].'">
-                      <a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
+                      <input class="btn blue" type="submit" name="create_new_folder" value="'.Panel::$lang['New_Folder'].'">
+                      <a class="btn red" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
                     </form>
                     <br>
                     '.$error.'
@@ -91,11 +93,11 @@ $p->route('/action/uploads/newfolder/(:any)/(:any)', function($token,$file) use(
       // directory
       $dir = base64_decode($file);
       // error
-      $error = '';      
+      $error = '';
       // submit function
       if(Request::post('create_new_folder')){
         // check token
-        if(Token::check(Request::post('token'))){  
+        if(Token::check(Request::post('token'))){
           // if empty
           if(Request::post('new_folder_name') !== ''){
             $dir = str_replace('\\','/',$dir);
@@ -107,16 +109,19 @@ $p->route('/action/uploads/newfolder/(:any)/(:any)', function($token,$file) use(
                 // create folder
                 Dir::create($foldername);
                 // init folder with one file
-                File::setContent($foldername.'/upload_here.txt',$foldername);
+                File::setContent($foldername.'/folder.html',
+                  $foldername);
+                // set notification
+                $p->setMsg($p::$lang['Success_save']);
                 // redirect to edit index
-                Request::redirect($p->url().'/uploads');       
+                Request::redirect($p->url().'/uploads');
             }else{
               // if exists
-              $error = '<span class="error">'.Panel::$lang['Folder_Already_Exists'].'</span>';
-            }             
+              $error = '<span class="well red">'.Panel::$lang['Folder_Already_Exists'].'</span>';
+            }
           }else{
             // if empty input value
-            $error = '<span class="error">'.Panel::$lang['Folder_Name_Required'].'</span>';
+            $error = '<span class="well red">'.Panel::$lang['Folder_Name_Required'].'</span>';
           }
         }else{
           die('crsf detect');
@@ -131,8 +136,8 @@ $p->route('/action/uploads/newfolder/(:any)/(:any)', function($token,$file) use(
                       <input type="hidden" name="token" value="'.Token::generate().'">
                       <label>'.Panel::$lang['New_Folder'].' : <code>'.base64_decode($file).'</code></label>
                       <input type="text" name="new_folder_name">
-                      <input type="submit" name="create_new_folder" value="'.Panel::$lang['New_Folder'].'">
-                      <a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
+                      <input class="btn blue" type="submit" name="create_new_folder" value="'.Panel::$lang['New_Folder'].'">
+                      <a class="btn red" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
                     </form>
                     <br>
                     '.$error.'

@@ -3,7 +3,14 @@
 <!-- menu -->
 <nav id="menu">
     <header>
-        <a href="#">Menu</a>
+        <?php
+            $email = $this::$site['author']['email'];
+            $default = $this->Assets('default-user.png','img');
+            $size = 40;
+            $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+        ?>
+        <img  class="user-logo" src="<?php echo $grav_url; ?>" alt="" />
+        <span class="user-email"><?php echo $email;?></span>
     </header>
     <section>
         <ul class="navigation">
@@ -18,21 +25,20 @@
                 <a href="<?php echo $this->url();?>/blocks">
                     <?php echo Panel::$lang['Blocks'];?>
                 </a>
-            </li>      
+            </li>
 
             <!-- Uploads-->
             <li <?php if($slug == 'uploads'){?> class="active"<?php };?>>
-                <a href="<?php echo $this->url();?>/uploads"> 
+                <a href="<?php echo $this->url();?>/uploads">
                     <?php echo Panel::$lang['Uploads'];?>
                 </a>
             </li>
 
 
             <!-- Media-->
-            <li class="has-dropdown">
-                <a  href="#" <?php if($slug == 'media'){ ?> class="dropdown-link active" <?php }else{ ?> class="dropdown-link" <?php }; ?>> 
-                    <?php echo Panel::$lang['Media'];?> 
-
+            <li <?php if($slug == 'media'){?> class="active has-dropdown"<?php }else{?> class="" <?php };?>>
+                <a  href="#" class="dropdown-link">
+                    <?php echo Panel::$lang['Media'];?>
                     <span class="arrow"><i class="ti-angle-right"></i></span>
                 </a>
                 <ul class="dropdown">
@@ -43,40 +49,56 @@
 
 
             <!-- Theme-->
-            <li class="has-dropdown">
-                <a class="dropdown-link" href="#" style="color:red!important;"> 
-                    <?php echo Panel::$lang['Themes'];?> 
+            <li <?php if(
+                            $slug == 'templates' ||
+                            $slug == 'stylesheets' ||
+                            $slug == 'javascript'
+                        ){?>
+                        class="active has-dropdown"
+                <?php }else{?> class="has-dropdown" <?php };?>>
+                <a class="dropdown-link" href="#">
+                    <?php echo Panel::$lang['Themes'];?>
                     <span class="arrow"><i class="ti-angle-right"></i></span>
                 </a>
                 <ul class="dropdown">
-                    <li><a href="#">Templates</a></li>
-                    <li><a href="#">Stylesheets</a></li>
-                    <li><a href="#">Javascript</a></li>
+                    <li><a href="<?php echo $this->url();?>/templates"><?php echo Panel::$lang['Templates'];?> </a></li>
+                    <li><a href="<?php echo $this->url();?>/stylesheets"><?php echo Panel::$lang['Stylesheets'];?> </a></li>
+                    <li><a href="<?php echo $this->url();?>/javascript"><?php echo Panel::$lang['Javascript'];?> </a></li>
                 </ul>
             </li>
 
 
-            <!-- Settings-->
-            <li class="has-dropdown">
-                <a class="dropdown-link" href="#" style="color:red!important;"> 
-                    <?php echo Panel::$lang['Settings'];?> 
-                    <span class="arrow"><i class="ti-angle-right"></i></span>
+            <!-- Backups-->
+            <li <?php if($slug == 'backups'){?> class="active"<?php };?>>
+                <a href="<?php echo $this->url();?>/backups">
+                    <?php echo Panel::$lang['Backups'];?>
                 </a>
-                <ul class="dropdown">
-                    <li><a href="#">Configuration</a></li>
-                    <li><a href="#">Backups</a></li>
-                </ul>
+            </li>
+
+            <!-- Backups-->
+            <li <?php if($slug == 'diag'){?> class="active"<?php };?>>
+                <a href="<?php echo $this->url();?>/diag">
+                    <?php echo Panel::$lang['Diagnostic'];?>
+                </a>
+            </li>
+
+            <!-- Config-->
+            <li <?php if($slug == 'config'){?> class="active"<?php };?>>
+                <a href="<?php echo $this->url();?>/config">
+                    <?php echo Panel::$lang['Config'];?>
+                </a>
             </li>
 
             <!-- Support-->
             <li class="has-dropdown">
-                <a class="dropdown-link" href="#"> 
+                <a class="dropdown-link" href="#">
                     <?php echo Panel::$lang['Support'];?>
                     <span class="arrow"><i class="ti-angle-right"></i></span>
                 </a>
                 <ul class="dropdown">
                     <li><a target="_blank" href="http://morfy.org/documentation">Documentation</a></li>
-                    <li> <a target="_blank" href="http://forum.morfy.org/" title="Morfy Forum">Morfy Forum</a></li>
+                    <li><a target="_blank" href="http://forum.morfy.org/" title="Morfy Forum">Morfy Forum</a></li>
+                    <li><a target="_blank" href="http://gitter.im/morfy-cms/morfy" title="Morfy on Gitter">Morfy on Gitter</a></li>
                 </ul>
             </li>
             <?php }; ?>

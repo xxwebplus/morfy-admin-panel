@@ -6,6 +6,8 @@
     <!-- content -->
     <section id="content">
       <div class="container">
+      	<div class="row">
+      		<div class="box-1 col">
         <!-- Main  page -->
         <?php if(Session::exists('user')){ ?>
 
@@ -38,7 +40,19 @@
 			config/site.yml - <?php echo substr(sprintf('%o', fileperms(SITE)), -4); ?><br>
 			<hr>
 
+
+			<h2> Folder Size </h2>
+			<p>Estimated sizes of folders</p>
+			storage/pages - <?php echo $this->folderSize(PAGES);?><br>
+			storage/blocks - <?php echo $this->folderSize(BLOCKS);?><br>
+			public/media - <?php echo $this->folderSize(MEDIA);?><br>
+			public/uploads - <?php echo $this->folderSize(UPLOADS);?><br>
+			backups - <?php echo $this->folderSize(BACKUPS);?><br>
+			<hr>
         <?php }; ?>
+
+      		</div>
+      	</div>
       </div>
     </section>
 </main>

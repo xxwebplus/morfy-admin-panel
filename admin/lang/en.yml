@@ -1,3 +1,9 @@
+# notificaion
+Success_edit:       'The archive has been Update'
+Success_save:       'The archive has been Save'
+Success_remove:     'The archive has been Remove'
+Success_rename:     'The archive has been Rename'
+
 # login
 Password_Error: 'Password Error'
 # sections
@@ -47,6 +53,7 @@ back_to_uploads: 			'Back to Uploads'
 no_preview_for_this_file: 	'No preview for this file'
 Upload_file: 				'Upload file'
 Upload: 					'Upload'
+Size: 						'Size'
 #media files
 Media:						'Media'
 All_media: 					'All media'
@@ -55,5 +62,22 @@ Upload_media: 				'Upload images'
 Upload_empty: 				'The folder is empty'
 # media uploads
 Uploads_Media: 				'Uploads Media'
+Templates: 					'Templates'
+Stylesheets: 				'Stylesheets'
+Javascript: 				'Javascript'
+
+# Themes
+Zip_Public: 	'Zip Public'
+Zip_Storage: 'Zip Storage'
+Zip_Themes: 	'Zip Themes'
+
+#config
+Config: 'Configuration'
+# backups
+Backups: 					'Backups'
+New_Backup: 				'New Backup'
+#diagnostic
+Diagnostic: 				'Diagnostic'
+
 # 404 not found
 Error_page: 				'The request page not found in Morfy Panel'

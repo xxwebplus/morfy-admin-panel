@@ -49,13 +49,13 @@ var app = (function() {
             // remplace input submit value on submit form
             if($('form')) {
                 $('form').addEventListener('submit',function(){
-                    $('input[type="submit"]').value = 'saving...'
+                    $('input[type="submit"]').value = 'saving...';
                 });
             }
 
 
             // image preview
-            panel.media();
+            panel.media('#image-input','#image-display');
 
             // modal
             panel.modal('.open-modal','.modal','modal-open');
@@ -101,6 +101,19 @@ var app = (function() {
                        location.href= [
                            root, // site url
                            '/action/searchmedia/',
+                           this.value // value
+                       ].join('');
+                    }
+                });
+            }
+
+            if($('#searchinthemes')){
+                // search files on enter
+                $('#searchinthemes').addEventListener('keyup',function(event){
+                    if(event.keyCode == 13){
+                       location.href= [
+                           root, // site url
+                           '/action/searchinthemes/',
                            this.value // value
                        ].join('');
                     }
@@ -185,5 +198,4 @@ var app = (function() {
 ---------------------*/
 window.addEventListener('load', function(){
     app.init();
-
 });

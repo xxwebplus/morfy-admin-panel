@@ -27,10 +27,12 @@ $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p
         $count++;
         // template
         $result .= '<li>
-                      <a href="
+                      '.$item.'
+                      <a class="btn blue right" href="
                         '.$p->Url().'/action/edit/'.Token::generate().'/'.
                         base64_encode($directory.$item).'">
                         '.File::name($item).'
+                        | <i class="ti-arrow-right"></i>
                       </a>
                     </li>';
       }
@@ -39,13 +41,23 @@ $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p
     // render view
     $p->view('actions',[
         'title' => Panel::$lang['Search'],
-        'html' => '<div class="preview">
-                    <h3>'.$count.' results for '.$query.'</h3>
-                    '.$result.'
-                    <a class="btn" href="javascript:void(0);" onclick="return history.back(0)">
-                      '.Panel::$lang['back'].'
-                    </a>
-                  </div>'
+        'html' => '<section class="subheader">
+                      <div class="row">
+                        <div class="box-1 col">
+                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
+                        </div>
+                      </div>
+                    </section>
+                    <div class="row">
+                      <div class="box-1 col">
+                        <div class="preview">
+                          '.$result.'
+                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                            '.Panel::$lang['back'].'
+                          </a>
+                        </div>
+                      </div>
+                    </div>'
     ]);
 
 });
@@ -76,10 +88,14 @@ $p->route('/action/searchfiles/(:any)', function($query = '') use($p) {
         // count +1
         $count++;
         // template
-        $result .= '<li>
-                      <a href="
+        $result .=
+                    '<li>
+                      '.$item.'
+                      <a class="btn blue right" href="
                         '.$p->Url().'/action/uploads/preview/'.base64_encode($directory.$item).'">
-                        '.File::name($item).'.'.File::ext($item).'
+                        '.File::name($item).'.'.File::ext($item).'">
+                        '.File::name($item).'
+                        | <i class="ti-arrow-right"></i>
                       </a>
                     </li>';
       }
@@ -88,20 +104,30 @@ $p->route('/action/searchfiles/(:any)', function($query = '') use($p) {
     // render view
     $p->view('actions',[
         'title' => Panel::$lang['Search'],
-        'html' => '<div class="preview">
-                    <h3>'.$count.' results for '.$query.'</h3>
-                    '.$result.'
-                    <a class="btn" href="javascript:void(0);" onclick="return history.back(0)">
-                      '.Panel::$lang['back'].'
-                    </a>
-                  </div>'
+        'html' => '<section class="subheader">
+                      <div class="row">
+                        <div class="box-1 col">
+                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
+                        </div>
+                      </div>
+                    </section>
+                    <div class="row">
+                      <div class="box-1 col">
+                        <div class="preview">
+                          '.$result.'
+                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                            '.Panel::$lang['back'].'
+                          </a>
+                        </div>
+                      </div>
+                    </div>'
     ]);
 
 });
 
 
 
-/*    SEARCH MEDIA 
+/*    SEARCH MEDIA
 -----------------------------*/
 
 /*
@@ -123,24 +149,39 @@ $p->route('/action/searchmedia/(:any)', function($query = '') use($p) {
           $count++;
           // template
           $result .= '<li>
-                        <a href="'.$p->Url().'/action/media/edit/'.Token::generate().'/'.base64_encode($item['id']).' " 
-                          title="'.$item['title'].' ">
-                          '.$item['title'].'
-                        </a>
-                      </li>';
+                      '.$p->TextCut($p->toHtml($item['desc']),20).'
+                      <a class="btn blue right" href="
+                        '.$p->Url().'/action/media/edit/'.$item['id'].' "
+                          title="'.$item['title'].'">
+                        '.$item['title'].'
+                        | <i class="ti-arrow-right"></i>
+                      </a>
+                    </li>';
+
+
       }
     }
     $result .= '</ul>';
     // render view
     $p->view('actions',[
         'title' => Panel::$lang['Search'],
-        'html' => '<div class="preview">
-                    <h3>'.$count.' results for '.$query.'</h3>
-                    '.$result.'
-                    <a class="btn" href="javascript:void(0);" onclick="return history.back(0)">
-                      '.Panel::$lang['back'].'
-                    </a>
-                  </div>'
+        'html' => '<section class="subheader">
+                      <div class="row">
+                        <div class="box-1 col">
+                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
+                        </div>
+                      </div>
+                    </section>
+                    <div class="row">
+                      <div class="box-1 col">
+                        <div class="preview">
+                          '.$result.'
+                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                            '.Panel::$lang['back'].'
+                          </a>
+                        </div>
+                      </div>
+                    </div>'
     ]);
 
 });
@@ -149,3 +190,63 @@ $p->route('/action/searchmedia/(:any)', function($query = '') use($p) {
 
 
 
+/*    SEARCH IN THEMES
+-----------------------------*/
+
+/*
+* @name   Search
+* @sample /action/searchinthemes/findme
+*/
+$p->route('/action/searchinthemes/(:any)', function($query = '') use($p) {
+    // get file url
+    $directory = THEMES;
+    // scan to obtain files
+    $scan = File::scan($directory);
+    // start template
+    $result = '<ul>';
+    // init count to 0
+    $count = 0;
+    foreach ($scan as $item) {
+      // remove storage\$dir
+      $item = str_replace(THEMES, '', $item);
+      // search query with preg_match
+      if(preg_match('/'.urldecode($query).'/i', $item)){
+        // count +1
+        $count++;
+        // template
+        $result .=
+                    '<li>
+                      '.$item.'
+                      <a class="btn blue right" href="
+                      '.$p->Url().'/action/themes/edit/'.Token::generate().'/'.base64_encode($directory.$item).'">
+                        '.File::name($item).'.'.File::ext($item).'
+                        '.File::name($item).'
+                        | <i class="ti-arrow-right"></i>
+                      </a>
+                    </li>';
+      }
+    }
+    $result .= '</ul>';
+    // render view
+    $p->view('actions',[
+        'title' => Panel::$lang['Search'],
+        'html' => '<section class="subheader">
+                      <div class="row">
+                        <div class="box-1 col">
+                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
+                        </div>
+                      </div>
+                    </section>
+                    <div class="row">
+                      <div class="box-1 col">
+                        <div class="preview">
+                          '.$result.'
+                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                            '.Panel::$lang['back'].'
+                          </a>
+                        </div>
+                      </div>
+                    </div>'
+    ]);
+
+});

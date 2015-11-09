@@ -6,44 +6,26 @@ Backend for Morfy CMS
 
 ## Instructions
 
+Copy admin folder in root of Morfy Cms  
+
 **Require vars for backend Morfy Panel**
-
-**backend email:**
-
+    
+    # email
     author:
       email: 'demo@gmail.com'
-
-**backend options:**
-
+    # admin folder 
     backend_folder: 'admin'
-
-**password:**
-
+    # password
     backend_password: 'demo'
-
-**language:**
-
+    # Language  en,es,ru ( ru is incomplete for now )
     backend_language: 'en'
-
-**pagination:**
-
+    # pagination pages/blocks templates etc..
     backend_pagination_pages: 6
+    # pagination uploads
     backend_pagination_uploads: 6
+    # pagination all media 
     backend_pagination_media_all: 3
-    backend_pagination_media: 16
-
-
-**All vars:**
-
-    author:
-      # backend email
-      email: 'demo@gmail.com'
-    backend_folder: 'admin'
-    backend_password: 'demo'
-    backend_language: 'en'
-    backend_pagination_pages: 6
-    backend_pagination_uploads: 6
-    backend_pagination_media_all: 3
+    # pagination single item
     backend_pagination_media: 16
 
 **Note:**
@@ -51,8 +33,11 @@ Backend for Morfy CMS
 if you like ,you can change folder name of admin.
 - rename $backend var in admin/index.php
 - rename backend_folder in site.yml
+- Go to url /admin of your admin folder name and login
 
-Thats it !
+**Thats it !**
+
+---
 
 ## Json structure of media elements
 
@@ -71,6 +56,8 @@ Thats it !
 
 You can use media plugin to show images:
 
+
+---
 
 
 

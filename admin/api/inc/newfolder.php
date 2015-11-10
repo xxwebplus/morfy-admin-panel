@@ -55,7 +55,7 @@ $p->route('/action/newfolder/(:any)/(:any)', function($token,$file) use($p){
         }
       }
       // template
-      $p->view('actions',[
+      $p->view('actions',array(
         'title' => Panel::$lang['New_Folder'],
         'content' => $dir,
         'html' => '<div class="info">
@@ -69,7 +69,7 @@ $p->route('/action/newfolder/(:any)/(:any)', function($token,$file) use($p){
                     <br>
                     '.$error.'
                   </div>'
-      ]);
+      ));
 
     }else{
       die('crsf Detect');
@@ -128,7 +128,7 @@ $p->route('/action/uploads/newfolder/(:any)/(:any)', function($token,$file) use(
         }
       }
       // template
-      $p->view('actions',[
+      $p->view('actions',array(
         'title' => Panel::$lang['New_Folder'],
         'content' => $dir,
         'html' => '<div class="info">
@@ -142,7 +142,7 @@ $p->route('/action/uploads/newfolder/(:any)/(:any)', function($token,$file) use(
                     <br>
                     '.$error.'
                   </div>'
-      ]);
+      ));
     }else{
       die('crsf Detect');
     }

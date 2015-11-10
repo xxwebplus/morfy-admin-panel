@@ -10,31 +10,41 @@
         <?php if(Session::exists('user')){ ?>
         <section class="subheader">
           <div class="row">
-            <div class="box-2 col">
-              <?php echo $prev; ?>
-              <span class="btn blue"><?php echo $offset;?> - <?php echo $total;?></span>
-              <?php echo $next; ?>
-            </div>
-            <div class="box-2 col">
-              <div class="search-form">
-                <span class="icon"><i class="ti-search"></i></span>
-                <input type="search" id="search" data-search="blocks" placeholder="Search..." required/>
-              </div>
+            <div class="box-1 col">
+
+            <a
+              class="btn blue"
+              href="<?php echo $this->Url().'/action/compress/public/'.Token::generate();?>">
+              <?php echo Panel::$lang['Zip_Public'];?>
+            </a>
+            <a
+              class="btn green"
+              href="<?php echo $this->Url().'/action/compress/storage/'.Token::generate();?>">
+              <?php echo Panel::$lang['Zip_Storage'];?>
+            </a>
+            <a
+              class="btn yellow"
+              href="<?php echo $this->Url().'/action/compress/themes/'.Token::generate();?>">
+              <?php echo Panel::$lang['Zip_Themes'];?>
+            </a>
+
             </div>
           </div>
-        </section>
+        </div>
+
+
+
         <div class="row">
-            <div class="box-1 col">
+          <div class="box-1 col">
             <!-- pages -->
-            <table class="responsive">
+            <table class="responsive themes">
               <tbody>
                 <tr>
-                  <th><?php echo Panel::$lang['Directory'];?></th>
                   <th><?php echo Panel::$lang['Name'];?></th>
+                  <th class="hide-for-mobile"><?php echo Panel::$lang['Size'];?></th>
                   <th class="hide-for-mobile"><?php echo Panel::$lang['Extension'];?></th>
                   <th><?php echo Panel::$lang['Options'];?></th>
                 </tr>
-
             <?php
               // generate token
               $token = Token::generate();
@@ -42,8 +52,8 @@
               foreach ($content as $item) {
                 // size
                 $size = $this->fileSize($item);
-                // only show pages dir
-                $file = str_replace(STORAGE.'/', '', $item);
+                // onloy show pages dir
+                $file = str_replace(THEMES, '', $item);
                 // get extension
                 $extension = File::ext($file);
                 // get name
@@ -53,37 +63,35 @@
                 // show
                 echo '
                   <tr>
-                    <td>'.$name.'</td>
-                    <td>'.$directory.'</td>
+                    <td>'.$name.'.'.$extension.'</td>
                     <td class="hide-for-mobile">'.$extension.'</td>
+                    <td class="hide-for-mobile">'.$size.'</td>
                     <td>
                       <div class="btn-group">
-                        <a  class="btn blue"
-                            href="'.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'"
-                            title="'.Panel::$lang['Edit_File'].'">
-                              <i class="ti-pencil-alt"></i>
-                        </a>
                         <a  class="btn yellow"
-                            href="'.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'"
+                            href="'.$this->Url().'/action/backups/rename/'.$token.'/'.base64_encode($item).'"
                             title="'.Panel::$lang['Rename_File'].'">
                               <i class="ti-write"></i>
                         </a>
+                        <a  class="btn green"
+                            href="'.$this->Url().'/action/backups/download/'.$token.'/'.base64_encode($item).'"
+                            title="'.Panel::$lang['Remove_File'].'">
+                              <i class="ti-upload"></i>
+                        </a>
                         <a  class="btn red"
                             onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
-                            href="'.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'"
+                            href="'.$this->Url().'/action/backups/removefile/'.$token.'/'.base64_encode($item).'"
                             title="'.Panel::$lang['Remove_File'].'">
                               <i class="ti-trash"></i>
                         </a>
                       </div>
                     </td>
-                  </tr>';
-              }
-            ?>
+                  </tr>
+                ';
+              };
+              ?>
               </tbody>
             </table>
-            <a class="btn blue" href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode('blocks')?>">
-              <?php echo Panel::$lang['New_File'];?>
-            </a>
           </div>
         </div>
         <?php }; ?>

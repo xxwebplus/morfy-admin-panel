@@ -61,7 +61,7 @@ template: index
       }
 
 
-      $p->view('actions',[
+      $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['New_File'],
         'html' => '<form method="post">
@@ -84,7 +84,7 @@ template: index
                         </div>
                     </div>
                   </form>'
-      ]);
+      ));
     }else{
       die('crsf Detect');
     }
@@ -109,7 +109,7 @@ $p->route('/action/uploads/newfile/(:any)/(:any)', function($token,$file) use($p
 
       $path = base64_decode($file);
       $error = '';
-      $AllowedExtensions = ['gif','jpeg','jpg','png','md','txt','zip','pdf','mp4','webm','html','css','js','mp3','vaw','doc'];
+      $AllowedExtensions = array('gif','jpeg','jpg','png','md','txt','zip','pdf','mp4','webm','html','css','js','mp3','vaw','doc');
       if(Request::post('uploadFile')){
           if(Request::post('token')){
               $files = $_FILES['file']['name'];
@@ -134,7 +134,7 @@ $p->route('/action/uploads/newfile/(:any)/(:any)', function($token,$file) use($p
           }
       }
 
-      $p->View('actions',[
+      $p->View('actions',array(
         'title' => 'Upload File',
         'content' => $path,
         'html' => '
@@ -158,7 +158,7 @@ $p->route('/action/uploads/newfile/(:any)/(:any)', function($token,$file) use($p
                       </div>
                   </div>
                 </div>'
-      ]);
+      ));
 
     }else{
       die('crsf Detect');
@@ -178,12 +178,12 @@ $p->route('/media/create',function($offset = 1) use($p){
   if(Session::exists('user')){
 
     $error = '';
-    $AllowedExtensions = ['gif','jpeg','jpg','png'];
+    $AllowedExtensions = array('gif','jpeg','jpg','png');
     if(Request::post('upload')){
       if(Request::post('token')){
 
         $jsonFile = PUBLICFOLDER.'/media/mdb.json';
-        $json = [];
+        $json = array();
         // if not exists create
         if(!File::exists($jsonFile)){
           File::setContent($jsonFile,'[]');
@@ -197,7 +197,7 @@ $p->route('/media/create',function($offset = 1) use($p){
           // id
           $id = time();
           // json array remenber encode
-          $json[$id] = [
+          $json[$id] = array(
             'id' => $id,
             'title' => (Request::post('title')) ? $p->toText(Request::post('title')) : 'No title',
             'desc' =>  (Request::post('desc')) ? $p->toText(Request::post('desc')) : 'No desc',
@@ -206,7 +206,7 @@ $p->route('/media/create',function($offset = 1) use($p){
             'tag' => (Request::post('tag')) ? $p->toText(Request::post('tag')) : 'No tag',
             'width' => (Request::post('width')) ? $p->toText(Request::post('width')) : 'No width',
             'height' => (Request::post('height')) ? $p->toText(Request::post('height')) : 'No height'
-          ];
+          );
           // check if exists
           if(File::exists(PUBLICFOLDER.'/media/albums_thumbs/'.$_FILES['file_upload']['name'])){
             $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
@@ -265,11 +265,11 @@ $p->route('/media/create',function($offset = 1) use($p){
 
 
     // show Media
-    $p->view('actions',[
+    $p->view('actions',array(
       'title' => Panel::$lang['Create_media'],
       'content' => '',
       'html' => $template
-    ]);
+    ));
 
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -301,7 +301,7 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
     // items per page
     $per_page = $p::$site['backend_pagination_media'];
     // array json
-    $json = [];
+    $json = array();
     // next prev
     $prev = '';
     $next = '';
@@ -318,7 +318,7 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
 
     // upload files
     $error = '';
-    $AllowedExtensions = ['gif','jpeg','jpg','png','md','txt','zip','pdf','mp4','webm','html','css','js','mp3','vaw','doc'];
+    $AllowedExtensions = array('gif','jpeg','jpg','png','md','txt','zip','pdf','mp4','webm','html','css','js','mp3','vaw','doc');
     if(Request::post('uploadMedia')){
         if(Request::post('token')){
                     // check if exists
@@ -419,14 +419,14 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
 
 
       // show Media
-      $p->view('media',[
+      $p->view('media',array(
         'title' => Panel::$lang['Uploads_Media'],
         'offset' => $offset,
         'total' => ceil(count($total)/$per_page),
         'prev' => $prev,
         'next' => $next,
         'content' => $templateAll
-      ]);
+      ));
 
     // if folder is empty
     }else{
@@ -453,11 +453,11 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
                   </div>';
 
          // show Media
-        $p->view('actions',[
+        $p->view('actions',array(
           'title' => Panel::$lang['Uploads_Media'],
           'content' => '',
           'html' => $templateAll
-        ]);
+        ));
     }
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -533,7 +533,7 @@ $p->route('/action/themes/newfile/(:any)/(:any)', function($token,$file) use($p)
       }
 
 
-      $p->view('actions',[
+      $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['New_File'],
         'html' => '<form method="post">
@@ -554,7 +554,7 @@ $p->route('/action/themes/newfile/(:any)/(:any)', function($token,$file) use($p)
                     </div>
                 </div>
             </form>'
-      ]);
+      ));
     }else{
       die('crsf Detect');
     }

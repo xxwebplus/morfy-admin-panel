@@ -18,7 +18,7 @@
 $p->route('/diag', function() use($p){
   if(Session::exists('user')){
     // show Diagnostic
-    $p->view('diag',['title' => 'Diagnostic']);
+    $p->view('diag',array('title' => 'Diagnostic'));
   }
 });
 
@@ -41,7 +41,7 @@ $p->route('/', function() use($p){
   if(Session::exists('user')){
 
     // show dashboard
-    $p->view('index',[
+    $p->view('index',array(
       'title' => $p::$lang['Dashboard'],
       'pages' => count(File::scan(PAGES, 'md')),
       'media' => count(File::scan(MEDIA.'/album_thumbs')),
@@ -49,7 +49,7 @@ $p->route('/', function() use($p){
       'blocks' => count(File::scan(BLOCKS, 'md')),
       'themes' => count(Dir::scan(ROOTBASE.'/themes')),
       'plugins' => count(Dir::scan(ROOTBASE.'/plugins'))
-    ]);
+    ));
 
   }else{
     // empty error
@@ -71,9 +71,9 @@ $p->route('/', function() use($p){
       }
     }
     // get template login
-    $p->view('login',[
+    $p->view('login',array(
       'error' => $error
-    ]);
+    ));
   }
 });
 
@@ -120,24 +120,24 @@ $p->route(array('/pages','/pages/(:num)'),function($offset = 1) use($p){
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
       // show pages
-      $p->view('pages',[
+      $p->view('pages',array(
         'title' => Panel::$lang['Pages'],
         'offset' => $offset,
         'total' => ceil(count($content)/$per_page),
         'prev' => $prev,
         'next' => $next,
         'content' => $showPag[$offset - 1]
-      ]);
+      ));
     }else{
       // show pages
-      $p->view('pages',[
+      $p->view('pages',array(
         'title' => Panel::$lang['Pages'],
         'offset' => 1,
         'total' => 1,
         'prev' => '',
         'next' => '',
         'content' => $content
-      ]);
+      ));
     }
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -193,24 +193,24 @@ $p->route(array('/blocks','/blocks/(:num)'),function($offset = 1) use($p){
           $next = '<span class="btn  black"><i class="ti-arrow-right"></i></span>';
       }
       // show blocks
-      $p->view('blocks',[
+      $p->view('blocks',array(
         'title' => Panel::$lang['Blocks'],
         'offset' => $offset,
         'total' => ceil(count($content)/$per_page),
         'prev' => $prev,
         'next' => $next,
         'content' => $showPag[$offset - 1]
-      ]);
+      ));
     }else{
       // show blocks
-      $p->view('blocks',[
+      $p->view('blocks',array(
         'title' => Panel::$lang['Blocks'],
         'offset' => 1,
         'total' => 1,
         'prev' => '',
         'next' => '',
         'content' => $content
-      ]);
+      ));
     }
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -258,25 +258,25 @@ $p->route(array('/uploads','/uploads/(:num)'),function($offset = 1) use($p){
       }
 
       // show blocks
-      $p->view('uploads',[
+      $p->view('uploads',array(
         'title' => Panel::$lang['Uploads'],
         'offset' => $offset,
         'total' => ceil(count($content)/$per_page),
         'prev' => $prev,
         'next' => $next,
         'content' => $showPag[$offset - 1]
-      ]);
+      ));
 
   }else{
           // show blocks
-      $p->view('uploads',[
+      $p->view('uploads',array(
         'title' => Panel::$lang['Uploads'],
         'offset' => 1,
         'total' => 1,
         'prev' => '',
         'next' => '',
         'content' => $content
-      ]);
+      ));
   }
 
   }else{
@@ -304,7 +304,7 @@ $p->route(array('/media','/media/(:num)'),function($offset = 1) use($p){
     // items per page
     $per_page = $p::$site['backend_pagination_media_all'];
     // array json
-    $json = [];
+    $json = array();
     $total = '';
     // next prev
     $prev = '';
@@ -380,14 +380,14 @@ $p->route(array('/media','/media/(:num)'),function($offset = 1) use($p){
     }
 
     // show Media
-    $p->view('media',[
+    $p->view('media',array(
       'title' => Panel::$lang['Media'],
       'offset' => $offset,
       'total' => ceil(count($total)/$per_page),
       'prev' => $prev,
       'next' => $next,
       'content' => (count($json) > 0) ? $templateAll : '<div class="well red">Empty Media albums</div>'
-    ]);
+    ));
 
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -431,24 +431,24 @@ $p->route(array('/templates','/templates/(:num)'),function($offset = 1) use($p){
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
       // show pages
-      $p->view('templates',[
+      $p->view('templates',array(
         'title' => Panel::$lang['Templates'],
         'offset' => $offset,
         'total' => ceil(count($content)/$per_page),
         'prev' => $prev,
         'next' => $next,
         'content' => $showPag[$offset - 1]
-      ]);
+      ));
     }else{
       // show pages
-      $p->view('templates',[
+      $p->view('templates',array(
         'title' => Panel::$lang['Templates'],
         'offset' => 1,
         'total' => 1,
         'prev' => '',
         'next' => '',
         'content' => $content
-      ]);
+      ));
     }
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -490,24 +490,24 @@ $p->route(array('/stylesheets','/stylesheets/(:num)'),function($offset = 1) use(
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
       // show pages
-      $p->view('templates',[
+      $p->view('templates',array(
         'title' => Panel::$lang['Stylesheets'],
         'offset' => $offset,
         'total' => ceil(count($content)/$per_page),
         'prev' => $prev,
         'next' => $next,
         'content' => $showPag[$offset - 1]
-      ]);
+      ));
     }else{
       // show pages
-      $p->view('templates',[
+      $p->view('templates',array(
         'title' => Panel::$lang['Stylesheets'],
         'offset' => 1,
         'total' => 1,
         'prev' => '',
         'next' => '',
         'content' => $content
-      ]);
+      ));
     }
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -546,24 +546,24 @@ $p->route(array('/javascript','/javascript/(:num)'),function($offset = 1) use($p
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
       // show pages
-      $p->view('templates',[
+      $p->view('templates',array(
         'title' => Panel::$lang['Javascript'],
         'offset' => $offset,
         'total' => ceil(count($content)/$per_page),
         'prev' => $prev,
         'next' => $next,
         'content' => $showPag[$offset - 1]
-      ]);
+      ));
     }else{
       // show pages
-      $p->view('templates',[
+      $p->view('templates',array(
         'title' => Panel::$lang['Javascript'],
         'offset' => 1,
         'total' => 1,
         'prev' => '',
         'next' => '',
         'content' => $content
-      ]);
+      ));
     }
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -591,16 +591,16 @@ $p->route('/backups',function() use($p){
     $content = File::scan(BACKUPS,'.zip');
     if($content){
       // show pages
-      $p->view('backups',[
+      $p->view('backups',array(
         'title' => Panel::$lang['Backups'],
         'content' => $content
-      ]);
+      ));
     }else{
       // show pages
-      $p->view('backups',[
+      $p->view('backups',array(
         'title' => Panel::$lang['Backups'],
         'content' => $content
-      ]);
+      ));
     }
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);

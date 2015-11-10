@@ -53,7 +53,7 @@ $p->route('/action/rename/(:any)/(:any)', function($token,$file) use($p){
       }
 
       // template
-      $p->view('actions',[
+      $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
         'html' => '<div class="info">
@@ -67,7 +67,7 @@ $p->route('/action/rename/(:any)/(:any)', function($token,$file) use($p){
                     <br>
                     '.$error.'
                   </div>'
-      ]);
+      ));
 
     }else{
       die('crsf Detect');
@@ -122,7 +122,7 @@ $p->route('/action/uploads/rename/(:any)/(:any)', function($token,$file) use($p)
       }
 
       // template
-      $p->view('actions',[
+      $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
         'html' => '<div class="info">
@@ -136,7 +136,7 @@ $p->route('/action/uploads/rename/(:any)/(:any)', function($token,$file) use($p)
                     <br>
                     '.$error.'
                   </div>'
-      ]);
+      ));
 
     }else{
       die('crsf Detect');
@@ -206,7 +206,7 @@ $p->route('/action/themes/rename/(:any)/(:any)', function($token,$file) use($p){
       }
 
       // template
-      $p->view('actions',[
+      $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
         'html' => '<div class="info">
@@ -220,7 +220,7 @@ $p->route('/action/themes/rename/(:any)/(:any)', function($token,$file) use($p){
                     <br>
                     '.$error.'
                   </div>'
-      ]);
+      ));
 
     }else{
       die('crsf Detect');
@@ -283,7 +283,7 @@ $p->route('/action/backups/rename/(:any)/(:any)', function($token,$file) use($p)
       }
 
       // template
-      $p->view('actions',[
+      $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
         'html' => '<div class="info">
@@ -297,7 +297,7 @@ $p->route('/action/backups/rename/(:any)/(:any)', function($token,$file) use($p)
                     <br>
                     '.$error.'
                   </div>'
-      ]);
+      ));
 
     }else{
       die('crsf Detect');

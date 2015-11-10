@@ -116,12 +116,12 @@ $p->route('/action/uploads/preview/(:any)', function($file) use($p){
       }
     }
 
-    $p->view('actions',[
+    $p->view('actions',array(
       'type' => 'Upload Preview',
       'title' => Panel::$lang['Preview'],
       'content' => $file,
       'html' => $template
-    ]);
+    ));
 });
 
 

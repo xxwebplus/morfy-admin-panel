@@ -396,7 +396,7 @@ class Panel {
   * @param  array  $vars array of options
   * @return require
   */
-  public function partial($path, $vars = []) {
+  public function partial($path, $vars = array()) {
       if($vars) extract($vars);
       include_once PARTIALS.'/'. trim($path, '/') . '.html';
   }
@@ -419,7 +419,7 @@ class Panel {
   * @param  array  $vars array of options
   * @return require
   */
-  public  function view($path, $vars = []) {
+  public  function view($path, $vars = array()) {
       if($vars) extract($vars);
       require VIEWS.'/'. trim($path, '/') . '.html';
   }

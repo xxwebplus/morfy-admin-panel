@@ -12,11 +12,11 @@ include_once 'inc/pages.php';
 
 /*  ACTIONS GOES HERE
 ------------------------------------------------*/
-$inc = [
+$inc = array(
 	'search','preview','edit',
 	'newfile','newfolder','rename',
 	'removefile','removefolder'
-];
+);
 foreach ($inc as $inc_file) {
 	include_once "inc/$inc_file.php";
 }

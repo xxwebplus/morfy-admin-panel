@@ -1,8 +1,8 @@
-<?php $this->partial('head',[]); ?>
-<?php $this->partial('navigation',[]); ?>
+<?php $this->partial('head',array()); ?>
+<?php $this->partial('navigation',array()); ?>
 <!-- wrapper -->
 <main id="wrapper">
-    <?php $this->partial('header',['title'=>$title]); ?>
+    <?php $this->partial('header',array('title'=>$title)); ?>
     <!-- content -->
     <section id="content">
       <div class="container">
@@ -14,18 +14,18 @@
 			<h2>System Requirements</h2>
 			<p>Basic system requirements are an apache server with PHP 5 installed.</p>
 			<?php
-				function check($name) {        
-					$setting = (ini_get($name));        
+				function check($name) {
+					$setting = (ini_get($name));
 					$setting = ($setting==1 || $setting=='On') ? 'On' : 'Off';
 					return $setting;
 				}
 			?>
-			<p><b>Server Type:</b> <?php print $_SERVER['SERVER_SOFTWARE']; ?><br> 
+			<p><b>Server Type:</b> <?php print $_SERVER['SERVER_SOFTWARE']; ?><br>
 			<b>PHP Version:</b> <?php print phpversion()?><br>
 			<b>File Uploads:</b> <?php print check('file_uploads'); ?><br>
 			<b>Safe Mode:</b> <?php print check('safe_mode'); ?><br>
-			<b>Zip Extension:</b> 
-			<?php if (extension_loaded('zip')) echo "On";else echo "Off";?></p> 
+			<b>Zip Extension:</b>
+			<?php if (extension_loaded('zip')) echo "On";else echo "Off";?></p>
 			<hr>
 
 			<h2>Permissions Check</h2>
@@ -56,6 +56,6 @@
       </div>
     </section>
 </main>
-<?php $this->partial('footer',[]); ?>
+<?php $this->partial('footer',array()); ?>
 
 

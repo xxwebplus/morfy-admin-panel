@@ -39,7 +39,7 @@ $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p
     }
     $result .= '</ul>';
     // render view
-    $p->view('actions',[
+    $p->view('actions',array(
         'title' => Panel::$lang['Search'],
         'html' => '<section class="subheader">
                       <div class="row">
@@ -58,7 +58,7 @@ $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p
                         </div>
                       </div>
                     </div>'
-    ]);
+    ));
 
 });
 
@@ -102,7 +102,7 @@ $p->route('/action/searchfiles/(:any)', function($query = '') use($p) {
     }
     $result .= '</ul>';
     // render view
-    $p->view('actions',[
+    $p->view('actions',array(
         'title' => Panel::$lang['Search'],
         'html' => '<section class="subheader">
                       <div class="row">
@@ -121,7 +121,7 @@ $p->route('/action/searchfiles/(:any)', function($query = '') use($p) {
                         </div>
                       </div>
                     </div>'
-    ]);
+    ));
 
 });
 
@@ -163,7 +163,7 @@ $p->route('/action/searchmedia/(:any)', function($query = '') use($p) {
     }
     $result .= '</ul>';
     // render view
-    $p->view('actions',[
+    $p->view('actions',array(
         'title' => Panel::$lang['Search'],
         'html' => '<section class="subheader">
                       <div class="row">
@@ -182,7 +182,7 @@ $p->route('/action/searchmedia/(:any)', function($query = '') use($p) {
                         </div>
                       </div>
                     </div>'
-    ]);
+    ));
 
 });
 
@@ -228,7 +228,7 @@ $p->route('/action/searchinthemes/(:any)', function($query = '') use($p) {
     }
     $result .= '</ul>';
     // render view
-    $p->view('actions',[
+    $p->view('actions',array(
         'title' => Panel::$lang['Search'],
         'html' => '<section class="subheader">
                       <div class="row">
@@ -247,6 +247,6 @@ $p->route('/action/searchinthemes/(:any)', function($query = '') use($p) {
                         </div>
                       </div>
                     </div>'
-    ]);
+    ));
 
 });

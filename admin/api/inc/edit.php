@@ -39,7 +39,7 @@ $p->route('/action/edit/(:any)/(:any)', function($token,$file) use($p){
         }
       }
 
-      $p->view('actions',[
+      $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['Edit_File'],
         'html' => '<form method="post">
@@ -59,7 +59,7 @@ $p->route('/action/edit/(:any)/(:any)', function($token,$file) use($p){
                         </div>
                     </div>
                   </form>'
-      ]);
+      ));
     }else{
       die('crsf Detect');
     }
@@ -79,7 +79,7 @@ $p->route('/action/media/edit/(:num)',function($id) use($p){
 
   if(Session::exists('user')){
     $error = '';
-    $AllowedExtensions = ['gif','jpeg','jpg','png'];
+    $AllowedExtensions = array('gif','jpeg','jpg','png');
     // json file
     $jsonFile = PUBLICFOLDER.'/media/mdb.json';
     // decode json
@@ -87,7 +87,7 @@ $p->route('/action/media/edit/(:num)',function($id) use($p){
     if(Request::post('upload')){
       if(Request::post('token')){
         // json array remenber encode
-        $json[$id] = [
+        $json[$id] = array(
           'id' => $id,
           'title' => (Request::post('title')) ? $p->toText(Request::post('title')) : $p->toText($json[$id]['title']),
           'desc' =>  (Request::post('desc')) ? $p->toText(Request::post('desc')) : $p->toText($json[$id]['desc']),
@@ -96,7 +96,7 @@ $p->route('/action/media/edit/(:num)',function($id) use($p){
           'tag' => (Request::post('tag')) ? $p->toText(Request::post('tag')) : $p->toText($json[$id]['tag']),
           'width' => (Request::post('width')) ? $p->toText(Request::post('width')) : $p->toText($json[$id]['width']),
           'height' => (Request::post('height')) ? $p->toText(Request::post('height')) : $p->toText($json[$id]['height'])
-        ];
+        );
         // check  input file
         if(!empty($_FILES['file_upload']['name'])){
           // check file types
@@ -169,11 +169,11 @@ $p->route('/action/media/edit/(:num)',function($id) use($p){
 
 
     // show Media
-    $p->view('actions',[
+    $p->view('actions',array(
       'title' => Panel::$lang['Create_media'],
       'content' => '',
       'html' => $template
-    ]);
+    ));
 
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
@@ -231,7 +231,7 @@ $p->route('/action/themes/edit/(:any)/(:any)', function($token,$file) use($p){
         }
       }
 
-      $p->view('actions',[
+      $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['Edit_File'],
         'html' => '<form method="post">
@@ -251,7 +251,7 @@ $p->route('/action/themes/edit/(:any)/(:any)', function($token,$file) use($p){
                           </div>
                       </div>
                     </form>'
-      ]);
+      ));
     }else{
       die('crsf Detect');
     }
@@ -290,7 +290,7 @@ $p->route('/config', function() use($p){
         }
       }
 
-      $p->view('actions',[
+      $p->view('actions',array(
         'url' => 'Config',
         'title' => Panel::$lang['Config'],
         'html' => '<form method="post">
@@ -310,7 +310,7 @@ $p->route('/config', function() use($p){
                           </div>
                       </div>
                     </form>'
-      ]);
+      ));
   }else{
     Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
   }

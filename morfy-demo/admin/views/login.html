@@ -1,0 +1,23 @@
+<?php $this->partial('head',array()); ?>
+<!-- wrapper -->
+<main id="wrapper" class="login-page">
+    <!-- content -->
+    <section id="content">
+      <!-- Main  page -->
+      <div class="login-panel">
+        <div class="logo">
+          <img src="<?php echo $this->Assets('morfy-logo.png','img');?>">
+        </div>
+        <form class="formFile" method="POST" action="">
+          <input type="hidden" name="csrf" value="<?php echo Token::generate(); ?>">
+          <input type="email" name="email" placeholder="email@site.com" required autocomplete="off">
+          <input type="password" name="pass" required autocomplete="off">
+          <input type="submit" name="login"  class="btn blue" value="Enter">
+        </form>
+      </div>
+      <div class="error-password">
+        <?php echo $error; ?>
+      </div>
+    </section>
+</main>
+<?php $this->partial('footer',array()); ?>

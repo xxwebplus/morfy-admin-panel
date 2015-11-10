@@ -1,0 +1,28 @@
+title: 'Morfy Panel'
+description: 'Morfy demo development'
+keywords: ''
+author:
+    # backend email
+    email: 'demo@gmail.com'
+url: 'http://localhost/morfy-demo'
+charset: 'UTF-8'
+timezone: 'Kwajalein'
+theme: 'default'
+
+
+backend_folder: 'admin'
+backend_password: 'demo'
+backend_language: 'en'
+backend_pagination_pages: 6
+backend_pagination_uploads: 6
+backend_pagination_media_all: 3
+backend_pagination_media: 16
+
+
+# Site Plugins
+plugins:
+  media
+
+
+
+

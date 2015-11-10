@@ -1,0 +1,14 @@
+<?php $this->partial('head',array()); ?>
+<?php $this->partial('navigation',array()); ?>
+<!-- wrapper -->
+<main id="wrapper">
+    <?php $this->partial('header',array('title'=>$title)); ?>
+    <!-- content -->
+    <section id="content">
+      <div class="container">
+        <!-- Main  page -->
+        <?php  if(Session::exists('user')) echo $html; ?>
+      </div>
+    </section>
+</main>
+<?php $this->partial('footer',array()); ?>

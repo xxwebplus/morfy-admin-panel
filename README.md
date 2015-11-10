@@ -6,11 +6,13 @@ Backend for Morfy CMS
 
 ## Instructions
 
+Go to libraries/Force/FileSystem and open Dir.php and replace DS for '/'
+
 Copy admin folder in root of Morfy Cms  
 
 **Require vars for backend Morfy Panel**
     
-    # email
+    # email - author with h 
     author:
       email: 'demo@gmail.com'
     # admin folder 

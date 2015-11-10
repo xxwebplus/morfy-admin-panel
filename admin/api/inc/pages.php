@@ -52,14 +52,19 @@ $p->route('/', function() use($p){
     ));
 
   }else{
+
+    $password =     $p::$site['backend_password'];
+    $secret_key1 =  '324097cfa96df3036b310d9ffc9ca78f'; // change this if you like
+    $secret_key2 =  'f1e5d7a5fe13498abbdeb0f1f19136a8'; // change this if you like
+    $hash = md5($secret_key1.$password.$secret_key2);
+    
     // empty error
     $error = '';
     if(Request::post('login')){
       if(Request::post('csrf')){
-        if(Request::post('pass') == $p::$site['backend_password'] &&
-          Request::post('email') == $p::$site['author']['email']){
+        if(Request::post('pass') == $password && Request::post('email') == $p::$site['author']['email']){
           @Session::start();
-          Session::set('user',uniqid('morfy_user'));
+          Session::set('user',$hash);
           Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
         }else{
           // password not correct show error

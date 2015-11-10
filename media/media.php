@@ -24,7 +24,7 @@ Morfy::addAction('Media', function(){
     $id = Request::get('id');
 
     // Obtain json file on public folder
-    $json = [];
+    $json = array();
     $mediaFile = ROOT_DIR.'/public/media/mdb.json';
     if(File::exists($mediaFile)){
         /*

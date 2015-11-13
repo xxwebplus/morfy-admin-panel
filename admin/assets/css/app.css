@@ -69,14 +69,14 @@
     opacity: 1;
     color: #f2f2f2!important;
     border: 1px solid #34a853 !important;
-    background-color: #34a853 !important;
+    background-color: #36bc98 !important;
 }
 
 .yellow {
     transition: opacity300mslinear;
 
     opacity: 1;
-    color: #f2f2f2!important;
+    color: #1b1b1b!important;
     border: 1px solid #fbbc05!important;
     background-color: #fbbc05!important;
 }
@@ -758,7 +758,7 @@ span.arrow {
 
     width: 100%;
     height: calc(100% - 66px);
-    margin: 0auto;
+    margin: 0 auto;
     padding: 0;
 }
 
@@ -836,7 +836,9 @@ span.arrow {
     border: 0 solid #fff;
     border-bottom: 1px solid #ebebeb;
 }
-
+.responsive td:last-child {
+    text-align: right !important;
+}
 .uploads td,
 .themes td {
     width: calc(100%/5);
@@ -986,7 +988,7 @@ span.arrow {
 }
 
 .info label code {
-    padding: 01em;
+    padding: 0 1em;
 
     color: #737373;
 }
@@ -996,7 +998,6 @@ span.arrow {
 
     margin: .4em auto;
 
-    transform: scale(1);
     animation: selected 300ms 1 ease-in-out;
 
     opacity: 1!important;
@@ -1118,11 +1119,9 @@ span.arrow {
 .search-form .icon {
     position: absolute;
     z-index: 1;
-    right: 0;
-
+    right: 1em;
     margin-top: 10px;
-    margin-right: 17px;
-
+    margin-right: 45px;
     color: #737373;
 }
 
@@ -1175,7 +1174,7 @@ span.arrow {
     overflow: hidden;
 
     width: 100%;
-    height: 40em;
+    height: auto;
     margin: 1em .5em;
 
     color: #737373;
@@ -1313,6 +1312,18 @@ span.arrow {
     background: #c0392b;
 }
 
+
+.thumb-anim {
+    animation: thumb 500ms 1 ease;
+}
+@keyframes thumb {
+    from {
+        transform: translate(-100%,0%);
+    }
+}
+
+
+
 @media(max-width:850px) {
     .thumb {
         position: relative;
@@ -1338,13 +1349,63 @@ span.arrow {
 }
 
 .modal {
-    display: none;
-}
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
 
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    animation: modal 200ms ease;
+
+    background: #36bc98;
+}
+.modal-content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: table;
+
+    width: 60%;
+    min-width: 15em;
+    max-width: 30em;
+    height: auto;
+    margin: auto;
+    padding: 0;
+
+    animation: modalContent 500ms ease;
+
+    border: 0;
+    border-radius: 4px;
+    background: #fdfdfd;
+    box-shadow: 0 6px 9px -6px #1b1b1b;
+}
+@keyframes modal {
+    from {
+        opacity: 0;
+    }
+}
+@keyframes modalContent {
+    from {
+        transform: scale(0);
+    }
+}
 .modal-open {
     display: block;
 }
 
+
+@media(max-width: 800px) {
+    .modal-content{
+        width: 90%;
+    }
+}
 .user-logo {
     float: left;
 

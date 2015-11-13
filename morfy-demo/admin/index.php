@@ -31,17 +31,18 @@
     define('PUBLICFOLDER', ROOTBASE.'/public');
     define('MEDIA', PUBLICFOLDER.'/media');
     define('UPLOADS', PUBLICFOLDER.'/uploads');
+    define('CACHE', ROOTBASE.'/cache');
 
 
     // Morfy panel class/routes
     include_once(API.'/Morfy.panel.php');
     include_once(API.'/Morfy.routes.php');
 
-
     // check if exist this folders
     if(!Dir::exists(MEDIA)) Dir::create(MEDIA);
     if(!Dir::exists(UPLOADS)) Dir::create(UPLOADS);
     if(!Dir::exists(BACKUPS)) Dir::create(BACKUPS);
     
+    date_default_timezone_set(Panel::$site['timezone']);
 ?>
 

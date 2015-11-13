@@ -38,19 +38,18 @@ var panel = (function() {
          * @param dest
          * @param cls
          */
-        modal: function(el, dest, cls) {
-            var buttom = document.querySelector(el),
-                modal = document.querySelector(dest),
-                close = document.querySelector('.close-modal');
+        modal: function(el, cls) {
+            var buttom = document.querySelector(el);
             if (buttom) {
                 buttom.addEventListener('click', function(e) {
                     e.preventDefault(e);
-                    panel.toggleCls(modal, cls);
+                    panel.toggleCls(buttom.nextElementSibling, cls);
                 });
+                var close = buttom.nextElementSibling.querySelector('.close-modal');
                 if (close) {
                     close.addEventListener('click', function(e) {
                         e.preventDefault(e);
-                        panel.toggleCls(modal, cls);
+                        panel.toggleCls(buttom.nextElementSibling, cls);
                     });
                 }
             }

@@ -56,9 +56,11 @@ var app = (function() {
 
             // image preview
             panel.media('#image-input','#image-display');
-
+            panel.media('#media-input','#media-display');
+            panel.Animate('.thumb img','thumb-anim');
             // modal
-            panel.modal('.open-modal','.modal','modal-open');
+            panel.modal('#uploadFile','modal-open');
+            panel.modal('#importFile','modal-open');
         },
 
         /**

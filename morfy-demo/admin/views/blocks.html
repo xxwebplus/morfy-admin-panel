@@ -81,9 +81,11 @@
             ?>
               </tbody>
             </table>
-            <a class="btn blue" href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode('blocks')?>">
-              <?php echo Panel::$lang['New_File'];?>
-            </a>
+            <div class="left">
+              <a class="btn blue" href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode('blocks')?>">
+                <?php echo Panel::$lang['New_File'];?>
+              </a>
+            </div>
           </div>
         </div>
         <?php }; ?>

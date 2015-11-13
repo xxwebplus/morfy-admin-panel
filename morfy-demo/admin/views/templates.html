@@ -87,9 +87,27 @@
               ?>
               </tbody>
             </table>
-            <a class="btn blue" href="<?php echo $this->Url().'/action/themes/newfile/'.$token.'/'.base64_encode($directory)?>">
-              <?php echo Panel::$lang['New_File'];?>
-            </a>
+            <div class="left">
+                <a class="btn blue" href="<?php echo $this->Url().'/action/themes/newfile/'.$token.'/'.base64_encode($directory)?>">
+                  <?php echo Panel::$lang['New_File'];?>
+                </a>
+            </div>
+            <div class="right">
+                <!-- upload  zip-->
+                <a href="#" class="btn yellow open-modal" id="importFile">
+                  <i class="ti-upload"></i> - <?php echo $this::$lang['Import_zip'];?></a>
+                <div class="modal">
+                    <div class="modal-content">
+                      <h4 class="blue info"><?php echo $this::$lang['Import_backup_files'];?></h4>
+                      <form class="mediauploader" method="post"  enctype="multipart/form-data">
+                          <input type="hidden" name="token" value="<?php echo Token::generate();?>"/>
+                          <input type="file" name="importfile" required/>
+                          <input type="submit" name="importZipFile" class="btn blue" value="<?php echo $this::$lang['Import'];?>">
+                          <a href="#" class="btn red  close-modal"><?php echo $this::$lang['Cancel'];?></a>
+                      </form>
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
         <?php }; ?>

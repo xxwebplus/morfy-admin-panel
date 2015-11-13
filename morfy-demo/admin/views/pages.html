@@ -25,6 +25,7 @@
         </section>
         <div class="row">
           <div class="box-1 col">
+
             <!-- pages -->
             <table class="responsive">
               <tbody>
@@ -118,14 +119,52 @@
               ?>
               </tbody>
             </table>
-            <a class="btn blue"
-              href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode($directory)?>">
-              <?php echo Panel::$lang['New_File'];?>
-            </a>
-            <a class="btn green"
-              href="<?php echo $this->Url().'/action/newfolder/'.$token.'/'.base64_encode($directory)?>">
-              <?php echo Panel::$lang['New_Folder'];?>
-            </a>
+            <div class="left">
+              <a class="btn blue"
+                href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode($directory)?>">
+                <?php echo Panel::$lang['New_File'];?>
+              </a>
+              <a class="btn green"
+                href="<?php echo $this->Url().'/action/newfolder/'.$token.'/'.base64_encode($directory)?>">
+                <?php echo Panel::$lang['New_Folder'];?>
+              </a>
+              <!-- blog upload -->
+              <a href="#" class="btn yellow open-modal" id="uploadFile">
+                <i class="ti-upload"></i> - <?php echo $this::$lang['Blog'];?></a>
+              <div class="modal">
+                  <div class="modal-content">
+                    <h4 class="blue info"><?php echo $this::$lang['Import_blog_files'];?></h4>
+                    <form class="mediauploader" method="post"  enctype="multipart/form-data">
+                        <input type="hidden" name="token" value="<?php echo Token::generate();?>"/>
+                        <input type="file" name="pagesFile" accept=".md" required/>
+                        <input type="submit" name="uploadFile" class="btn blue" value="<?php echo $this::$lang['Upload'];?>">
+                        <a href="#" class="btn red  close-modal"><?php echo $this::$lang['Cancel'];?></a>
+                    </form>
+                  </div>
+              </div>
+            </div>
+            <div class="right">
+
+              <!-- upload  zip-->
+              <a href="#" class="btn yellow open-modal" id="importFile">
+                <i class="ti-upload"></i> - <?php echo $this::$lang['Import_zip'];?></a>
+              <div class="modal">
+                  <div class="modal-content">
+                    <h4 class="blue info"><?php echo $this::$lang['Import_backup_files'];?></h4>
+                    <form class="mediauploader" method="post"  enctype="multipart/form-data">
+                        <input type="hidden" name="token" value="<?php echo Token::generate();?>"/>
+                        <input type="file" name="importfile" accept=".zip"  required />
+                        <input type="submit" name="importZipFile" class="btn blue" value="<?php echo $this::$lang['Import'];?>">
+                        <a href="#" class="btn red  close-modal"><?php echo $this::$lang['Cancel'];?></a>
+                    </form>
+                  </div>
+              </div>
+              <!-- clear cache -->
+              <a class="btn default"
+                href="<?php echo $this->Url().'/action/clearCache/'.$token?>">
+                <?php echo $this::$lang['Clear_cache'];?>
+              </a>
+          </div>
           </div>
         </div>
         <?php }; ?>

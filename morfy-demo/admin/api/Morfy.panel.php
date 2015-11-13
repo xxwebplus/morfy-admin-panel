@@ -267,22 +267,17 @@ class Panel {
 
   /**
   * Uncompress files
-  * $p->unZip('file.zip');
+  * $p->unZip('file.zip','storage');
   * @param string $file
   * @return bolean
   */
-  public function unZip($file){
-    // get the absolute path to $file
-    $path = pathinfo(realpath($file), PATHINFO_DIRNAME);
+  public function unZip($temp,$path){
     $zip = new ZipArchive;
-    $res = $zip->open($file);
+    $res = $zip->open($temp);
     if ($res === TRUE) {
-      // extract it to the path we determined above
       $zip->extractTo($path);
       $zip->close();
-      return true;
-    } else {
-      return false;
+      unlink($temp);
     }
   }
 

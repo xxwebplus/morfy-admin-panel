@@ -81,3 +81,12 @@ Diagnostic: 				'Diagnostic'
 
 # 404 not found
 Error_page: 				'The request page not found in Morfy Panel'
+# cache
+Clear_cache: 'Clear cache'
+Success_cache: 'Your Cache has been clear'
+# modal and imports
+Import: 'Import'
+Import_blog_files: 'Import blog files'
+Import_backup_files: 'Import backup files'
+Import_zip: 'Import Zip'
+Blog: 'Blog'

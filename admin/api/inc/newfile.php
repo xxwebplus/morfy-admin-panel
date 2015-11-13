@@ -387,17 +387,23 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
               </section>
                 <div class="row">
                   <div class="box-1 col">
-                    <a href="#" class="btn blue open-modal"><i class="ti-upload"></i>  '.Panel::$lang['Upload'].'</a>
-                    <a href="'.$p->Url().'/media"  class="btn red">Cancel</a>
+                    <!-- modal -->
+                    <a href="#" class="btn blue open-modal" id="uploadFile"><i class="ti-upload"></i>  '.Panel::$lang['Upload'].'</a>
                     <div class="modal">
-                      <form  class="mediauploader" method="post"  enctype="multipart/form-data">
-                          <input type="hidden" name="token" value="'.Token::generate().'"/>
-                          <input type="file" name="media_upload" accept="image/x-png, image/gif, image/jpeg"  required/>
-                          <input type="number" name="width" value="'.$json[$id]['width'].'" required>
-                          <input type="number" name="height" value="'.$json[$id]['height'].'" required>
-                          <input type="submit" name="uploadMedia" id="upload" class="btn blue" value="Upload">
-                      </form>
+                      <div class="modal-content">
+                        <h4 class="blue info">'.$p::$lang['Upload_media'].'</h4>
+                        <form method="post"  enctype="multipart/form-data" style="padding:0.5em">
+                            <input type="hidden" name="token" value="'.Token::generate().'"/>
+                            <input type="file" name="media_upload"  id="media-input" accept="image/x-png, image/gif, image/jpeg"  required/>
+                            <input type="number" name="width" value="'.$json[$id]['width'].'" required>
+                            <input type="number" name="height" value="'.$json[$id]['height'].'" required>
+                            <input type="submit" name="uploadMedia" class="btn blue" value="Upload">
+                            <a href="#" class="btn red  close-modal">'.$p::$lang['Cancel'].'</a>
+                            <img  id="media-display" src="'.$p->Assets('nomediapreview.jpg','img').'"/>
+                        </form>
+                      </div>
                     </div>
+                    <a href="'.$p->Url().'/media"  class="btn red">Cancel</a>
                     <div class="thumbs">';
 
 

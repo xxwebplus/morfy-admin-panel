@@ -108,6 +108,53 @@ $p->route(array('/pages','/pages/(:num)'),function($offset = 1) use($p){
 
     $per_page = $p::$site['backend_pagination_pages'];
     $content = File::scan(PAGES);
+
+    // upload md files
+    if(Request::post('uploadFile')){
+      if(Request::post('token')){
+          $filename = $_FILES['pagesFile']['tmp_name'];
+          $name = $_FILES['pagesFile']['name'];
+          if(File::ext($name) == 'md'){
+              if(move_uploaded_file($filename, PAGES.'/blog/'.$p->SeoLink(File::name($name)).'.'.File::ext($name))) {
+                // set notification
+                $p->setMsg($p::$lang['Success_save']);
+                // redirect
+                Request::redirect($p->Url().'/pages');
+              } else{
+                $p->setMsg('There was an error uploading the file, please try again!');
+              }
+          }else{
+            $p->setMsg('No md file, please try again!');
+          }
+      }else{
+        die('csrf detect !');
+      }
+    }
+
+    // upload md files
+    if(Request::post('importZipFile')){
+      if(Request::post('token')){
+          $filename = $_FILES['importfile']['tmp_name'];
+          $name = $_FILES['importfile']['name'];
+          $target_path = CACHE.'/'.$name;
+          if(move_uploaded_file($filename, $target_path)) {
+              sleep(1);
+              $p->unZip($target_path,STORAGE);
+              // set notification
+              $p->setMsg($p::$lang['Success_save']);
+              // redirect
+              Request::redirect($p->Url().'/pages');
+          } else {  
+            $p->setMsg('There was a problem with the upload. Please try again.');
+          }
+      }else{
+        die('csrf detect !');
+      }
+    }
+
+
+
+
     if($content){
       rsort($content);
       $showPag = array_chunk($content, $per_page);
@@ -181,6 +228,7 @@ $p->route(array('/blocks','/blocks/(:num)'),function($offset = 1) use($p){
 
     $per_page = $p::$site['backend_pagination_pages'];
     $content = File::scan(BLOCKS);
+
     if($content){
       rsort($content);
       $showPag = array_chunk($content, $per_page);
@@ -244,6 +292,31 @@ $p->route(array('/uploads','/uploads/(:num)'),function($offset = 1) use($p){
     // results per page
     $per_page = $p::$site['backend_pagination_uploads'];
     $content = File::scan(UPLOADS);
+
+
+    // import public
+    if(Request::post('importZipFile')){
+      if(Request::post('token')){
+          $filename = $_FILES['importfile']['tmp_name'];
+          $name = $_FILES['importfile']['name'];
+          $target_path = CACHE.'/'.$name;
+          if(move_uploaded_file($filename, $target_path)) {
+              sleep(1);
+              $p->unZip($target_path,PUBLICFOLDER);
+              // set notification
+              $p->setMsg($p::$lang['Success_save']);
+              // redirect
+              Request::redirect($p->Url().'/uploads');
+          } else {  
+            $p->setMsg('There was a problem with the upload. Please try again.');
+          }
+      }else{
+        die('csrf detect !');
+      }
+    }
+
+
+
     // check files
     if($content){
       rsort($content);
@@ -419,6 +492,30 @@ $p->route(array('/templates','/templates/(:num)'),function($offset = 1) use($p){
 
     $per_page = $p::$site['backend_pagination_pages'];
     $content = File::scan(THEMES,'.tpl');
+
+
+    // import themes
+    if(Request::post('importZipFile')){
+      if(Request::post('token')){
+          $filename = $_FILES['importfile']['tmp_name'];
+          $name = $_FILES['importfile']['name'];
+          $target_path = CACHE.'/'.$name;
+          if(move_uploaded_file($filename, $target_path)) {
+              sleep(1);
+              $p->unZip($target_path,THEMES);
+              // set notification
+              $p->setMsg($p::$lang['Success_save']);
+              // redirect
+              Request::redirect($p->Url().'/templates');
+          } else {  
+            $p->setMsg('There was a problem with the upload. Please try again.');
+          }
+      }else{
+        die('csrf detect !');
+      }
+    }
+
+
     if($content){
       rsort($content);
       $showPag = array_chunk($content, $per_page);

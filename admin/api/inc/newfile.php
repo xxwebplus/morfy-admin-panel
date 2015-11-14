@@ -24,8 +24,8 @@ $p->route('/action/newfile/(:any)/(:any)', function($token,$file) use($p){
         $url = 'pages';
         $textContent = '
 ---
-title:
-date: '.date('d/m/y').'
+title: Hello World
+date: 14/11/15
 template: index
 ---
         ';

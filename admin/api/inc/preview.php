@@ -87,8 +87,8 @@ $p->route('/action/uploads/preview/(:any)', function($file) use($p){
                   <li><b>Filename: </b>'.File::name($path).'</li>
                   <li><b>Extension: </b>'.File::ext($path).'</li>
                   <li><b>Size: </b>'.$width.'x'.$height.'px</li>
-                  <li class="code"><b>Markdown: </b><code>![text img](<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a>)</code></li>
-                  <li class="code"><b>Html: </b><code>&lt;img src="<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a> /&gt;</code></li>
+                  <li class="code"><b>Markdown: </b><code>![text img](<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a>){.img-responsive}</code></li>
+                  <li class="code"><b>Html: </b><code>&lt;img src="<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a> class="img-responsive" /&gt;</code></li>
                   <li><a class="btn red" href="'.$p->url().'/uploads">'.Panel::$lang['back_to_uploads'].'</a></li>
                 </ul>
               </div>

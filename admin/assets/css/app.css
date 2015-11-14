@@ -1362,6 +1362,7 @@ span.arrow {
     animation: modal 200ms ease;
 
     background: #36bc98;
+    background: rgba(27, 27, 27, 0.22);
 }
 .modal-content {
     position: absolute;

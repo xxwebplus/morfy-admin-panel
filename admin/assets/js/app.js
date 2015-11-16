@@ -47,8 +47,13 @@ var app = (function() {
             this.searchForm();
             // remplace input submit value on submit form
             if(_('form')) {
+                // all submit imputs
                 _('form').addEventListener('submit',function(){
-                    _('input[type="submit"]').value = 'saving...';
+                    _('input[type="submit"]').value = 'Send data...';
+                });
+                // login form
+                 _('.form-signin').addEventListener('submit',function(){
+                    _('input[type="submit"]').value = 'Check Login...';
                 });
             }
             // image preview

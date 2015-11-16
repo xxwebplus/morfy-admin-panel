@@ -2,3 +2,7 @@
 * Added import buttons
 * Added clear cache button
 * Added import blog button.
+
+
+# v2.0.2, 2015-11-16
+* Added Bootstrap framework

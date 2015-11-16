@@ -2,17 +2,20 @@
 
 Backend for Morfy CMS
 
-[Video Tutorial](http://monchovarela.es/webdemos/new_morfy/public/uploads/demo-install.mp4)
-
 ## Instructions
 
-Go to libraries/Force/FileSystem and open Dir.php and replace DS for '/'
+**Very Important:**
 
-Copy admin folder in root of Morfy Cms  
+> Go to libraries/Force/FileSystem and open Dir.php and replace DS for '/',
+On file config/site.yml  rename autor by author 
+
+
+Now copy admin folder in root of Morfy Cms 
+
 
 **Require vars for backend Morfy Panel**
     
-    # email - author with h 
+    # email - Remember author with h 
     author:
       email: 'demo@gmail.com'
     # admin folder 

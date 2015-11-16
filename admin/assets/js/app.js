@@ -48,7 +48,7 @@ var app = (function() {
             // remplace input submit value on submit form
             if(_('form')) {
                 _('form').addEventListener('submit',function(){
-                    _('input[type="submit"]').value = 'saving...';
+                    _('input[type="submit"]').value = 'login...';
                 });
             }
             // image preview

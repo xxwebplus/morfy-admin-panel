@@ -24,8 +24,8 @@ $p->route('/action/newfile/(:any)/(:any)', function($token,$file) use($p){
         $url = 'pages';
         $textContent = '
 ---
-title:
-date: '.date('d/m/y').'
+title: title goes here
+date: 16/11/2015
 template: index
 ---
         ';
@@ -65,23 +65,24 @@ template: index
         'url' => $url,
         'title' => Panel::$lang['New_File'],
         'html' => ' <form method="post">
-                        <div class="row">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          '.$error.'
+                          <input type="hidden" name="token" value="'.Token::generate().'">
+                          <input type="text" value="" class="form-control" name="filename" required placeholder="File name">
+                          <br>
+                        </div>
+                        </div>
+                          <div class="row">
                             <div class="col-lg-12">
-															'.$error.'
-															<input type="hidden" name="token" value="'.Token::generate().'">
-															<input type="text" value="" class="form-control" name="filename" required placeholder="File name">
-															<br>
-														</div>
-												</div>
-												<div class="row">
-													<div class="col-lg-12">
-														<textarea class="form-control" data-provide="markdown"  rows="20" name="newfile">'.$textContent.'</textarea>
-														<br>
-														<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Save_file'].'">
-														<a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
-													</div>
-												</div>
-                    </form>'
+                              <textarea class="form-control" data-provide="markdown"  rows="20" name="newfile">'.$textContent.'</textarea>
+                              <br>
+                              <input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Save_file'].'">
+                              <a class="btn btn-danger" href="'.$p->url().'/'.$url.'">
+                              '.Panel::$lang['Cancel'].'</a>
+                            </div>
+                          </div>
+                        </form>'
       ));
     }else{
       die('crsf Detect');
@@ -136,25 +137,23 @@ $p->route('/action/uploads/newfile/(:any)/(:any)', function($token,$file) use($p
         'title' => 'Upload File',
         'content' => $path,
         'html' => '
-
-                <div class="row">
-									<div class="col-lg-12">
-										'.$error.'
-										<h3><b>'.Panel::$lang['Upload_file'].' on:</b> '.$path.'</h3>
-									</div>
-                </div>
-
-                <div class="row">
-									<div class="col-lg-12">
-                        <form method="post" action="" enctype="multipart/form-data">
-                            <input type="hidden" name="token" value="'.Token::generate().'">
-                            <input name="file" class="upload" type="file" required/>
-														<br>
-                            <input class="btn btn-primary"  type="submit" name="uploadFile" value="'.Panel::$lang['Upload'].'">
-                            <a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
-                        </form>
-									</div>
-               </div>'
+            <div class="row">
+              <div class="col-lg-12">
+                '.$error.'
+                <h3><b>'.Panel::$lang['Upload_file'].' on:</b> '.$path.'</h3>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <form method="post" action="" enctype="multipart/form-data">
+                  <input type="hidden" name="token" value="'.Token::generate().'">
+                  <input name="file" class="upload" type="file" required/>
+                  <br>
+                  <input class="btn btn-primary"  type="submit" name="uploadFile" value="'.Panel::$lang['Upload'].'">
+                  <a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
+                </form>
+              </div>
+            </div>'
       ));
 
     }else{
@@ -572,22 +571,22 @@ $p->route('/action/themes/newfile/(:any)/(:any)', function($token,$file) use($p)
         'url' => $url,
         'title' => Panel::$lang['New_File'],
         'html' => ' <form method="post">
-                        <div class="row">
-                            <div class="col-lg-12">
-															'.$error.'
-															<input type="hidden" name="token" value="'.Token::generate().'">
-															<input type="text" value="" class="form-control" name="filename" required placeholder="File name">
-															<br>
-                            </div>
+                      <div class="row">
+                        <div class="col-lg-12">
+                          '.$error.'
+                          <input type="hidden" name="token" value="'.Token::generate().'">
+                          <input type="text" value="" class="form-control" name="filename" required placeholder="File name">
+                          <br>
                         </div>
-												<div class="row">
-													<div class="col-lg-12">
-														<textarea class="form-control" rows="20" name="newfile">'.$textContent.'</textarea>
-														<br>
-														<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Save_file'].'">
-														<a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
-													</div>
-												</div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <textarea class="form-control" rows="20" name="updateFile">'.$textContent.'</textarea>
+                          <br>
+                          <input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Save_file'].'">
+                          <a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
+                        </div>
+                      </div>
                     </form>'
       ));
     }else{

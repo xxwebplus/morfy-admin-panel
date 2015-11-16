@@ -7,7 +7,7 @@ Backend for Morfy CMS
 **Very Important:**
 
 > Go to libraries/Force/FileSystem and open Dir.php and replace DS for '/',
-On file config/site.yml  rename autor by author 
+and on file config/site.yml  rename autor by author 
 
 
 Now copy admin folder in root of Morfy Cms 

@@ -7,6 +7,7 @@
 
 body {
     background-color: #fff;
+    -webkit-tap-highlight-color: #ccc;
 }
 /*
 @media(min-width:768px) {
@@ -278,7 +279,7 @@ body {
 
 /* Wrapper for page content to push down footer */
 #wrapper {
-    height: calc(100% - 60px);
+    height:auto;
     min-height: calc(100% - 60px);/* Negative indent footer by its height */
     margin: 0 auto;/* Pad bottom by footer height */
     /*padding: 0 0 60px;*/
@@ -320,7 +321,7 @@ body {
 
 @media (min-width: 769px) {
     #footer {
-        margin-top: 0px !important;
+        margin-top: 10em !important;
     }
 }
 

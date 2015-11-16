@@ -1,147 +1,167 @@
 <?php $this->partial('head',array()); ?>
 <?php $this->partial('navigation',array()); ?>
-<!-- wrapper -->
-<main id="wrapper">
-    <?php $this->partial('header',array('title'=>$title)); ?>
-    <!-- content -->
-    <section id="content">
-      <div class="container">
-        <!-- Main  page -->
-        <?php if(Session::exists('user')){ ?>
-        <section class="subheader">
-          <div class="row">
-            <div class="box-2 col">
-              <?php echo $prev; ?>
-              <span class="btn blue"><?php echo $offset;?> - <?php echo $total;?></span>
-              <?php echo $next; ?>
+<?php if(Session::exists('user')){ ?>
+	<div id="wrapper">
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row mt60">
+                    <div class="col-lg-6">
+						<?php echo $prev; ?>
+						<span class="btn btn-primary"><?php echo $offset;?> - <?php echo $total;?></span>
+						<?php echo $next; ?>
+                    </div>
+					<div class="col-lg-6 right">
+						<form method="post" actiom="" class="form-inline" id="search-files">
+							<div class="form-group">
+							  <input type="search" class="form-control" id="searchthis" data-search="uploads" placeholder="Search..." required/>
+							</div>
+						</form>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>Uploads</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+										<th><?php echo Panel::$lang['Name'];?></th>
+										<th><?php echo Panel::$lang['Directory'];?></th>
+										<th><?php echo Panel::$lang['Extension'];?></th>
+										<th><?php echo Panel::$lang['Size'];?></th>
+										<th><?php echo Panel::$lang['Options'];?></th>
+                                    </tr>
+									<?php
+									  // generate token
+									  $token = Token::generate();
+
+									  if(count($content) > 0) foreach (array_reverse($content) as $item) {
+
+										// size
+										$size = $this->fileSize($item);
+										// onloy show pages dir
+										$file = str_replace(PUBLICFOLDER.'/', '', $item);
+										// get extension
+										$extension = File::ext($file);
+										// get name
+										$name = File::name($file);
+										// directory
+										$directory = str_replace($name.'.'.$extension, '', $file);
+										$showDirOptions = '';
+										$frontslash = explode('/',$directory);
+										$backslash = explode('\\',$directory);
+										if(count($frontslash) > 2 || count($backslash) > 2 ){
+										  $showDirOptions =
+											'<a  class="btn btn-primary"
+												  href="'.$this->Url().'/action/uploads/newfile/'.$token.'/'.base64_encode($directory).'"
+												  title="'.Panel::$lang['New_File'].'">
+													<i class="ti-file"></i>
+											  </a>
+											  <a  class="btn btn-success"
+												  href="'.$this->Url().'/action/uploads/newfolder/'.$token.'/'.base64_encode($directory).'"
+												  title="'.Panel::$lang['New_Folder'].'">
+													<i class="ti-folder"></i>
+											  </a>
+											  <a  class="btn btn-danger"
+													onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
+													href="'.$this->Url().'/action/uploads/removefolder/'.$token.'/'.base64_encode($directory).'"
+													title="'.Panel::$lang['Remove_Folder'].'">
+													  <i class="ti-folder"></i>
+											  </a>';
+										}
+										// show
+										echo '
+										  <tr>
+											<td>'.$name.'</td>
+											<td>'.$directory.'</td>
+											<td class="hide-for-mobile">'.$extension.'</td>
+											<td class="hide-for-mobile">'.$size.'</td>
+											<td class="right">
+											  <div class="btn-group">
+												<a  class="btn btn-default"
+													href="'.$this->Url().'/action/uploads/preview/'.base64_encode($item).'"
+													title="'.Panel::$lang['Preview'].'">
+													  <i class="ti-eye"></i>
+												</a>
+												<a  class="btn btn-warning"
+													href="'.$this->Url().'/action/uploads/rename/'.$token.'/'.base64_encode($item).'"
+													title="'.Panel::$lang['Rename_File'].'">
+													  <i class="ti-write"></i>
+												</a>
+												'.$showDirOptions;
+											  if(File::name($name) != 'folder'){
+												echo '
+												  <a  class="btn btn-danger"
+													  onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
+													  href="'.$this->Url().'/action/uploads/removefile/'.$token.'/'.base64_encode($item).'"
+													  title="'.Panel::$lang['Remove_File'].'">
+														<i class="ti-trash"></i>
+												  </a>';
+											  }
+											echo '
+											  </div>
+											</td>
+										  </tr>';
+									  }
+									?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.row -->
+
+				<div class="row">
+					<div class="col-lg-12">
+						<a class="btn btn-primary" href="<?php echo $this->Url().'/action/uploads/newfile/'.$token.'/'.base64_encode('uploads\\')?>">
+						<?php echo Panel::$lang['New_File'];?>
+						</a>
+						<a class="btn btn-success" href="<?php echo $this->Url().'/action/uploads/newfolder/'.$token.'/'.base64_encode('uploads\\')?>">
+						<?php echo Panel::$lang['New_Folder'];?>
+						</a>
+						<!-- upload  zip-->
+						<a href="#" class="btn btn-warning" data-toggle="modal" data-target="#importFile">
+						<i class="ti-upload"></i> - <?php echo $this::$lang['Import_zip'];?></a>
+						<div class="modal fade" id="importFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+						  <div class="modal-dialog" role="document">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="exampleModalLabel"><?php echo $this::$lang['Import_backup_files'];?></h4>
+							  </div>
+							  <div class="modal-body">
+								<form class="mediauploader" method="post"  enctype="multipart/form-data">
+									<input type="hidden" name="token" value="<?php echo Token::generate();?>"/>
+									<input type="file" name="importfile" required/>
+									<br>
+									<input type="submit" name="importZipFile" class="btn btn-primary" value="<?php echo $this::$lang['Import'];?>">
+									<a href="#" class="btn btn-danger" data-dismiss="modal"><?php echo $this::$lang['Cancel'];?></a>
+								</form>
+							  </div>
+							</div>
+						  </div>
+						</div>
+						<span class="btn btn-default">
+						<b><i class="ti-folder"></i> : </b>
+						<?php echo $this->folderSize(UPLOADS) ?>
+						</span>
+						</a>
+					</div>
+				</div>
+
             </div>
-            <div class="box-2 col">
-              <div class="search-form">
-                <span class="icon"><i class="ti-search"></i></span>
-                <input type="search"  id="search-files" placeholder="Search..." required/>
-              </div>
-            </div>
-          </div>
-        </section>
-        <div class="row">
-          <div class="box-1 col">
-            <!-- pages -->
-            <table class="responsive uploads">
-              <tbody>
-                <tr>
-                  <th><?php echo Panel::$lang['Name'];?></th>
-                  <th><?php echo Panel::$lang['Directory'];?></th>
-                  <th class="hide-for-mobile"><?php echo Panel::$lang['Extension'];?></th>
-                  <th class="hide-for-mobile"><?php echo Panel::$lang['Size'];?></th>
-                  <th><?php echo Panel::$lang['Options'];?></th>
-                </tr>
+            <!-- /.container-fluid mt60 -->
 
-            <?php
-              // generate token
-              $token = Token::generate();
-
-              if(count($content) > 0) foreach (array_reverse($content) as $item) {
-
-                // size
-                $size = $this->fileSize($item);
-                // onloy show pages dir
-                $file = str_replace(PUBLICFOLDER.'/', '', $item);
-                // get extension
-                $extension = File::ext($file);
-                // get name
-                $name = File::name($file);
-                // directory
-                $directory = str_replace($name.'.'.$extension, '', $file);
-                $showDirOptions = '';
-                $frontslash = explode('/',$directory);
-                $backslash = explode('\\',$directory);
-                if(count($frontslash) > 2 || count($backslash) > 2 ){
-                  $showDirOptions =
-                    '<a  class="btn blue"
-                          href="'.$this->Url().'/action/uploads/newfile/'.$token.'/'.base64_encode($directory).'"
-                          title="'.Panel::$lang['New_File'].'">
-                            <i class="ti-file"></i>
-                      </a>
-                      <a  class="btn green"
-                          href="'.$this->Url().'/action/uploads/newfolder/'.$token.'/'.base64_encode($directory).'"
-                          title="'.Panel::$lang['New_Folder'].'">
-                            <i class="ti-folder"></i>
-                      </a>
-                      <a  class="btn red"
-                            onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
-                            href="'.$this->Url().'/action/uploads/removefolder/'.$token.'/'.base64_encode($directory).'"
-                            title="'.Panel::$lang['Remove_Folder'].'">
-                              <i class="ti-folder"></i>
-                      </a>';
-                }
-                // show
-                echo '
-                  <tr>
-                    <td>'.$name.'</td>
-                    <td>'.$directory.'</td>
-                    <td class="hide-for-mobile">'.$extension.'</td>
-                    <td class="hide-for-mobile">'.$size.'</td>
-                    <td>
-                      <div class="btn-group">
-                        <a  class="btn default"
-                            href="'.$this->Url().'/action/uploads/preview/'.base64_encode($item).'"
-                            title="'.Panel::$lang['Preview'].'">
-                              <i class="ti-eye"></i>
-                        </a>
-                        <a  class="btn yellow"
-                            href="'.$this->Url().'/action/uploads/rename/'.$token.'/'.base64_encode($item).'"
-                            title="'.Panel::$lang['Rename_File'].'">
-                              <i class="ti-write"></i>
-                        </a>
-                        '.$showDirOptions;
-                      if(File::name($name) != 'folder'){
-                        echo '
-                          <a  class="btn red"
-                              onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
-                              href="'.$this->Url().'/action/uploads/removefile/'.$token.'/'.base64_encode($item).'"
-                              title="'.Panel::$lang['Remove_File'].'">
-                                <i class="ti-trash"></i>
-                          </a>';
-                      }
-                    echo '
-                      </div>
-                    </td>
-                  </tr>';
-              }
-            ?>
-              </tbody>
-            </table>
-
-            <div class="left">
-              <a class="btn blue" href="<?php echo $this->Url().'/action/uploads/newfile/'.$token.'/'.base64_encode('uploads\\')?>">
-                <?php echo Panel::$lang['New_File'];?>
-              </a>
-              <a class="btn green" href="<?php echo $this->Url().'/action/uploads/newfolder/'.$token.'/'.base64_encode('uploads\\')?>">
-                <?php echo Panel::$lang['New_Folder'];?>
-              </a>
-            <!-- upload  zip-->
-              <a href="#" class="btn yellow open-modal" id="importFile">
-                <i class="ti-upload"></i> - <?php echo $this::$lang['Import_zip'];?></a>
-              <div class="modal">
-                  <div class="modal-content">
-                    <h4 class="blue info"><?php echo $this::$lang['Import_backup_files'];?></h4>
-                    <form class="mediauploader" method="post"  enctype="multipart/form-data">
-                        <input type="hidden" name="token" value="<?php echo Token::generate();?>"/>
-                        <input type="file" name="importfile" required/>
-                        <input type="submit" name="importZipFile" class="btn blue" value="<?php echo $this::$lang['Import'];?>">
-                        <a href="#" class="btn red  close-modal"><?php echo $this::$lang['Cancel'];?></a>
-                    </form>
-                  </div>
-              </div>
-              <span class="btn default">
-                <b><i class="ti-folder"></i> : </b>
-                <?php echo $this->folderSize(UPLOADS) ?>
-              </span>
-            </div>
-          </div>
         </div>
-        <?php }; ?>
-      </div>
-    </section>
-</main>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+<?php }; ?>
 <?php $this->partial('footer',array()); ?>

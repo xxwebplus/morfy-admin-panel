@@ -8,7 +8,7 @@ var app = (function() {
      *    Description:
      *    Private functions goes here
      */
-    function $(element) {
+    function _(element) {
         return document.querySelector(element);
     }
 
@@ -23,44 +23,37 @@ var app = (function() {
          *    app.init();
          */
         init: function() {
-            // load navigation
-            this.navigation();
-            // table dropdown
-            this.tableDropdown();
-            // search
-            this.searchForm();
-            // animate col
-            panel.Animate('.col','view');
+            var self = this;
             // progress functions
-            panel.progress($('.preloader'),function(num, span, wait){
+            this.progress(document.body,function(num, span, wait){
                 // remove loader
                 if(num > 100){
-                    $('.preloader').removeChild(span);
-                    panel.fadeOut($('#loader'),1000);
-                    var timeout = setTimeout(function(){
-                        $('#loader').style.display='none';
-                        clearTimeout(timeout);
-                    },1100);
+                    span.remove();
                     clearTimeout(wait);
+                    self.loadFunctions();
                 }
             });
+        },
 
-
+        /**
+         *    Description:
+         *    Load functions on init
+         *
+         *    Syntax:
+         *    app.loadFunctions();
+         */
+        loadFunctions: function(){
+            // search
+            this.searchForm();
             // remplace input submit value on submit form
-            if($('form')) {
-                $('form').addEventListener('submit',function(){
-                    $('input[type="submit"]').value = 'saving...';
+            if(_('form')) {
+                _('form').addEventListener('submit',function(){
+                    _('input[type="submit"]').value = 'saving...';
                 });
             }
-
-
             // image preview
-            panel.media('#image-input','#image-display');
-            panel.media('#media-input','#media-display');
-            panel.Animate('.thumb img','thumb-anim');
-            // modal
-            panel.modal('#uploadFile','modal-open');
-            panel.modal('#importFile','modal-open');
+            this.media('#image-input','#image-display');
+            this.media('#media-input','#media-display');
         },
 
         /**
@@ -70,134 +63,136 @@ var app = (function() {
         */
         searchForm: function(){
             // search pages on enter
-            if($('#search')){
-                $('#search').addEventListener('keyup',function(event){
-                    if(event.keyCode == 13){
-                       location.href= [
-                           root, // site url
-                           '/action/search/', // action
-                           this.getAttribute('data-search'), // get data-search
-                           '/',
-                           this.value // value
-                       ].join('');
-                    }
+            if(_('#search')){
+                _('#search').addEventListener('submit',function(event){
+                    event.preventDefault();
+                    window.location.href= [
+                       root, // site url
+                       '/action/search/', // action
+                       _('#searchthis').getAttribute('data-search'), // get data-search
+                       '/',
+                       _('#searchthis').value // value
+                    ].join('');
+                    
                 });
             }
-            if($('#search-files')){
+            if(_('#search-files')){
                 // search files on enter
-                $('#search-files').addEventListener('keyup',function(event){
-                    if(event.keyCode == 13){
-                       location.href= [
+                _('#search-files').addEventListener('submit',function(event){
+                    event.preventDefault();
+                    window.location.href= [
                            root, // site url
                            '/action/searchfiles/',
-                           this.value // value
+                           _('#searchthis').value // value
                        ].join('');
-                    }
+                    
                 });
             }
 
-            if($('#search-media')){
+            if(_('#search-media')){
                 // search files on enter
-                $('#search-media').addEventListener('keyup',function(event){
-                    if(event.keyCode == 13){
-                       location.href= [
+                _('#search-media').addEventListener('submit',function(event){
+                    event.preventDefault();
+                    window.location.href= [
                            root, // site url
                            '/action/searchmedia/',
-                           this.value // value
+                           _('#searchthis').value // value
                        ].join('');
-                    }
+                    
                 });
             }
 
-            if($('#searchinthemes')){
+            if(_('#searchinthemes')){
                 // search files on enter
-                $('#searchinthemes').addEventListener('keyup',function(event){
-                    if(event.keyCode == 13){
-                       location.href= [
+                _('#searchinthemes').addEventListener('submit',function(event){
+                    event.preventDefault();
+                    window.location.href= [
                            root, // site url
                            '/action/searchinthemes/',
-                           this.value // value
+                           _('#searchthis').value // value
                        ].join('');
-                    }
+                    
                 });
             }
         },
-
-        /**
-         *    Description:
-         *    navigation functions
+                /**
+         * media preview function javascript
+         * use for input file and display in div
+         * panel.media(el,display);
          *
-         *    Syntax:
-         *    app.navigation && this.navigation
+         * @param el
+         * @param callback function
+         * @return callback
          */
-        navigation: function() {
-            // vars
-            var menu = $('.menu'),
-                i = $('.menu > i'),
-                menuDiv = $('#menu'),
-                wrapperDiv = $('#wrapper');
-            // menu
-            if (menu) {
-                menu.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    if (panel.hasCls(i, 'ti-layout-sidebar-left')) {
-                        panel.removeCls(i, 'ti-layout-sidebar-left');
-                        panel.addCls(i, 'ti-layout-sidebar-right');
-                    } else {
-                        panel.addCls(i, 'ti-layout-sidebar-left');
-                        panel.removeCls(i, 'ti-layout-sidebar-right');
-                    }
-                    panel.toggleCls(menuDiv, 'is-opened');
-                    panel.toggleCls(wrapperDiv, 'menu-is-open');
-                });
+        media: function(el, display) {
+            // demo img
+            var imageDisplay = document.querySelector(display);
+            if (imageDisplay) {
+                var demo = imageDisplay.getAttribute('src'),
+                    database = window.localStorage;
+                // clear first
+                database.setItem("image-base64", '');
+                if (!database.getItem("image-base64")) {
+                    var t = setTimeout(function() {
+                        database.setItem("image-base64", demo);
+                        clearTimeout(t);
+                    }, 100);
+                }
 
-                // select all links of sidebar
-                var navlink = document.querySelectorAll('.dropdown-link');
-                // convert to array
-                var toArray = Array.prototype.slice.call(navlink);
-                // make forEach
-                Array.prototype.forEach.call(toArray,function(selector,index){
-                    // on click show drowdown and change arrow
-                    selector.addEventListener('click', function(){
-                        // check if has dropdown element
-                        if(panel.hasCls(this.nextElementSibling,'dropdown')){
-                            panel.toggleCls(this.nextElementSibling,'show_menu');
-                            if(panel.hasCls(this.nextElementSibling,'show_menu')){
-                                // check if get arrow
-                                if(this.querySelector('i')){
-                                    this.querySelector('i').className = '';
-                                    this.querySelector('i').className = 'ti-angle-down';
-                                }
-                            }else{
-                                // check if get arrow
-                                if(this.querySelector('i')){
-                                    this.querySelector('i').className = '';
-                                    this.querySelector('i').className = 'ti-angle-right';
-                                }
+                /** @type {Node} */
+                var imgInput = document.querySelector(el),
+                    /** @type {Node} */
+                    imgContainer = document.querySelector(display),
+                    /** Restore image src from local storage */
+                    updateUi = function() {
+                        var t2 = setTimeout(function() {
+                            imgContainer.src = database.getItem("image-base64");
+                            clearTimeout(t2);
+                        }, 200);
+                    },
+                    /** Register event listeners */
+                    bindUi = function() {
+                        imgInput.addEventListener("change", function() {
+                            if (this.files.length) {
+                                var reader = new FileReader();
+                                reader.onload = function(e) {
+                                    database.setItem("image-base64",e.target.result);
+                                    updateUi();
+                                };
+                                reader.readAsDataURL(this.files[0]);
                             }
-                        }
-                    },false);
-                });
+                        }, false);
+                    };
+                updateUi();
+                bindUi();
             }
         },
-        // get links of table dropdown
-        tableDropdown: function(){
-            var selectOption = document.querySelectorAll('.selectOption');
-            // if exists
-            if(selectOption){
-                var selectOptionToArray = Array.prototype.slice.call(selectOption);
-                Array.prototype.forEach.call(selectOptionToArray,function(selector,index){
-                    selector.addEventListener('change',function(){
-                        window.location.href= this.value;
-                    },false);
-                });
-            }
+                /**
+         * progress bar function javascript
+         * panel.progress(el,function(num,span,interval){
+         *  // callback goes here
+         *  if(num === 100){
+         *    clearInterval(interval);
+         *    span.remove();
+         *  }
+         * });
+         *
+         * @param el
+         * @param callback function(num,span,inteval)
+         * @return callback
+         */
+        progress: function(el, callback) {
+            var span = document.createElement("span"),a = 0;
+                span.className = "loader-bar";
+                el.appendChild(span);
+            var interval = setInterval(function() {
+                if (/loaded|complete/.test(document.readyState)) {
+                    var num = 10 * a++;
+                    return span.style.width = num + "%",callback ? callback(num, span, interval) : void 0;
+                }
+            }, 10);
         }
     };
 })();
 
-/*  on load
----------------------*/
-window.addEventListener('load', function(){
-    app.init();
-});
+app.init();

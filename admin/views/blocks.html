@@ -1,95 +1,107 @@
 <?php $this->partial('head',array()); ?>
 <?php $this->partial('navigation',array()); ?>
-<!-- wrapper -->
-<main id="wrapper">
-    <?php $this->partial('header',array('title'=>$title)); ?>
-    <!-- content -->
-    <section id="content">
-      <div class="container">
-        <!-- Main  page -->
-        <?php if(Session::exists('user')){ ?>
-        <section class="subheader">
-          <div class="row">
-            <div class="box-2 col">
-              <?php echo $prev; ?>
-              <span class="btn blue"><?php echo $offset;?> - <?php echo $total;?></span>
-              <?php echo $next; ?>
-            </div>
-            <div class="box-2 col">
-              <div class="search-form">
-                <span class="icon"><i class="ti-search"></i></span>
-                <input type="search" id="search" data-search="blocks" placeholder="Search..." required/>
-              </div>
-            </div>
-          </div>
-        </section>
-        <div class="row">
-            <div class="box-1 col">
-            <!-- pages -->
-            <table class="responsive">
-              <tbody>
-                <tr>
-                  <th><?php echo Panel::$lang['Directory'];?></th>
-                  <th><?php echo Panel::$lang['Name'];?></th>
-                  <th class="hide-for-mobile"><?php echo Panel::$lang['Extension'];?></th>
-                  <th><?php echo Panel::$lang['Options'];?></th>
-                </tr>
+<?php if(Session::exists('user')){ ?>
+	<div id="wrapper">
+        <div id="page-wrapper">
 
-            <?php
-              // generate token
-              $token = Token::generate();
+            <div class="container-fluid">
 
-              foreach ($content as $item) {
-                // size
-                $size = $this->fileSize($item);
-                // only show pages dir
-                $file = str_replace(STORAGE.'/', '', $item);
-                // get extension
-                $extension = File::ext($file);
-                // get name
-                $name = File::name($file);
-                // directory
-                $directory = str_replace($name.'.'.$extension, '', $file);
-                // show
-                echo '
-                  <tr>
-                    <td>'.$name.'</td>
-                    <td>'.$directory.'</td>
-                    <td class="hide-for-mobile">'.$extension.'</td>
-                    <td>
-                      <div class="btn-group">
-                        <a  class="btn blue"
-                            href="'.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'"
-                            title="'.Panel::$lang['Edit_File'].'">
-                              <i class="ti-pencil-alt"></i>
-                        </a>
-                        <a  class="btn yellow"
-                            href="'.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'"
-                            title="'.Panel::$lang['Rename_File'].'">
-                              <i class="ti-write"></i>
-                        </a>
-                        <a  class="btn red"
-                            onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
-                            href="'.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'"
-                            title="'.Panel::$lang['Remove_File'].'">
-                              <i class="ti-trash"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>';
-              }
-            ?>
-              </tbody>
-            </table>
-            <div class="left">
-              <a class="btn blue" href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode('blocks')?>">
-                <?php echo Panel::$lang['New_File'];?>
-              </a>
+                <!-- Page Heading -->
+                <div class="row mt60">
+                    <div class="col-lg-6">
+						<?php echo $prev; ?>
+						<span class="btn btn-primary"><?php echo $offset;?> - <?php echo $total;?></span>
+						<?php echo $next; ?>
+                    </div>
+					<div class="col-lg-6 right">
+						<form method="post" actiom="" class="form-inline" id="search">
+							<div class="form-group">
+							  <input type="search" class="form-control" id="searchthis" data-search="blocks" placeholder="Search..." required/>
+							</div>
+						</form>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h2>Blocks</h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+										<th><?php echo Panel::$lang['Directory'];?></th>
+										<th><?php echo Panel::$lang['Name'];?></th>
+										<th><?php echo Panel::$lang['Extension'];?></th>
+										<th><?php echo Panel::$lang['Options'];?></th>
+                                    </tr>
+									<?php
+									  // generate token
+									  $token = Token::generate();
+
+									  foreach ($content as $item) {
+										// size
+										$size = $this->fileSize($item);
+										// only show pages dir
+										$file = str_replace(STORAGE.'/', '', $item);
+										// get extension
+										$extension = File::ext($file);
+										// get name
+										$name = File::name($file);
+										// directory
+										$directory = str_replace($name.'.'.$extension, '', $file);
+										// show
+										echo '
+										  <tr>
+											<td>'.$name.'</td>
+											<td>'.$directory.'</td>
+											<td class="hide-for-mobile">'.$extension.'</td>
+											<td class="right">
+											  <div class="btn-group">
+												<a  class="btn btn-primary"
+													href="'.$this->Url().'/action/edit/'.$token.'/'.base64_encode($item).'"
+													title="'.Panel::$lang['Edit_File'].'">
+													  <i class="ti-pencil-alt"></i>
+												</a>
+												<a  class="btn btn-warning"
+													href="'.$this->Url().'/action/rename/'.$token.'/'.base64_encode($item).'"
+													title="'.Panel::$lang['Rename_File'].'">
+													  <i class="ti-write"></i>
+												</a>
+												<a  class="btn btn-danger"
+													onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
+													href="'.$this->Url().'/action/removefile/'.$token.'/'.base64_encode($item).'"
+													title="'.Panel::$lang['Remove_File'].'">
+													  <i class="ti-trash"></i>
+												</a>
+											  </div>
+											</td>
+										  </tr>';
+									  }
+									?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.row -->
+
+				<div class="row">
+					<div class="col-lg-12">
+						<a class="btn btn-primary" href="<?php echo $this->Url().'/action/newfile/'.$token.'/'.base64_encode('blocks')?>">
+						<?php echo Panel::$lang['New_File'];?>
+						</a>
+					</div>
+				</div>
+
             </div>
-          </div>
+            <!-- /.container-fluid mt60 -->
+
         </div>
-        <?php }; ?>
-      </div>
-    </section>
-</main>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+<?php }; ?>
 <?php $this->partial('footer',array()); ?>

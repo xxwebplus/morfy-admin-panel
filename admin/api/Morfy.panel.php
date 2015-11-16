@@ -29,7 +29,7 @@ class Panel {
    *
    * @var string
    */
-  public $version = '2.0.1';
+  public $version = '2.0.2';
 
 
   /**
@@ -86,7 +86,7 @@ class Panel {
         Session::delete('msg');
     }
     if(isset($message)){
-        echo '<div class="notification">
+        echo '<div class="alert alert-success notification">
                   <img src="'.$this->Assets('morfy-icon.png','img').'" />
                   <span>'.$message.'</span>
               </div>

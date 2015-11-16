@@ -68,7 +68,7 @@ $p->route('/', function() use($p){
           Request::redirect($p::$site['url'].'/'.$p::$site['backend_folder']);
         }else{
           // password not correct show error
-          $error = '<span class="well red">'.$p::$lang['Password_Error'].'</span>';
+          $error = '<span class="label label-danger">'.$p::$lang['Password_Error'].'</span>';
         }
       }else{
         // crsf
@@ -162,12 +162,12 @@ $p->route(array('/pages','/pages/(:num)'),function($offset = 1) use($p){
       $prev = '';
       $next = '';
       if($offset > 1) {
-          $prev = '<a class="btn blue" href="'.$p->Url().'/pages/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
+          $prev = '<a class="btn btn-primary" href="'.$p->Url().'/pages/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
       } else {
           $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
       }
       if($offset < ceil(count($content) / $per_page)) {
-          $next = '<a  class="btn blue" href="' . $p->Url().'/pages/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+          $next = '<a  class="btn btn-primary" href="' . $p->Url().'/pages/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
       } else {
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
@@ -241,7 +241,7 @@ $p->route(array('/blocks','/blocks/(:num)'),function($offset = 1) use($p){
           $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
       }
       if($offset < ceil(count($content) / $per_page)) {
-          $next = '<a class="btn blue" href="' . $p->Url().'/blocks/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+          $next = '<a class="btn btn-primary" href="' . $p->Url().'/blocks/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
       } else {
           $next = '<span class="btn  black"><i class="ti-arrow-right"></i></span>';
       }
@@ -325,12 +325,12 @@ $p->route(array('/uploads','/uploads/(:num)'),function($offset = 1) use($p){
       $prev = '';
       $next = '';
       if($offset > 1) {
-          $prev = '<a class="btn blue" href="'.$p->Url().'/uploads/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
+          $prev = '<a class="btn btn-primary" href="'.$p->Url().'/uploads/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
       } else {
           $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
       }
       if($offset < ceil(count($content) / $per_page)) {
-          $next = '<a  class="btn blue" href="' . $p->Url().'/uploads/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+          $next = '<a  class="btn btn-primary" href="' . $p->Url().'/uploads/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
       } else {
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
@@ -406,12 +406,12 @@ $p->route(array('/media','/media/(:num)'),function($offset = 1) use($p){
         rsort($json);
         $showPag = array_chunk($json, $per_page);
         if($offset > 1) {
-            $prev = '<a class="btn blue" href="'.$p->Url().'/media/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
+            $prev = '<a class="btn btn-primary" href="'.$p->Url().'/media/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
         } else {
             $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
         }
         if($offset < ceil(count($json) / $per_page)) {
-            $next = '<a class="btn blue" href="' . $p->Url().'/media/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+            $next = '<a class="btn btn-primary" href="' . $p->Url().'/media/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
         } else {
             $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
         }
@@ -420,38 +420,34 @@ $p->route(array('/media','/media/(:num)'),function($offset = 1) use($p){
         foreach($showPag[$offset - 1] as $media) {
             $templateAll .= '
             <div class="row">
-              <div class="box-1 col">
-                <div class="media">
-                  <div class="image-media">
-                      <img class="default" src="'.Panel::$site['url'].$media['thumb'].'?timestamp=1357571065"/>
-                  </div>
-                  <div class="info-media">
-                    <ul>
-                      <li><b>Title: </b>'.$p->toHtml($media['title']).'</lI>
-                      <li><b>Description: </b>'.$p->TextCut($p->toHtml($media['desc']),20).'</lI>
-                      <li><b>Width: </b>'.$media['width'].'</li>
-                      <li><b>Height: </b>'.$media['height'].'</li>
-                      <li><b>Tag: </b>'.$p->toHtml($media['tag']).'</li>
-                      <li><b>Markdown: </b></li>
-                      <li><code>[link text](<a target="_blank" href="'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'">'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'</a>)</code></li>
-                      <li><b>Html: </b></li>
-                      <li><code>&lt;a href="<a target="_blank" href="'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'">'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'</a>"&gt;link Text&lt;/a&gt;</code></li>
-                      <li>
-                          <a class="btn blue"
-                          href="'.$p->Url().'/action/media/edit/'.$media['id'].'"
-                          title="'.Panel::$lang['Edit_File'].'"><i class="ti-pencil-alt"></i></a>
-                          <a class="btn yellow"
-                          href="'.$p->Url().'/media/uploads/'.$media['id'].'"
-                          title="'.Panel::$lang['Upload_media'].'"><i class="ti-upload"></i></a>
-                          <a class="btn red"
-                          onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
-                          href="'.$p->Url().'/action/media/removefile/'.Token::generate().'/'.$media['id'].'"
-                          title="'.Panel::$lang['Remove_File'].'"><i class="ti-trash"></i></a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+			  <div class="col-lg-6">
+				  <img class="img-thumbnail" src="'.Panel::$site['url'].$media['thumb'].'?timestamp=1357571065"/>
+			  </div>
+			  <div class="col-lg-6">
+				<ul class="list-group">
+				  <li class="list-group-item"><b>Title: </b>'.$p->toHtml($media['title']).'</lI>
+				  <li class="list-group-item"><b>Description: </b>'.$p->TextCut($p->toHtml($media['desc']),20).'</lI>
+				  <li class="list-group-item"><b>Width: </b>'.$media['width'].'</li>
+				  <li class="list-group-item"><b>Height: </b>'.$media['height'].'</li>
+				  <li class="list-group-item"><b>Tag: </b>'.$p->toHtml($media['tag']).'</li>
+				  <li class="list-group-item"><b>Markdown: </b></li>
+				  <li class="list-group-item"><code>[link text](<a target="_blank" href="'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'">'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'</a>)</code></li>
+				  <li class="list-group-item"><b>Html: </b></li>
+				  <li class="list-group-item"><code>&lt;a href="<a target="_blank" href="'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'">'.Panel::$site['url'].'/media?action=view&id='.$media['id'].'</a>"&gt;link Text&lt;/a&gt;</code></li>
+				  <li class="list-group-item">
+					  <a class="btn btn-primary"
+					  href="'.$p->Url().'/action/media/edit/'.$media['id'].'"
+					  title="'.Panel::$lang['Edit_File'].'"><i class="ti-pencil-alt"></i></a>
+					  <a class="btn btn-warning"
+					  href="'.$p->Url().'/media/uploads/'.$media['id'].'"
+					  title="'.Panel::$lang['Upload_media'].'"><i class="ti-upload"></i></a>
+					  <a class="btn btn-danger"
+					  onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
+					  href="'.$p->Url().'/action/media/removefile/'.Token::generate().'/'.$media['id'].'"
+					  title="'.Panel::$lang['Remove_File'].'"><i class="ti-trash"></i></a>
+				  </li>
+				</ul>
+			  </div>
             </div>';
         }
       }
@@ -464,7 +460,7 @@ $p->route(array('/media','/media/(:num)'),function($offset = 1) use($p){
       'total' => ceil(count($total)/$per_page),
       'prev' => $prev,
       'next' => $next,
-      'content' => (count($json) > 0) ? $templateAll : '<div class="well red">Empty Media albums</div>'
+      'content' => (count($json) > 0) ? $templateAll : '<div class="label label-danger">Empty Media albums</div>'
     ));
 
   }else{
@@ -523,12 +519,12 @@ $p->route(array('/templates','/templates/(:num)'),function($offset = 1) use($p){
       $prev = '';
       $next = '';
       if($offset > 1) {
-          $prev = '<a class="btn blue" href="'.$p->Url().'/templates/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
+          $prev = '<a class="btn btn-primary" href="'.$p->Url().'/templates/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
       } else {
           $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
       }
       if($offset < ceil(count($content) / $per_page)) {
-          $next = '<a class="btn blue" href="' . $p->Url().'/templates/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+          $next = '<a class="btn btn-primary" href="' . $p->Url().'/templates/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
       } else {
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
@@ -582,12 +578,12 @@ $p->route(array('/stylesheets','/stylesheets/(:num)'),function($offset = 1) use(
       $prev = '';
       $next = '';
       if($offset > 1) {
-          $prev = '<a class="btn blue" href="'.$p->Url().'/stylesheets/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
+          $prev = '<a class="btn btn-primary" href="'.$p->Url().'/stylesheets/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
       } else {
           $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
       }
       if($offset < ceil(count($content) / $per_page)) {
-          $next = '<a class="btn blue" href="' . $p->Url().'/stylesheets/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+          $next = '<a class="btn btn-primary" href="' . $p->Url().'/stylesheets/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
       } else {
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
@@ -638,12 +634,12 @@ $p->route(array('/javascript','/javascript/(:num)'),function($offset = 1) use($p
       $prev = '';
       $next = '';
       if($offset > 1) {
-          $prev = '<a class="btn blue" href="'.$p->Url().'/javascript/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
+          $prev = '<a class="btn btn-primary" href="'.$p->Url().'/javascript/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
       } else {
           $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
       }
       if($offset < ceil(count($content) / $per_page)) {
-          $next = '<a class="btn blue" href="' . $p->Url().'/javascript/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+          $next = '<a class="btn btn-primary" href="' . $p->Url().'/javascript/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
       } else {
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }

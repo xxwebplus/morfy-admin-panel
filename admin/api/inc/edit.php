@@ -42,23 +42,22 @@ $p->route('/action/edit/(:any)/(:any)', function($token,$file) use($p){
       $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['Edit_File'],
-        'html' => '<form method="post">
-                    <input type="hidden" name="token" value="'.Token::generate().'">
-                    <section class="subheader">
-                      <div class="row">
-                        <div class="box-1 col">
-                          <label class="editor-label"><b>Name: </b>'.File::name($path).'</label>
+        'html' => ' <form method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+								<input type="hidden" name="token" value="'.Token::generate().'">
+								<h4><label class="label label-primary"><b>Name: </b>'.File::name($path).'</label></h4>
+                            </div>
                         </div>
-                      </div>
-                    </section>
-                    <div class="row">
-                        <div class="box-1 col">
-                          <textarea class="editor black" name="updateFile">'.File::getContent($path).'</textarea>
-                          <input class="btn blue" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
-                          <a class="btn red" href="'.$p->url().'/'.$url.'">Cancel</a>
-                        </div>
-                    </div>
-                  </form>'
+						<div class="row">
+							<div class="col-lg-12">
+								<textarea class="form-control" data-provide="markdown" rows="20" name="updateFile">'.File::getContent($path).'</textarea>
+								<br>
+								<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
+								<a class="btn btn-danger" role="button" href="'.$p->url().'/'.$url.'">Cancel</a>
+							</div>
+						</div>
+                    </form>'
       ));
     }else{
       die('crsf Detect');
@@ -142,29 +141,32 @@ $p->route('/action/media/edit/(:num)',function($id) use($p){
     }
 
     // template
-    $template = ' <div class="row">
-                    <div class="box-2 col">
-                      '.$error.'
-                      <form class="formFile" method="post"  enctype="multipart/form-data">
-                          <input type="hidden" name="token" value="'.Token::generate().'"/>
-                          <input type="file" name="file_upload" id="image-input"  value="'.$json[$id]['thumb'].'" accept="image/x-png, image/gif, image/jpeg"  />
-                          <input type="number" name="width" value="'.$json[$id]['width'].'" required>
-                          <input type="number" name="height" value="'.$json[$id]['height'].'" required>
-                          <input type="text" name="title" value="'.$json[$id]['title'].'" required>
-                          <textarea name="desc" rows="3" required>'.$json[$id]['desc'].'</textarea>
-                          <input type="text"  required  name="tag" value="'.$json[$id]['tag'].'" required>
-                          <a href="'.$p->Url().'/media"  class="btn red">Cancel</a>
-                          <input type="submit" name="upload" id="upload" class="btn blue" value="Upload">
-                      </form>
-                    </div>
-                    <div  class="box-2 col">
-                      <div class="preview">
-                        <div class="image-preview">
-                          <img  id="image-display"  width="100%" src="'.Panel::$site['url'].$json[$id]['thumb'].'?timestamp=1357571065"/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>';
+    $template = ' 
+            <div class="row">
+			  <div class="col-lg-6">
+				'.$error.'
+				<form class="formFile" method="post"  enctype="multipart/form-data">
+					<input type="hidden" name="token" value="'.Token::generate().'"/>
+					<input type="file" name="file_upload" id="image-input"  value="'.$json[$id]['thumb'].'" accept="image/x-png, image/gif, image/jpeg"  />
+					<br>
+					<input type="number" class="form-control" name="width" value="'.$json[$id]['width'].'" required>
+					<br>
+					<input type="number" class="form-control" name="height" value="'.$json[$id]['height'].'" required>
+					<br>
+					<input type="text" class="form-control" name="title" value="'.$json[$id]['title'].'" required>
+					<br>
+					<textarea name="desc" class="form-control" rows="3" required>'.$json[$id]['desc'].'</textarea>
+					<br>
+					<input type="text" class="form-control" required name="tag" value="'.$json[$id]['tag'].'" required>
+					<br>
+					<a href="'.$p->Url().'/media" role="button" class="btn btn-danger">Cancel</a>
+					<input type="submit" name="upload" id="upload" class="btn btn-primary" value="Upload">
+				</form>
+			  </div>
+			  <div class="col-lg-6">
+				<img class="img-thumbnail" id="image-display"  width="100%" src="'.Panel::$site['url'].$json[$id]['thumb'].'?timestamp=1357571065"/>
+			  </div>
+            </div>';
 
 
 
@@ -234,22 +236,21 @@ $p->route('/action/themes/edit/(:any)/(:any)', function($token,$file) use($p){
       $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['Edit_File'],
-        'html' => '<form method="post">
-                      <section class="subheader">
+        'html' => ' <form method="post">
                         <div class="row">
-                            <div class="box-1 col">
-                                <input type="hidden" name="token" value="'.Token::generate().'">
-                                <label class="editor-label"><b>Name: </b>'.File::name($path).'.'.File::ext($path).'</label>
+                            <div class="col-lg-12">
+								<input type="hidden" name="token" value="'.Token::generate().'">
+								<h4><label class="label label-primary"><b>Name: </b>'.File::name($path).'.'.File::ext($path).'</label></h4>
                             </div>
-                          </div>
-                      </section>
-                      <div class="row">
-                          <div class="box-1 col">
-                              <textarea class="editor black" name="updateFile">'.File::getContent($path).'</textarea>
-                              <input class="btn blue" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
-                              <a class="btn red" href="'.$p->url().'/'.$url.'">Cancel</a>
-                          </div>
-                      </div>
+                        </div>
+						<div class="row">
+							<div class="col-lg-12">
+								<textarea class="form-control" rows="20" name="updateFile">'.File::getContent($path).'</textarea>
+								<br>
+								<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
+								<a class="btn btn-danger" role="button" href="'.$p->url().'/'.$url.'">Cancel</a>
+							</div>
+						</div>
                     </form>'
       ));
     }else{
@@ -293,22 +294,21 @@ $p->route('/config', function() use($p){
       $p->view('actions',array(
         'url' => 'Config',
         'title' => Panel::$lang['Config'],
-        'html' => '<form method="post">
-                      <section class="subheader">
+        'html' => ' <form method="post">
                         <div class="row">
-                            <div class="box-1 col">
+                            <div class="col-lg-12">
                                 <input type="hidden" name="token" value="'.Token::generate().'">
-                                <label class="editor-label"><b>Name: </b> site.yml</label>
+                                <h4><label class="label label-primary"><b>Name: </b> site.yml</label></h4>
                             </div>
-                          </div>
-                      </section>
-                      <div class="row">
-                          <div class="box-1 col">
-                              <textarea class="editor black" name="updateFile">'.File::getContent(SITE).'</textarea>
-                              <input class="btn blue" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
-                              <a class="btn red" href="'.$p->url().'">Cancel</a>
-                          </div>
-                      </div>
+                        </div>
+						<div class="row">
+							<div class="col-lg-12">
+								<textarea class="form-control" rows="20" name="updateFile">'.File::getContent(SITE).'</textarea>
+								<br>
+								<input class="btn btn-primary" type="submit" disabled="disabled" name="saveFile" value="'.Panel::$lang['Update'].'">
+								<a class="btn btn-danger" role="button" href="'.$p->url().'">Cancel</a>
+							</div>
+						</div>
                     </form>'
       ));
   }else{

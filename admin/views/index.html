@@ -1,94 +1,186 @@
 <?php $this->partial('head',array()); ?>
 <?php $this->partial('navigation',array()); ?>
-<!-- wrapper -->
-<main id="wrapper">
-    <?php $this->partial('header',array('title'=>$title)); ?>
-    <!-- content -->
-    <section id="content">
-      <div class="container">
-        <!-- Main  page -->
-        <?php if(Session::exists('user')){ ?>
-            <!-- dashboard -->
-            <div class="row">
-              <div class="box-3 col">
-                <div class="dashboard-info">
-                  <h3 class="dashboard-name"><?php echo $this::$lang['Pages'];?></h3>
-                  <div class="dashboard-content">
-                    <div class="num black"><?php echo $pages;?></div>
-                  </div>
-                  <div class="dashboard-footer">
-                    <a href="<?php echo $this->url();?>/pages" title="Go">
-                      <i class="ti-arrow-right"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="box-3 col">
-                <div class="dashboard-info">
-                  <h3 class="dashboard-name"><?php echo $this::$lang['Media'];?></h3>
-                  <div class="dashboard-content">
-                    <div class="num black"><?php echo $media;?></div>
-                  </div>
-                  <div class="dashboard-footer">
-                    <a href="<?php echo $this->url();?>/media" title="Go">
-                      <i class="ti-arrow-right"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="box-3 col">
-                <div class="dashboard-info">
-                  <h3 class="dashboard-name"><?php echo $this::$lang['Uploads'];?></h3>
-                  <div class="dashboard-content">
-                    <div class="num black"><?php echo $uploads;?></div>
-                  </div>
-                  <div class="dashboard-footer">
-                    <a href="<?php echo $this->url();?>/uploads" title="Go">
-                      <i class="ti-arrow-right"></i></a>
-                  </div>
-                </div>
-              </div>
-            </div>
+<?php if(Session::exists('user')){ ?>
+	<div id="wrapper">
 
-            <!-- dashboard 2 -->
-            <div class="row">
-              <div class="box-3 col">
-                <div class="dashboard-info">
-                  <h3 class="dashboard-name"><?php echo $this::$lang['Blocks'];?></h3>
-                  <div class="dashboard-content">
-                    <div class="num black"><?php echo $blocks;?></div>
-                  </div>
-                  <div class="dashboard-footer">
-                    <a href="<?php echo $this->url();?>/blocks" title="Go">
-                      <i class="ti-arrow-right"></i></a>
-                  </div>
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row  mt60">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-dashboard"></i> Dashboard
+                            </li>
+                        </ol>
+                    </div>
                 </div>
-              </div>
-              <div class="box-3 col">
-                <div class="dashboard-info">
-                  <h3 class="dashboard-name"><?php echo $this::$lang['Themes'];?></h3>
-                  <div class="dashboard-content">
-                    <div class="num black"><?php echo $themes;?></div>
-                  </div>
-                  <div class="dashboard-footer">
-                    <a href="<?php echo $this->url();?>/templates" title="Go">
-                      <i class="ti-arrow-right"></i></a>
-                  </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="alert alert-info alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <i class="fa fa-info-circle"></i>  <strong>In development</strong>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="box-3 col">
-                <div class="dashboard-info">
-                  <h3 class="dashboard-name"><?php echo $this::$lang['Plugins'];?></h3>
-                  <div class="dashboard-content">
-                    <div class="num black"><?php echo $plugins;?></div>
-                  </div>
-                  <div class="dashboard-footer">
-                    <a href="<?php echo $this->url();?>/config" title="Go">
-                      <i class="ti-arrow-right"></i></a>
-                  </div>
+                <!-- /.row -->
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-file-text-o fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $pages;?></div>
+                                        <div><?php echo $this::$lang['Pages'];?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->url();?>/pages">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-file-image-o fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $media;?></div>
+                                        <div><?php echo $this::$lang['Media'];?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->url();?>/media">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-cloud-upload fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $uploads;?></div>
+                                        <div><?php echo $this::$lang['Uploads'];?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->url();?>/uploads">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
                 </div>
-              </div>
+                <!-- /.row -->
+				
+				<div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-th fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $blocks;?></div>
+                                        <div><?php echo $this::$lang['Blocks'];?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->url();?>/blocks">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-desktop fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $themes;?></div>
+                                        <div><?php echo $this::$lang['Themes'];?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->url();?>/templates">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-plug fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge"><?php echo $plugins;?></div>
+                                        <div><?php echo $this::$lang['Plugins'];?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="<?php echo $this->url();?>/config">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- /.row -->
+
             </div>
-        <?php }; ?>
-      </div>
-    </section>
-</main>
+            <!-- /.container-fluid mt60 -->
+
+        </div>
+        <!-- /#page-wrapper -->
+		
+    </div>
+    <!-- /#wrapper -->
+
+<?php }; ?>
 <?php $this->partial('footer',array()); ?>

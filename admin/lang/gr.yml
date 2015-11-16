@@ -31,7 +31,7 @@ Remove_Folder: 'Κατάργηση φακέλου'
 Search:	'Αναζήτηση'
 back:	'Πίσω'
 # info index for rename and delete
-exencial_file: 'Προφυλάξεις!, Αυτό είναι ένα αρχείο exencial'
+exencial_file: 'Precaution!,This is a exencial file'
 # edit file
 Update: 'Ενημέρωση'
 # new file
@@ -76,13 +76,13 @@ New_Backup:	'New Backup'
 #diagnostic
 Diagnostic:	'Diagnostic'
 # 404 not found
-Error_page:	'Το αίτημα σελίδα δεν βρέθηκε σε Morfy Panel'
+Error_page:	'The request page not found in Morfy Panel'
 # cache
 Clear_cache: 'Clear cache'
 Success_cache: 'Your Cache has been clear'
 # modal and imports
-Import: 'Εισαγωγή'
-Import_blog_files: 'Εισαγωγή blog files'
-Import_backup_files: 'Εισαγωγή backup files'
-Import_zip: 'Εισαγωγή Zip'
+Import: 'Import'
+Import_blog_files: 'Import blog files'
+Import_backup_files: 'Import backup files'
+Import_zip: 'Import Zip'
 Blog: 'Blog'

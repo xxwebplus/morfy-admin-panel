@@ -24,8 +24,8 @@ $p->route('/action/newfile/(:any)/(:any)', function($token,$file) use($p){
         $url = 'pages';
         $textContent = '
 ---
-title: Hello World
-date: 14/11/15
+title:
+date: '.date('d/m/y').'
 template: index
 ---
         ';
@@ -46,7 +46,7 @@ template: index
           $filename = $p->SeoLink(Request::post('filename'));
           $content = Request::post('newfile');
           if(File::exists(STORAGE.'/'.$path.'/'.$filename.'.md')){
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
           }else{
             // save content
             File::setContent(STORAGE.'/'.$path.'/'.$filename.'.md',$content);
@@ -64,26 +64,25 @@ template: index
       $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['New_File'],
-        'html' => '<form method="post">
-                    <section class="subheader">
-                      <div class="row">
-                          <div class="box-1 col">
-                            '.$error.'
-                            <input type="hidden" name="token" value="'.Token::generate().'">
-                            <input type="text" value="" name="filename" required placeholder="File name">
-                          </div>
-                      </div>
-                    </section>
-                    <div class="row">
-                        <div class="box-1 col">
-                            <textarea class="editor black" name="newfile">'.$textContent.'</textarea>
-                            <input class="btn blue" type="submit" name="saveFile"
-                            value="'.Panel::$lang['Save_file'].'">
-                            <a class="btn red" href="'.$p->url().'/'.$url.'">
-                            '.Panel::$lang['Cancel'].'</a>
+        'html' => ' <form method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+								'.$error.'
+								<input type="hidden" name="token" value="'.Token::generate().'">
+								<input type="text" value="" class="form-control" name="filename" required placeholder="File name">
+								<br>
+                            </div>
                         </div>
-                    </div>
-                  </form>'
+						<div class="row">
+							<div class="col-lg-12">
+								<textarea class="form-control" data-provide="markdown"  rows="20" name="updateFile">'.$textContent.'</textarea>
+								<br>
+								<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Save_file'].'">
+								<a class="btn btn-danger" href="'.$p->url().'/'.$url.'">
+                            '.Panel::$lang['Cancel'].'</a>
+							</div>
+						</div>
+                    </form>'
       ));
     }else{
       die('crsf Detect');
@@ -117,7 +116,7 @@ $p->route('/action/uploads/newfile/(:any)/(:any)', function($token,$file) use($p
               // change blank spaces for -
               $fileUploaded = PUBLICFOLDER.'/'.$path.'/'.$p->SeoLink(File::name($_FILES['file']['name'])).'.'.File::ext($_FILES['file']['name']);
               if(File::exists($fileUploaded)){
-                $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+                $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
               }else{
                 if(!in_array(File::ext($_FILES['file']['name']), $AllowedExtensions)) {
                   die('Extension not allowed');
@@ -138,25 +137,24 @@ $p->route('/action/uploads/newfile/(:any)/(:any)', function($token,$file) use($p
         'title' => 'Upload File',
         'content' => $path,
         'html' => '
-              <section class="subheader">
+
                 <div class="row">
-                  <div class="box-1 col">
-                    '.$error.'
-                    <h3><b>'.Panel::$lang['Upload_file'].' on:</b> '.$path.'</h3>
-                  </div>
+					<div class="col-lg-12">
+						'.$error.'
+						<h3><b>'.Panel::$lang['Upload_file'].' on:</b> '.$path.'</h3>
+					</div>
                 </div>
-              </section>
+
                 <div class="row">
-                  <div class="box-1 col">
-                      <div class="info">
+					<div class="col-lg-12">
                         <form method="post" action="" enctype="multipart/form-data">
                             <input type="hidden" name="token" value="'.Token::generate().'">
                             <input name="file" class="upload" type="file" required/>
-                            <input class="btn blue"  type="submit" name="uploadFile" value="'.Panel::$lang['Upload'].'">
-                            <a class="btn red" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
+							<br>
+                            <input class="btn btn-primary"  type="submit" name="uploadFile" value="'.Panel::$lang['Upload'].'">
+                            <a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
                         </form>
-                      </div>
-                  </div>
+					</div>
                 </div>'
       ));
 
@@ -209,7 +207,7 @@ $p->route('/media/create',function($offset = 1) use($p){
           );
           // check if exists
           if(File::exists(PUBLICFOLDER.'/media/albums_thumbs/'.$_FILES['file_upload']['name'])){
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
           }else{
             // check file types
             if(!in_array(File::ext($_FILES['file_upload']['name']), $AllowedExtensions)) {
@@ -239,26 +237,28 @@ $p->route('/media/create',function($offset = 1) use($p){
 
     // template
     $template = ' <div class="row">
-                    <div class="box-2 col">
+                    <div class="col-lg-6">
                       '.$error.'
                       <form class="formFile" method="post"  enctype="multipart/form-data">
                           <input type="hidden" name="token" value="'.Token::generate().'"/>
-                          <input type="file" name="file_upload" id="image-input" accept="image/x-png, image/gif, image/jpeg"  />
-                          <input type="number" name="width" placeholder="width" required>
-                          <input type="number" name="height" placeholder="height" required>
-                          <input type="text" name="title" placeholder="title" required>
-                          <textarea name="desc" rows="3" placeholder="Description" required></textarea>
-                          <input type="text"  required  name="tag" id="tag"  placeholder="Tag" required>
-                          <a href="'.$p->Url().'/media"  class="btn red">Cancel</a>
-                          <input type="submit" name="upload" id="upload" class="btn blue" value="Upload">
+                          <input type="file" class="form-control" name="file_upload" id="image-input" accept="image/x-png, image/gif, image/jpeg"  />
+                          <br>
+                          <input type="number" class="form-control" name="width" placeholder="width" required>
+                          <br>
+                          <input type="number" class="form-control" name="height" placeholder="height" required>
+                          <br>
+                          <input type="text" class="form-control" name="title" placeholder="title" required>
+                          <br>
+                          <textarea name="desc" class="form-control" rows="3" placeholder="Description" required></textarea>
+                          <br>
+                          <input type="text"  class="form-control"  required  name="tag" id="tag"  placeholder="Tag" required>
+                          <br>
+                          <a href="'.$p->Url().'/media"  class="btn btn-danger">Cancel</a>
+                          <input type="submit" name="upload" id="upload" class="btn btn-primary" value="Upload">
                       </form>
                     </div>
-                    <div  class="box-2 col">
-                      <div class="preview">
-                        <div class="image-preview default">
-                          <img  id="image-display"  width="100%" src="'.$p->Assets('nomediapreview.jpg','img').'"/>
-                        </div>
-                      </div>
+                    <div  class="col-lg-6">
+                      <img  id="image-display" class="img-thumbnail" src="'.$p->Assets('nomediapreview.jpg','img').'"/>
                     </div>
                   </div>';
 
@@ -323,7 +323,7 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
         if(Request::post('token')){
                     // check if exists
           if(File::exists(PUBLICFOLDER.'/media/albums/album_'.$id.'/'.$_FILES['media_upload']['name'])){
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
           }else{
             // check file types
             if(!in_array(File::ext($_FILES['media_upload']['name']), $AllowedExtensions)) {
@@ -360,12 +360,12 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
       rsort($scan);
       $showPag = array_chunk($scan, $per_page);
       if($offset > 1) {
-          $prev = '<a class="btn blue" href="'.$p->Url().'/media/uploads/'.$id.'/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
+          $prev = '<a class="btn btn-primary" href="'.$p->Url().'/media/uploads/'.$id.'/'.($offset - 1).'"><i class="ti-arrow-left"></i></a>';
       } else {
           $prev = '<span class="btn black"><i class="ti-arrow-left"></i></span>';
       }
       if($offset < ceil(count($scan) / $per_page)) {
-          $next = '<a class="btn blue" href="' . $p->Url().'/media/uploads/'.$id.'/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
+          $next = '<a class="btn btn-primary" href="' . $p->Url().'/media/uploads/'.$id.'/'.($offset + 1).'"><i class="ti-arrow-right"></i></a>';
       } else {
           $next = '<span class="btn black"><i class="ti-arrow-right"></i></span>';
       }
@@ -374,37 +374,67 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
 
 
       // template html
-      $templateAll .= '
-            <section class="fileinfo">
-                '.$info.'
-                <div class="left">
-                    <b><i class="ti-folder"></i> : </b>  album_'.$id.'
-                </div>
-                <div class="right">
-                    <b><i class="ti-harddrive"></i> : </b>  '.$p->folderSize(ROOTBASE.$json[$id]['images']).'
-                </div>
-                <div class="clear"></div>
-              </section>
-                <div class="row">
-                  <div class="box-1 col">
-                    <!-- modal -->
-                    <a href="#" class="btn blue open-modal" id="uploadFile"><i class="ti-upload"></i>  '.Panel::$lang['Upload'].'</a>
-                    <div class="modal">
-                      <div class="modal-content">
-                        <h4 class="blue info">'.$p::$lang['Upload_media'].'</h4>
-                        <form method="post"  enctype="multipart/form-data" style="padding:0.5em">
-                            <input type="hidden" name="token" value="'.Token::generate().'"/>
-                            <input type="file" name="media_upload"  id="media-input" accept="image/x-png, image/gif, image/jpeg"  required/>
-                            <input type="number" name="width" value="'.$json[$id]['width'].'" required>
-                            <input type="number" name="height" value="'.$json[$id]['height'].'" required>
-                            <input type="submit" name="uploadMedia" class="btn blue" value="Upload">
-                            <a href="#" class="btn red  close-modal">'.$p::$lang['Cancel'].'</a>
-                            <img  id="media-display" src="'.$p->Assets('nomediapreview.jpg','img').'"/>
-                        </form>
+      $templateAll .=  $info.'
+                  
+                  <!-- modal -->
+                  <a href="#" class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#uploadFile">
+                    <i class="ti-upload"></i>
+                    '.Panel::$lang['Upload'].'
+                  </a>
+                  <a href="'.$p->Url().'/media"  class="btn btn-danger">'.$p::$lang['Cancel'].'</a>
+
+                  <div class="pull-right">
+                    <div class="label label-primary">
+                        <b><i class="ti-folder"></i> : </b>  album_'.$id.'
+                    </div>
+                    <br>
+                    <div class="label label-primary">
+                        <b><i class="ti-harddrive"></i> : </b>  '.$p->folderSize(ROOTBASE.$json[$id]['images']).'
+                    </div>
+                  </div>
+
+
+
+
+                  <div class="modal fade" id="uploadFile" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-dialog" role="document" id="uploadFile">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="text-primary info">'.$p::$lang['Upload_media'].'</h4>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                  <div class="col-lg-6">
+                                      <form method="post" class="form" enctype="multipart/form-data">
+                                          <input type="hidden" name="token" value="'.Token::generate().'"/>
+                                          <input type="file"  class="form-control" name="media_upload"  id="media-input" accept="image/x-png, image/gif, image/jpeg"  required/>
+                                          <br>
+                                          <input type="number" class="form-control"  name="width" value="'.$json[$id]['width'].'" required>
+                                          <br>
+                                          <input type="number" class="form-control"  name="height" value="'.$json[$id]['height'].'" required>
+                                          <br>
+                                          <input type="submit" name="uploadMedia" class="btn btn-primary" value="Upload">
+                                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                          <br>
+                                      </form>
+                                  </div>
+                                  <div class="col-lg-6">
+                                      <img  id="media-display" 
+                                      class="thumbnail img-responsive" 
+                                      src="'.$p->Assets('nomediapreview.jpg','img').'"/>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <a href="'.$p->Url().'/media"  class="btn red">Cancel</a>
-                    <div class="thumbs">';
+                
+                <hr>
+                <div class="thumbs">';
 
 
       // all media files
@@ -412,7 +442,7 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
         $image = str_replace(PUBLICFOLDER, Panel::$site['url'].'/public', $media);
         $templateAll .= '
             <div class="thumb">
-              <a class="red" onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
+              <a class="btn btn-danger" onclick="return confirm(\''.Panel::$lang['Are_you_sure_to_delete'].' !\')"
               href="'.$p->Url().'/action/media/uploads/removefile/'.$id.'/'.base64_encode($media).'">
                 <i class="ti-trash"></i>
               </a>
@@ -453,8 +483,8 @@ $p->route(array('/media/uploads/(:num)','/media/uploads/(:num)/(:num)'),function
                           <input type="file" name="media_upload" accept="image/x-png, image/gif, image/jpeg"  required/>
                           <input type="number" name="width" value="'.$json[$id]['width'].'" required>
                           <input type="number" name="height" value="'.$json[$id]['height'].'" required>
-                          <a href="'.$p->Url().'/media"  class="btn red">Cancel</a>
-                          <input type="submit" name="uploadMedia" id="upload" class="btn blue" value="Upload">
+                          <a href="'.$p->Url().'/media"  class="btn btn-danger">Cancel</a>
+                          <input type="submit" name="uploadMedia" id="upload" class="btn btn-primary" value="Upload">
                       </form>
                   </div>';
 
@@ -524,7 +554,7 @@ $p->route('/action/themes/newfile/(:any)/(:any)', function($token,$file) use($p)
           $filename = $p->SeoLink(Request::post('filename'));
           $content = Request::post('newfile');
           if(File::exists(THEMES.'/'.$path.'/'.$filename.$ext)){
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
           }else{
             // save content
             File::setContent(THEMES.'/'.$path.'/'.$filename.$ext,$content);
@@ -542,24 +572,24 @@ $p->route('/action/themes/newfile/(:any)/(:any)', function($token,$file) use($p)
       $p->view('actions',array(
         'url' => $url,
         'title' => Panel::$lang['New_File'],
-        'html' => '<form method="post">
-                <seciton class="subheader">
-                  <div class="row">
-                    <div class="box-1 col">
-                      '.$error.'
-                      <input type="hidden" name="token" value="'.Token::generate().'">
-                      <input type="text" value="" name="filename" required placeholder="File name">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                    <div class="box-1 col">
-                        <textarea class="editor black" name="newfile">'.$textContent.'</textarea>
-                        <input class="btn blue" type="submit" name="saveFile" value="'.Panel::$lang['Save_file'].'">
-                        <a class="btn red" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
-                    </div>
-                </div>
-            </form>'
+        'html' => ' <form method="post">
+                        <div class="row">
+                            <div class="col-lg-12">
+								'.$error.'
+								<input type="hidden" name="token" value="'.Token::generate().'">
+								<input type="text" value="" class="form-control" name="filename" required placeholder="File name">
+								<br>
+                            </div>
+                        </div>
+						<div class="row">
+							<div class="col-lg-12">
+								<textarea class="form-control" rows="20" name="updateFile">'.$textContent.'</textarea>
+								<br>
+								<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Save_file'].'">
+								<a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
+							</div>
+						</div>
+                    </form>'
       ));
     }else{
       die('crsf Detect');

@@ -10,12 +10,21 @@
 * @sample /action/search/pages/about
 */
 $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p) {
+
+    // search pages or blocks in url
+    $url = '';
+    if(preg_match('/pages/i',$dir)){
+      $url = 'pages';
+    }else if(preg_match('/blocks/i',$dir)){
+      $url = 'blocks';
+    }
+
     // get file url
     $directory = STORAGE.'/'.$dir;
     // scan to obtain files
     $scan = File::scan($directory);
     // start template
-    $result = '<ul>';
+    $result = '<ul class="list-group">';
     // init count to 0
     $count = 0;
     foreach ($scan as $item) {
@@ -26,9 +35,9 @@ $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p
         // count +1
         $count++;
         // template
-        $result .= '<li>
+        $result .= '<li class="list-group-item clearfix">
                       '.$item.'
-                      <a class="btn blue right" href="
+                      <a class="btn btn-primary pull-right" href="
                         '.$p->Url().'/action/edit/'.Token::generate().'/'.
                         base64_encode($directory.$item).'">
                         '.File::name($item).'
@@ -41,21 +50,14 @@ $p->route('/action/search/(:any)/(:any)', function($dir = '',$query = '') use($p
     // render view
     $p->view('actions',array(
         'title' => Panel::$lang['Search'],
-        'html' => '<section class="subheader">
-                      <div class="row">
-                        <div class="box-1 col">
-                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
-                        </div>
-                      </div>
-                    </section>
-                    <div class="row">
-                      <div class="box-1 col">
-                        <div class="preview">
+        'html' => '<div class="row">
+                      <div class="col-lg-6">
+                        <h3><span class="btn btn-primary">'.$count.'</span>
+                        results for '.$query.'</h3>
                           '.$result.'
-                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                          <a class="btn btn-danger" href="'.$p->Url().'/'.$url.'" >
                             '.Panel::$lang['back'].'
                           </a>
-                        </div>
                       </div>
                     </div>'
     ));
@@ -77,7 +79,7 @@ $p->route('/action/searchfiles/(:any)', function($query = '') use($p) {
     // scan to obtain files
     $scan = File::scan($directory);
     // start template
-    $result = '<ul>';
+    $result = '<ul class="list-group">';
     // init count to 0
     $count = 0;
     foreach ($scan as $item) {
@@ -89,9 +91,9 @@ $p->route('/action/searchfiles/(:any)', function($query = '') use($p) {
         $count++;
         // template
         $result .=
-                    '<li>
+                    '<li class="list-group-item clearfix">
                       '.$item.'
-                      <a class="btn blue right" href="
+                      <a class="btn btn-primary pull-right" href="
                         '.$p->Url().'/action/uploads/preview/'.base64_encode($directory.$item).'">
                         '.File::name($item).'.'.File::ext($item).'">
                         '.File::name($item).'
@@ -104,21 +106,14 @@ $p->route('/action/searchfiles/(:any)', function($query = '') use($p) {
     // render view
     $p->view('actions',array(
         'title' => Panel::$lang['Search'],
-        'html' => '<section class="subheader">
-                      <div class="row">
-                        <div class="box-1 col">
-                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
-                        </div>
-                      </div>
-                    </section>
-                    <div class="row">
-                      <div class="box-1 col">
-                        <div class="preview">
+        'html' => '<div class="row">
+                      <div class="col-lg-6">
+                        <h3><span class="btn btn-primary">'.$count.'</span>
+                        results for '.$query.'</h3>
                           '.$result.'
-                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                          <a class="btn btn-danger" href="'.$p->Url().'/uploads" >
                             '.Panel::$lang['back'].'
                           </a>
-                        </div>
                       </div>
                     </div>'
     ));
@@ -140,7 +135,7 @@ $p->route('/action/searchmedia/(:any)', function($query = '') use($p) {
     $jsonFile = ROOTBASE.'/public/media/mdb.json';
     $json = json_decode(File::getContent($jsonFile),true);
     // start template
-    $result = '<ul>';
+    $result = '<ul class="list-group">';
     // init count to 0
     $count = 0;
     foreach ($json as $item) {
@@ -148,9 +143,9 @@ $p->route('/action/searchmedia/(:any)', function($query = '') use($p) {
           // count +1
           $count++;
           // template
-          $result .= '<li>
+          $result .= '<li class="list-group-item clearfix">
                       '.$p->TextCut($p->toHtml($item['desc']),20).'
-                      <a class="btn blue right" href="
+                      <a class="btn btn-primary pull-right" href="
                         '.$p->Url().'/action/media/edit/'.$item['id'].' "
                           title="'.$item['title'].'">
                         '.$item['title'].'
@@ -165,21 +160,14 @@ $p->route('/action/searchmedia/(:any)', function($query = '') use($p) {
     // render view
     $p->view('actions',array(
         'title' => Panel::$lang['Search'],
-        'html' => '<section class="subheader">
-                      <div class="row">
-                        <div class="box-1 col">
-                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
-                        </div>
-                      </div>
-                    </section>
-                    <div class="row">
-                      <div class="box-1 col">
-                        <div class="preview">
+        'html' => '<div class="row">
+                      <div class="col-lg-6">
+                        <h3><span class="btn btn-primary">'.$count.'</span>
+                        results for '.$query.'</h3>
                           '.$result.'
-                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                          <a class="btn btn-danger" href="'.$p->Url().'/media">
                             '.Panel::$lang['back'].'
                           </a>
-                        </div>
                       </div>
                     </div>'
     ));
@@ -203,7 +191,7 @@ $p->route('/action/searchinthemes/(:any)', function($query = '') use($p) {
     // scan to obtain files
     $scan = File::scan($directory);
     // start template
-    $result = '<ul>';
+    $result = '<ul class="list-group">';
     // init count to 0
     $count = 0;
     foreach ($scan as $item) {
@@ -215,9 +203,9 @@ $p->route('/action/searchinthemes/(:any)', function($query = '') use($p) {
         $count++;
         // template
         $result .=
-                    '<li>
+                    '<li class="list-group-item clearfix">
                       '.$item.'
-                      <a class="btn blue right" href="
+                      <a class="btn btn-primary pull-right" href="
                       '.$p->Url().'/action/themes/edit/'.Token::generate().'/'.base64_encode($directory.$item).'">
                         '.File::name($item).'.'.File::ext($item).'
                         '.File::name($item).'
@@ -230,21 +218,14 @@ $p->route('/action/searchinthemes/(:any)', function($query = '') use($p) {
     // render view
     $p->view('actions',array(
         'title' => Panel::$lang['Search'],
-        'html' => '<section class="subheader">
-                      <div class="row">
-                        <div class="box-1 col">
-                          <h3><span class="btn blue">'.$count.'</span> results for '.$query.'</h3>
-                        </div>
-                      </div>
-                    </section>
-                    <div class="row">
-                      <div class="box-1 col">
-                        <div class="preview">
+        'html' => '<div class="row">
+                      <div class="col-lg-6">
+                        <h3><span class="btn btn-primary">'.$count.'</span>
+                        results for '.$query.'</h3>
                           '.$result.'
-                          <a class="btn red" href="javascript:void(0);" onclick="return history.back(0)">
+                          <a class="btn btn-danger" href="javascript:void(0);" onclick="return history.back(1)">
                             '.Panel::$lang['back'].'
                           </a>
-                        </div>
                       </div>
                     </div>'
     ));

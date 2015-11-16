@@ -89,7 +89,7 @@ $p->route('/action/uploads/preview/(:any)', function($file) use($p){
                   <li><b>Size: </b>'.$width.'x'.$height.'px</li>
                   <li class="code"><b>Markdown: </b><code>![text img](<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a>){.img-responsive}</code></li>
                   <li class="code"><b>Html: </b><code>&lt;img src="<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a> class="img-responsive" /&gt;</code></li>
-                  <li><a class="btn red" href="'.$p->url().'/uploads">'.Panel::$lang['back_to_uploads'].'</a></li>
+                  <li><a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['back_to_uploads'].'</a></li>
                 </ul>
               </div>
             </div>
@@ -107,7 +107,7 @@ $p->route('/action/uploads/preview/(:any)', function($file) use($p){
                   <li><b>Extension: </b>'.File::ext($path).'</li>
                   <li class="code"><b>Markdown: </b><code>[text link](<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a>)</code></li>
                   <li class="code"><b>Html: </b><code>&lt;a href="<a target="_blank" href="'.Panel::$site['url'].'/public/uploads/'.$link.'">'.Panel::$site['url'].'/public/uploads/'.$link.'</a>" download &gt;text link&lt;/a&gt;</code></li>
-                  <li><a class="btn red" href="'.$p->url().'/uploads">'.Panel::$lang['back_to_uploads'].'</a></li>
+                  <li><a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['back_to_uploads'].'</a></li>
                 </ul>
               </div>
             </div>

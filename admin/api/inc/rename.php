@@ -22,7 +22,7 @@ $p->route('/action/rename/(:any)/(:any)', function($token,$file) use($p){
       $error = '';
       // check if is index
       if(File::name($filename) == 'index'){
-          $error = '<span class="well red">'.Panel::$lang['exencial_file'].'</span>';
+          $error = '<span class="label label-danger">'.Panel::$lang['exencial_file'].'</span>';
       }
       // submit function
       if(Request::post('rename')){
@@ -41,11 +41,11 @@ $p->route('/action/rename/(:any)/(:any)', function($token,$file) use($p){
                 request::redirect($p->url().'/'.$url);
             }else{
               // if exists
-              $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+              $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
             }
           }else{
             // if empty input value
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Required'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Required'].'</span>';
           }
         }else{
           die('crsf detect');
@@ -56,14 +56,18 @@ $p->route('/action/rename/(:any)/(:any)', function($token,$file) use($p){
       $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
-        'html' => '<div class="info">
-                    <form method="post">
-                      <input type="hidden" name="token" value="'.Token::generate().'">
-                      <label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
-                      <input type="text" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
-                      <input class="btn blue" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
-                      <a class="btn red" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
-                    </form>
+        'html' => '<div class="col-md-12">
+					<form class="form-inline" method="post">
+					  <input type="hidden" name="token" value="'.Token::generate().'">
+					  <div class="form-group">
+						<label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
+					  </div>
+					  <div class="form-group">
+						<input type="text" class="form-control" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
+					  </div>
+					  <input class="btn btn-primary" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
+					  <a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
+					</form>
                     <br>
                     '.$error.'
                   </div>'
@@ -110,11 +114,11 @@ $p->route('/action/uploads/rename/(:any)/(:any)', function($token,$file) use($p)
                 request::redirect($p->url().'/uploads');
             }else{
               // if exists
-              $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+              $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
             }
           }else{
             // if empty input value
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Required'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Required'].'</span>';
           }
         }else{
           die('crsf detect');
@@ -125,14 +129,18 @@ $p->route('/action/uploads/rename/(:any)/(:any)', function($token,$file) use($p)
       $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
-        'html' => '<div class="info">
-                    <form method="post">
-                      <input type="hidden" name="token" value="'.Token::generate().'">
-                      <label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
-                      <input type="text" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
-                      <input class="btn blue" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
-                      <a class="btn red" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
-                    </form>
+        'html' => '<div class="col-md-12">
+					<form class="form-inline" method="post">
+					  <input type="hidden" name="token" value="'.Token::generate().'">
+					  <div class="form-group">
+						<label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
+					  </div>
+					  <div class="form-group">
+						<input type="text" class="form-control" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
+					  </div>
+					  <input class="btn btn-primary" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
+					  <a class="btn btn-danger" href="'.$p->url().'/uploads">'.Panel::$lang['Cancel'].'</a>
+					</form>
                     <br>
                     '.$error.'
                   </div>'
@@ -194,11 +202,11 @@ $p->route('/action/themes/rename/(:any)/(:any)', function($token,$file) use($p){
                 request::redirect($p->url().'/'.$url);
             }else{
               // if exists
-              $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+              $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
             }
           }else{
             // if empty input value
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Required'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Required'].'</span>';
           }
         }else{
           die('crsf detect');
@@ -209,14 +217,18 @@ $p->route('/action/themes/rename/(:any)/(:any)', function($token,$file) use($p){
       $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
-        'html' => '<div class="info">
-                    <form method="post">
-                      <input type="hidden" name="token" value="'.Token::generate().'">
-                      <label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
-                      <input type="text" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
-                      <input class="btn blue" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
-                      <a class="btn red" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
-                    </form>
+        'html' => '<div class="col-md-12">
+					<form class="form-inline" method="post">
+					  <input type="hidden" name="token" value="'.Token::generate().'">
+					  <div class="form-group">
+						<label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
+					  </div>
+					  <div class="form-group">
+						<input type="text" class="form-control" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
+					  </div>
+					  <input class="btn btn-primary" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
+					  <a class="btn btn-danger" href="'.$p->url().'/'.$url.'">'.Panel::$lang['Cancel'].'</a>
+					</form>
                     <br>
                     '.$error.'
                   </div>'
@@ -271,11 +283,11 @@ $p->route('/action/backups/rename/(:any)/(:any)', function($token,$file) use($p)
                 request::redirect($p->url().'/backups');
             }else{
               // if exists
-              $error = '<span class="well red">'.Panel::$lang['File_Name_Exists'].'</span>';
+              $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Exists'].'</span>';
             }
           }else{
             // if empty input value
-            $error = '<span class="well red">'.Panel::$lang['File_Name_Required'].'</span>';
+            $error = '<span class="label label-danger">'.Panel::$lang['File_Name_Required'].'</span>';
           }
         }else{
           die('crsf detect');
@@ -286,14 +298,18 @@ $p->route('/action/backups/rename/(:any)/(:any)', function($token,$file) use($p)
       $p->view('actions',array(
         'title' => Panel::$lang['Rename_File'],
         'content' => $filename,
-        'html' => '<div class="info">
-                    <form method="post">
-                      <input type="hidden" name="token" value="'.Token::generate().'">
-                      <label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
-                      <input type="text" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
-                      <input class="btn blue" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
-                      <a class="btn red" href="'.$p->url().'/backups">'.Panel::$lang['Cancel'].'</a>
-                    </form>
+        'html' => '<div class="col-md-12">
+					<form class="form-inline" method="post">
+					  <input type="hidden" name="token" value="'.Token::generate().'">
+					  <div class="form-group">
+						<label>'.Panel::$lang['Rename_File'].' :<code>'.File::name(base64_decode($file)).'</code></label>
+					  </div>
+					  <div class="form-group">
+						<input type="text" class="form-control" name="rename_file_name" value="'.File::name(base64_decode($file)).'" required>
+					  </div>
+					  <input class="btn btn-primary" type="submit" name="rename" value="'.Panel::$lang['Rename_File'].'">
+					  <a class="btn btn-danger" href="'.$p->url().'/backups">'.Panel::$lang['Cancel'].'</a>
+					</form>
                     <br>
                     '.$error.'
                   </div>'

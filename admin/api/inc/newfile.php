@@ -28,7 +28,7 @@ title: title goes here
 date: 16/11/2015
 template: index
 ---
-        ';
+';
       }else if(preg_match('/blocks/i',$path)){
         $url = 'blocks';
         $textContent = 'Write here your text block...';

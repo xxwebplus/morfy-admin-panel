@@ -301,6 +301,7 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
+
 #wrapper > .container {
     padding: 60px 15px 0;
 }
@@ -319,7 +320,10 @@ code {
 
 /* Custom style nakome */
 
-
+.list-group-item{
+    word-break:break-word;
+    word-wrap:break-all;
+}
 /* Loader bar */
 .loader-bar {
     position: absolute;

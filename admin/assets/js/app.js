@@ -52,9 +52,11 @@ var app = (function() {
                     _('input[type="submit"]').value = 'Send data...';
                 });
                 // login form
-                 _('.form-signin').addEventListener('submit',function(){
-                    _('input[type="submit"]').value = 'Check Login...';
-                });
+                if(_('.form-signin')){
+                     _('.form-signin').addEventListener('submit',function(){
+                        _('input[type="submit"]').value = 'Check Login...';
+                    });
+                 }
             }
             // image preview
             this.media('#image-input','#image-display');

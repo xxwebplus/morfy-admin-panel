@@ -44,19 +44,19 @@ $p->route('/action/edit/(:any)/(:any)', function($token,$file) use($p){
         'title' => Panel::$lang['Edit_File'],
         'html' => ' <form method="post">
                         <div class="row">
-                            <div class="col-lg-12">
-								<input type="hidden" name="token" value="'.Token::generate().'">
-								<h4><label class="label label-primary"><b>Name: </b>'.File::name($path).'</label></h4>
-                            </div>
-                        </div>
-						<div class="row">
-							<div class="col-lg-12">
-								<textarea class="form-control" data-provide="markdown" rows="20" name="updateFile">'.File::getContent($path).'</textarea>
-								<br>
-								<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
-								<a class="btn btn-danger" role="button" href="'.$p->url().'/'.$url.'">Cancel</a>
-							</div>
-						</div>
+                            	<div class="col-lg-12">
+					<input type="hidden" name="token" value="'.Token::generate().'">
+					<h4><label class="label label-primary"><b>Name: </b>'.File::name($path).'</label></h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<textarea class="form-control" data-provide="markdown" rows="20" name="updateFile">'.File::getContent($path).'</textarea>
+					<br>
+					<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
+					<a class="btn btn-danger" role="button" href="'.$p->url().'/'.$url.'">Cancel</a>
+				</div>
+			</div>
                     </form>'
       ));
     }else{
@@ -238,19 +238,19 @@ $p->route('/action/themes/edit/(:any)/(:any)', function($token,$file) use($p){
         'title' => Panel::$lang['Edit_File'],
         'html' => ' <form method="post">
                         <div class="row">
-                            <div class="col-lg-12">
-								<input type="hidden" name="token" value="'.Token::generate().'">
-								<h4><label class="label label-primary"><b>Name: </b>'.File::name($path).'.'.File::ext($path).'</label></h4>
-                            </div>
-                        </div>
-						<div class="row">
-							<div class="col-lg-12">
-								<textarea class="form-control" rows="20" name="updateFile">'.File::getContent($path).'</textarea>
-								<br>
-								<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
-								<a class="btn btn-danger" role="button" href="'.$p->url().'/'.$url.'">Cancel</a>
-							</div>
-						</div>
+				<div class="col-lg-12">
+					<input type="hidden" name="token" value="'.Token::generate().'">
+					<h4><label class="label label-primary"><b>Name: </b>'.File::name($path).'.'.File::ext($path).'</label></h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<textarea class="form-control" rows="20" name="updateFile">'.File::getContent($path).'</textarea>
+					<br>
+					<input class="btn btn-primary" type="submit" name="saveFile" value="'.Panel::$lang['Update'].'">
+					<a class="btn btn-danger" role="button" href="'.$p->url().'/'.$url.'">Cancel</a>
+				</div>
+			</div>
                     </form>'
       ));
     }else{
@@ -301,14 +301,14 @@ $p->route('/config', function() use($p){
                                 <h4><label class="label label-primary"><b>Name: </b> site.yml</label></h4>
                             </div>
                         </div>
-						<div class="row">
-							<div class="col-lg-12">
-								<textarea class="form-control" rows="20" name="updateFile">'.File::getContent(SITE).'</textarea>
-								<br>
-								<input class="btn btn-primary" type="submit" disabled="disabled" name="saveFile" value="'.Panel::$lang['Update'].'">
-								<a class="btn btn-danger" role="button" href="'.$p->url().'">Cancel</a>
-							</div>
-						</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<textarea class="form-control" rows="20" name="updateFile">'.File::getContent(SITE).'</textarea>
+					<br>
+					<input class="btn btn-primary" type="submit"  name="saveFile" value="'.Panel::$lang['Update'].'">
+					<a class="btn btn-danger" role="button" href="'.$p->url().'">Cancel</a>
+				</div>
+			</div>
                     </form>'
       ));
   }else{

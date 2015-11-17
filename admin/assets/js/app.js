@@ -203,3 +203,39 @@ var app = (function() {
 })();
 
 app.init();
+
+// =====================================
+// Get Date
+// =====================================
+var date = new Date(),
+    year = date.getFullYear(),
+    month = date.getMonth(),
+    day = date.getUTCDate(),
+    months = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+
+document.getElementById('daymonthyear').innerHTML = day + " " + months[month] + " " + year;
+
+// =====================================
+// Get Time
+// =====================================
+
+function addZero(i) {
+// This checks to see if the number is below 10 and then prepends a '0' - clever shit :P
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
+function newTime() {
+    var d = new Date();
+    var h = addZero(d.getHours());
+    var m = addZero(d.getMinutes());
+    var s = addZero(d.getSeconds());
+    var x = document.getElementById("hourminutesecond");
+
+    x.innerHTML = h + " : " + m + " : " + s;
+}
+
+newTime();
+setInterval(newTime, 1000);

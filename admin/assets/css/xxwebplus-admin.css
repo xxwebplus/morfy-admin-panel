@@ -665,3 +665,13 @@ textarea ,.md-editor>textarea {
     overflow: auto;
     border: 1px solid #DEDEDE;
 }
+
+/* Date time */
+#daymonthyear {
+    color: #9d9d9d;
+    padding: 15px 10px 0 0;
+}
+#hourminutesecond {
+    color: #9d9d9d;
+    padding: 15px 10px 0 0;
+}
